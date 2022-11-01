@@ -1,9 +1,9 @@
 *test*
 
-**Aplicacion para ajencia de viajes [en Java]**
+**Aplicacion para agencia de viajes [en Java]**
 
 Grupo 4:
-- Callán Perez Sergio
+- Callán Pérez Sergio
 - Dinca Alexandru-Andrei
 - Ortega Moran Kenneth 
 - Velarde Huancahuari Bryan Anthony
