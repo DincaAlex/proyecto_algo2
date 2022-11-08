@@ -1,11 +1,12 @@
 package Hotel;
 
-public class Cuarto {
+public class Cuarto extends Hotel {
     private int numero;
     private int piso;
     private boolean ocupado;
 
-    public Cuarto (int numero, int piso, boolean ocupado) {
+    public Cuarto (String nombre, String ciudad, int estrellas, int numero, int piso, boolean ocupado) {
+        super(nombre, ciudad, estrellas);
         this.numero = numero;
         this.piso = piso;
         this.ocupado = ocupado;
@@ -19,7 +20,7 @@ public class Cuarto {
         return piso;
     }
 
-    public boolean mostarOcupado () {
+    public boolean mostrarOcupado () {
         return ocupado;
     }
 }
