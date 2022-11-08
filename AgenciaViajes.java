@@ -1,49 +1,85 @@
 import java.util.Scanner;
-
-import entities.Admin;
-import entities.Cliente;
-import entities.Usuario;
+import Persistance.JSONConfigFile;
+import Persistance.Persistance;
+import entities.*;
 import processes.SistemaConfig;
 
 public class AgenciaViajes {
     public static void main (String []args){
         SistemaConfig config= new SistemaConfig();
         System.out.println("Bienvenido al sistema de Agencia de viajes");
-        decidirUsuario();
-    }
-    
-    public static void decidirUsuario(){
         int opc;
+        boolean salir= false;
         System.out.println("Ingrese el tipo de usuario: Administrador (1) o Cliente (2)");
         Scanner a= new Scanner(System.in);
         int user= a.nextInt();
-        if(user==1){
-            opc=menuAdmin();
-            switch(opc)
-            {
-                case 1: 
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
+        Persistance p= new JSONConfigFile();
+        p.leerConfig(config);
+        while(!salir)
+        {
+            Scanner c= new Scanner(System.in);
+            if(user==1){
+                opc=menuAdmin();
+                switch(opc)
+                {
+                    case 1: 
+                        System.out.println("Ingrese el correo con el que se registrara: ");
+                        String correo= c.next();
+                        System.out.println("Ingrese sus nombre: ");
+                        String nombres= c.next();
+                        System.out.println("Ingrese sus apellido:");
+                        String apellidos= c.next();
+                        System.out.println("Ingrese una contrasena:");
+                        String contrasena= c.next();
+                        Admin admin= new Admin(correo, nombres, apellidos, contrasena);
+                        config.registrarAdmin(admin);
+                        break;
+                    case 2:
+                        System.out.println("Ingrese su correo:");
+                        String correoA=c.next();
+                        System.out.println("Ingrese su contrasena: ");
+                        String contrasenaA= c.next();
+                        if(config.confirmarIngresoAdmin(correoA, contrasenaA))
+                        {
+                            System.out.println("Bienvenido.");
+                            int menu;
+                            menu=menuOpcAdm();
+                        }
+                        break;
+                    case 3:
+                        salir=true;
+                        break;
+                }
+                
             }
-            
-        }
-        else{
-            opc=menuCliente();
-            switch(opc)
-            {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
+            else{
+                opc=menuCliente();
+                switch(opc)
+                {
+                    case 1:
+                        System.out.println("Ingrese el correo con el que se registrara: ");
+                        String correo= c.next();
+                        System.out.println("Ingrese sus nombre: ");
+                        String nombres= c.next();
+                        System.out.println("Ingrese sus apellido:");
+                        String apellidos= c.next();
+                        System.out.println("Ingrese una contrasena:");
+                        String contrasena= c.next();
+                        Cliente cliente= new Cliente(correo, nombres, apellidos, contrasena);
+                        config.registrarCliente(cliente);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        salir=true;
+                        break;
+                }
+                //Menu para clientes
             }
-            //Menu para clientes
+        p.guardarConfig(config);
         }
     }
+    
 
 
 
@@ -57,16 +93,31 @@ public class AgenciaViajes {
         return opc;
     }
 
+    
+
     public static int menuCliente()
     {
         System.out.println("1. Registrar cliente");
         System.out.println("2. Ingresar como cliente");
         System.out.println("3. Salir");
+        Scanner b= new Scanner(System.in);
+        int opc= b.nextInt();
+        return opc;
+    }
+
+    public int menuOpcAdm()
+    {
+        System.out.println("1. Agregar Rutas");
+        System.out.println("2. Agregar Transporte");
+        System.out.println("3. Salir");
         Scanner c= new Scanner(System.in);
         int opc= c.nextInt();
         return opc;
     }
+
 }
+
+
 
 /*
 Agregar funcionamiento Clientes
