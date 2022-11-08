@@ -15,22 +15,20 @@ public abstract class Usuario {
         this.contrasena= contrasena;
     }
 
-    public String mostrarTipoUsuario()
-    {
+    public String mostrarTipoUsuario() {
         return tipoUsuario;
     }
 
-    public String mostrarCorreo()
-    {
+    public String mostrarCorreo() {
         return correo;
     }
-    public String mostrarNombres(){
+    public String mostrarNombres() {
         return nombres;
     }
-    public String mostrarApellidos(){
+    public String mostrarApellidos() {
         return apellidos;
     }
-    public String mostrarContrasena(){
+    public String mostrarContrasena() {
         return contrasena;
     }
 }

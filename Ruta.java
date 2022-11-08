@@ -20,9 +20,9 @@ public class Ruta {
         Scanner s= new Scanner(System.in);
         int opc= s.nextInt();
         switch(opc){
-            case 1:; break;
-            case 2:; break;
-            case 3:; break;
+            case 1: break;
+            case 2: break;
+            case 3: break;
         }
     }
 
