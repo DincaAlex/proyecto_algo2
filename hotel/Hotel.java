@@ -1,13 +1,13 @@
-package Hotel;
+package hotel;
 
 public class Hotel {
     private String nombre;
     private String ciudad;
     private int estrellas;
 
-    Hotel (String nombre, String ciudad, int estrellas) {
+    public Hotel (String nombre, String ciudad, int estrellas) {
         this.nombre = nombre;
-        this.ciudad = nombre;
+        this.ciudad = ciudad;
         this.estrellas = estrellas;
     }
 
@@ -15,7 +15,7 @@ public class Hotel {
         return nombre;
     }
 
-    public String mostarCiudad () {
+    public String mostrarCiudad () {
         return ciudad;
     }
 
