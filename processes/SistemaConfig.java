@@ -46,7 +46,7 @@ public class SistemaConfig {
     }
 
     public boolean confirmarIngresoAdmin (String correo,String contrasena) {
-        Enumeration <Admin> adm= this.admins.elements();
+        Enumeration <Admin> adm = this.admins.elements();
         while (adm.hasMoreElements()) {
             Admin a = adm.nextElement();
             if (correo.equals(a.mostrarCorreo())) {

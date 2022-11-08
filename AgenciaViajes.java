@@ -3,24 +3,28 @@ import Persistance.Persistance;
 import entities.Admin;
 import entities.Cliente;
 import processes.SistemaConfig;
+
 import java.util.Scanner;
 
 public class AgenciaViajes {
     public static void main (String []args){
-        SistemaConfig config = new SistemaConfig();
-        System.out.println("Bienvenido al sistema de Agencia de viajes");
         int opc;
         boolean salir = false;
-        System.out.println("Ingrese el tipo de usuario: Administrador (1) o Cliente (2)");
+        SistemaConfig config = new SistemaConfig();
         Scanner scan = new Scanner(System.in);
+
+        System.out.println("Bienvenido al sistema de Agencia de viajes");
+        System.out.println("Ingrese el tipo de usuario: Administrador (1) o Cliente (2)");
         int user = scan.nextInt();
+
         Persistance p = new JSONConfigFile();
         p.leerConfig(config);
+
         while (!salir) {
             if (user==1) {
                 opc = menuAdmin();
                 switch (opc) {
-                    case 1: 
+                    case 1 -> {
                         System.out.println("Ingrese el correo con el que se registrara: ");
                         String correo = scan.next();
                         System.out.println("Ingrese sus nombre: ");
@@ -29,24 +33,20 @@ public class AgenciaViajes {
                         String apellidos = scan.next();
                         System.out.println("Ingrese una contrasena:");
                         String contrasena = scan.next();
-                        Admin admin= new Admin(correo, nombres, apellidos, contrasena);
+                        Admin admin = new Admin(correo, nombres, apellidos, contrasena);
                         config.registrarAdmin(admin);
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         System.out.println("Ingrese su correo:");
                         String correoA = scan.next();
                         System.out.println("Ingrese su contrasena: ");
                         String contrasenaA = scan.next();
-                        if(config.confirmarIngresoAdmin(correoA, contrasenaA))
-                        {
+                        if (config.confirmarIngresoAdmin(correoA, contrasenaA)) {
                             System.out.println("Bienvenido.");
-                            int menu;
-                            menu = menuOpcAdm();
+                            menuOpcAdm();
                         }
-                        break;
-                    case 3:
-                        salir=true;
-                        break;
+                    }
+                    case 3 -> salir = true;
                 }
                 
             }
@@ -86,8 +86,7 @@ public class AgenciaViajes {
         System.out.println("2. Ingresar como administrador");
         System.out.println("3. Salir");
         Scanner scan = new Scanner(System.in);
-        int opc = scan.nextInt();
-        return opc;
+        return scan.nextInt();
     }
 
     public static int menuCliente()
@@ -96,18 +95,16 @@ public class AgenciaViajes {
         System.out.println("2. Ingresar como cliente");
         System.out.println("3. Salir");
         Scanner scan = new Scanner(System.in);
-        int opc = scan.nextInt();
-        return opc;
+        return scan.nextInt();
     }
 
-    public static int menuOpcAdm()
+    public static void menuOpcAdm()
     {
         System.out.println("1. Agregar Rutas");
         System.out.println("2. Agregar ruta.Transporte");
         System.out.println("3. Salir");
         Scanner scan = new Scanner(System.in);
-        int opc = scan.nextInt();
-        return opc;
+        scan.nextInt();
     }
 
 }
@@ -147,4 +144,4 @@ public class AgenciaViajes {
         }
     }
 }
- */
+*/
