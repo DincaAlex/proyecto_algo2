@@ -1,3 +1,5 @@
+package ruta;
+
 import java.util.Scanner;
 
 public class Ruta {
