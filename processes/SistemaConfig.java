@@ -7,22 +7,26 @@ import org.json.simple.JSONObject;
 
 import java.util.Enumeration;
 import java.util.Vector;
-public class SistemaConfig {
+public class SistemaConfig 
+{
     private Vector<Admin> admins;
     private Vector<Cliente> clientes;
 
-    public SistemaConfig () {
-        this.admins = new Vector<Admin>();
-        this.clientes = new Vector<Cliente>();
+    public SistemaConfig()
+    {
+        this.admins= new Vector<Admin>();
+        this.clientes= new Vector<Cliente>();
     }
     
 
-    public void registrarAdmin (Admin admin) {
-        Enumeration<Admin> adm = this.admins.elements();
+    public void registrarAdmin(Admin admin)
+    {
+        Enumeration<Admin> adm= this.admins.elements();
         while(adm.hasMoreElements())
         {
-            Admin a = adm.nextElement();
-            if (admin.mostrarCorreo().equals(a.mostrarCorreo())) {
+            Admin a= adm.nextElement();
+            if(admin.mostrarCorreo().equals(a.mostrarCorreo()))
+            {
                 System.out.println("Correo ya utilizado con anterioridad, no se ha creado una nueva cuenta de administrador.");
                 return;
             }
@@ -31,11 +35,14 @@ public class SistemaConfig {
         System.out.println("Cuenta de administrador creada con exito.");   
     }
 
-    public void registrarCliente (Cliente cliente) {
-        Enumeration<Cliente> cl = this.clientes.elements();
-        while (cl.hasMoreElements()) {
-            Cliente c = cl.nextElement();
-            if (cliente.mostrarCorreo().equals(c.mostrarCorreo())) {
+    public void registrarCliente(Cliente cliente)
+    {
+        Enumeration<Cliente> cl= this.clientes.elements();
+        while(cl.hasMoreElements())
+        {
+            Cliente c= cl.nextElement();
+            if(cliente.mostrarCorreo().equals(c.mostrarCorreo()))
+            {
                 System.out.println("Correo ya utilizado con anterioridad, no se ha creado una nueva cuenta.");
                 return;
             }
@@ -45,12 +52,16 @@ public class SistemaConfig {
         
     }
 
-    public boolean confirmarIngresoAdmin (String correo,String contrasena) {
+    public boolean confirmarIngresoAdmin(String correo,String contrasena)
+    {
         Enumeration <Admin> adm= this.admins.elements();
-        while (adm.hasMoreElements()) {
-            Admin a = adm.nextElement();
-            if (correo.equals(a.mostrarCorreo())) {
-                if (contrasena.equals(a.mostrarContrasena())) {
+        while(adm.hasMoreElements())
+        {
+            Admin a= adm.nextElement();
+            if(correo.equals(a.mostrarCorreo()))
+            {
+                if(contrasena.equals(a.mostrarContrasena()))
+                {
                     return true;
                 }
             }
@@ -61,7 +72,7 @@ public class SistemaConfig {
     public JSONArray adminsToJSON(){
         JSONArray arrayAdmins = new JSONArray();
         Enumeration<Admin> adm = this.admins.elements();
-        while (adm.hasMoreElements()) {
+        while(adm.hasMoreElements()) {
             Admin a = adm.nextElement();
             JSONObject obj = new JSONObject();
             obj.put("correo", a.mostrarCorreo());
@@ -73,7 +84,7 @@ public class SistemaConfig {
         return  arrayAdmins;
     }
 
-    public JSONArray clientesToJSON () {
+    public JSONArray clientesToJSON(){
         JSONArray arrayCliente = new JSONArray();
         Enumeration<Cliente> cl = this.clientes.elements();
         while(cl.hasMoreElements()) {
