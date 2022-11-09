@@ -131,7 +131,7 @@ public class SistemaConfig
             obj.put("estrellas", h.mostrarEstrellas());
             arrayHoteles.add(obj);
         }
-        return  arrayHoteles;
+        return arrayHoteles;
     }
 
     public JSONArray cuartosToJSON () {
