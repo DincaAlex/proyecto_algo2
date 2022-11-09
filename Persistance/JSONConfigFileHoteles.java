@@ -71,9 +71,9 @@ public class JSONConfigFileHoteles implements Persistance {
             JSONObject cuartos = (JSONObject) o;
             String nombre = (String) cuartos.get("nombre");
             String ciudad = (String) cuartos.get("ciudad");
-            int estrellas = (int) cuartos.get("estrellas");
-            int numero = (int) cuartos.get("numero");
-            int piso = (int) cuartos.get("piso");
+            int estrellas = (int)(long) cuartos.get("estrellas");
+            int numero = (int)(long) cuartos.get("numero");
+            int piso = (int)(long) cuartos.get("piso");
             boolean ocupado = (boolean) cuartos.get("ocupado");
             Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, numero, piso, ocupado);
             config.registrarCuarto(cuarto);
