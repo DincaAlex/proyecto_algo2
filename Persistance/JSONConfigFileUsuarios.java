@@ -23,8 +23,6 @@ public class JSONConfigFileUsuarios implements Persistance{
         JSONObject JSONConfig = new JSONObject();
         JSONConfig.put("admins", config.adminsToJSON());
         JSONConfig.put("clientes", config.clientesToJSON());
-        JSONConfig.put("hoteles", config.hotelesToJSON());
-        JSONConfig.put("cuartos", config.cuartosToJSON());
         try {
             FileWriter fw = new FileWriter(this.nombreArchivo);
             fw.write(JSONConfig.toJSONString());
