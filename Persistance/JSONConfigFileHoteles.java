@@ -45,6 +45,7 @@ public class JSONConfigFileHoteles implements Persistance {
             System.out.println("Exception" + e);
         }
     }
+
     private void LeerHoteles (JSONObject jsonObject, SistemaConfig config) {
         JSONArray hotelesJSONArray = (JSONArray) jsonObject.get("hoteles");
 
@@ -54,7 +55,7 @@ public class JSONConfigFileHoteles implements Persistance {
             JSONObject hoteles = (JSONObject) o;
             String nombre = (String) hoteles.get("nombre");
             String ciudad = (String) hoteles.get("ciudad");
-            int estrellas = (int) hoteles.get("estrelles");
+            int estrellas = (int)(long) hoteles.get("estrellas");
             Hotel hot = new Hotel(nombre, ciudad, estrellas);
             config.registrarHotel(hot);
             System.out.println(hot.mostrarNombre());
@@ -70,7 +71,7 @@ public class JSONConfigFileHoteles implements Persistance {
             JSONObject cuartos = (JSONObject) o;
             String nombre = (String) cuartos.get("nombre");
             String ciudad = (String) cuartos.get("ciudad");
-            int estrellas = (int) cuartos.get("estrelles");
+            int estrellas = (int) cuartos.get("estrellas");
             int numero = (int) cuartos.get("numero");
             int piso = (int) cuartos.get("piso");
             boolean ocupado = (boolean) cuartos.get("ocupado");
