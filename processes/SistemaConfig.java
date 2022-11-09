@@ -91,7 +91,7 @@ public class SistemaConfig
             obj.put("contrasena", c.mostrarContrasena());
             arrayCliente.add(obj);
         }
-        return  arrayCliente;
+        return arrayCliente;
     }
 
     public void registrarHotel (Hotel hotel) {
@@ -140,6 +140,9 @@ public class SistemaConfig
         while (enumC.hasMoreElements()) {
             Cuarto c = enumC.nextElement();
             JSONObject obj = new JSONObject();
+            obj.put("nombre", c.mostrarNombre());
+            obj.put("ciudad", c.mostrarCiudad());
+            obj.put("estrellas", c.mostrarEstrellas());
             obj.put("numero", c.mostrarNumero());
             obj.put("piso", c.mostrarPiso());
             obj.put("ocupado", c.mostrarOcupado());
