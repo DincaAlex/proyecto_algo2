@@ -1,6 +1,6 @@
-import Persistance.JSONConfigFile;
-import Persistance.JsonConfHotel;
 import Persistance.Persistance;
+import Persistance.JSONConfigFileHoteles;
+import Persistance.JSONConfigFileUsuarios;
 import entities.Admin;
 import entities.Cliente;
 import hotel.Hotel;
@@ -19,10 +19,10 @@ public class AgenciaViajes {
         System.out.println("Ingrese el tipo de usuario: Administrador (1) o Cliente (2)");
         int user = scan.nextInt();
 
-        Persistance p = new JSONConfigFile();
+        Persistance p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
 
-        Persistance p1 = new JsonConfHotel();
+        Persistance p1 = new JSONConfigFileHoteles();
 
         while (!salir) {
             if (user==1) {
@@ -89,7 +89,7 @@ public class AgenciaViajes {
                 //Menu para clientes
             }
         p.guardarConfig(config);
-            p1.guardarConfig(config);
+        p1.guardarConfig(config);
         }
     }
     

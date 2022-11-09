@@ -12,10 +12,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JsonConfHotel implements Persistance {
+public class JSONConfigFileHoteles implements Persistance {
     String nombreArchivo;
 
-    public JsonConfHotel () {
+    public JSONConfigFileHoteles() {
         this.nombreArchivo = "Hoteles.json";
     }
     @Override

@@ -12,10 +12,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONConfigFile implements Persistance{
+public class JSONConfigFileUsuarios implements Persistance{
     private String nombreArchivo;
 
-    public JSONConfigFile () {
+    public JSONConfigFileUsuarios() {
         this.nombreArchivo = "Usuarios.json";
     }
 
