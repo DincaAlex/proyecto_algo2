@@ -10,7 +10,7 @@ import processes.SistemaConfig;
 import java.util.Scanner;
 
 public class AgenciaViajes {
-    public static void main (String []args){
+    public static void main (String []args) {
         int opc;
         boolean salir = false;
         SistemaConfig config = new SistemaConfig();
@@ -22,7 +22,6 @@ public class AgenciaViajes {
 
         Persistance p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
-
         Persistance p1 = new JSONConfigFileHoteles();
         p1.leerConfig(config);
 
@@ -41,6 +40,7 @@ public class AgenciaViajes {
                         String contrasena = scan.next();
                         Admin admin = new Admin(correo, nombres, apellidos, contrasena);
                         config.registrarAdmin(admin);
+                        p.guardarConfig(config);
                     }
                     case 2 -> {
                         System.out.println("Ingrese su correo:");
@@ -49,41 +49,43 @@ public class AgenciaViajes {
                         String contrasenaA = scan.next();
                         if (config.confirmarIngresoAdmin(correoA, contrasenaA)) {
                             System.out.println("Bienvenido.");
-                            opc = menuOpcAdmin();
-                            switch (opc) {
-                                case 1, 2 -> {
-                                    break;
-                                }
-                                case 3 -> {
-                                    System.out.println("Ingrese el nombre del hotel: ");
-                                    String nombre = scan.next();
-                                    System.out.println("Ingrese la ciudad: ");
-                                    String ciudad = scan.next();
-                                    System.out.println("Ingrese las estrellas:");
-                                    int estrellas = Integer.parseInt(scan.next());
-                                    Hotel hotel = new Hotel(nombre, ciudad, estrellas);
-                                    config.registrarHotel(hotel);
-                                }
-                                case 4 -> {
-                                    System.out.println("Ingrese el nombre del hotel: ");
-                                    String nombre = scan.next();
-                                    System.out.println("Ingrese la ciudad del hotel: ");
-                                    String ciudad = scan.next();
-                                    System.out.println("Ingrese las estrellas del hotel: ");
-                                    int estrellas = Integer.parseInt(scan.next());
-                                    System.out.println("Ingrese el numero del cuarto: ");
-                                    int numero = Integer.parseInt(scan.next());
-                                    System.out.println("Ingrese el piso del cuarto: ");
-                                    int piso = Integer.parseInt(scan.next());
-                                    System.out.println("Ingrese si el cuarto esta ocupado:");
-                                    boolean ocupado = Boolean.parseBoolean(scan.next());
-                                    Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, numero, piso, ocupado);
-                                    config.registrarHotel(cuarto);
-                                }
-                                case 5 -> {
-                                    salir = true;
-                                    break;
-                                }
+                            while (!salir) {
+                                opc = menuOpcAdmin();
+                                switch (opc) {
+                                    case 1, 2 -> {
+                                    }
+                                    case 3 -> {
+                                        System.out.println("\nIngrese el nombre del hotel: ");
+                                        String nombre = scan.next();
+                                        System.out.println("Ingrese la ciudad: ");
+                                        String ciudad = scan.next();
+                                        System.out.println("Ingrese las estrellas:");
+                                        int estrellas = Integer.parseInt(scan.next());
+                                        System.out.println(estrellas);
+                                        Hotel hotel = new Hotel(nombre, ciudad, estrellas);
+                                        config.registrarHotel(hotel);
+                                        p1.guardarConfig(config);
+                                    }
+                                    case 4 -> {
+                                        System.out.println("\nIngrese el nombre del hotel: ");
+                                        String nombre = scan.next();
+                                        System.out.println("Ingrese la ciudad del hotel: ");
+                                        String ciudad = scan.next();
+                                        System.out.println("Ingrese las estrellas del hotel: ");
+                                        int estrellas = Integer.parseInt(scan.next());
+                                        System.out.println("Ingrese el numero del cuarto: ");
+                                        int numero = Integer.parseInt(scan.next());
+                                        System.out.println("Ingrese el piso del cuarto: ");
+                                        int piso = Integer.parseInt(scan.next());
+                                        System.out.println("Ingrese si el cuarto esta ocupado:");
+                                        boolean ocupado = Boolean.parseBoolean(scan.next());
+                                        Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, numero, piso, ocupado);
+                                        config.registrarCuarto(cuarto);
+                                        p1.guardarConfig(config);
+                                    }
+                                    default -> salir = true;
+                            }
+
                             }
                         }
                     }
@@ -113,15 +115,10 @@ public class AgenciaViajes {
                 }
                 //Menu para clientes
             }
-        p.guardarConfig(config);
-        p1.guardarConfig(config);
         }
     }
-    
 
-
-
-    public static int menuAdmin() {
+    public static int menuAdmin () {
         System.out.println("1. Registrar administrador");
         System.out.println("2. Ingresar como administrador");
         System.out.println("3. Salir");
@@ -129,7 +126,7 @@ public class AgenciaViajes {
         return scan.nextInt();
     }
 
-    public static int menuCliente() {
+    public static int menuCliente () {
         System.out.println("1. Registrar cliente");
         System.out.println("2. Ingresar como cliente");
         System.out.println("3. Salir");
@@ -137,11 +134,11 @@ public class AgenciaViajes {
         return scan.nextInt();
     }
 
-    public static int menuOpcAdmin() {
+    public static int menuOpcAdmin () {
         System.out.println("1. Agregar Rutas. [En construcción]");
         System.out.println("2. Agregar Transporte. [En construcción]");
-        System.out.println("3. Agregar Hotel. ");
-        System.out.println("4. Agregar Cuarto. [En construcción]");
+        System.out.println("3. Agregar Hotel.");
+        System.out.println("4. Agregar Cuarto.");
         System.out.println("5. Salir");
         Scanner scan = new Scanner(System.in);
         return scan.nextInt();
