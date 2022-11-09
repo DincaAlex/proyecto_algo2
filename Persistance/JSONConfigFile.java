@@ -2,8 +2,6 @@ package Persistance;
 
 import entities.Admin;
 import entities.Cliente;
-import hotel.Cuarto;
-import hotel.Hotel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,6 +14,7 @@ import java.io.IOException;
 
 public class JSONConfigFile implements Persistance{
     private String nombreArchivo;
+
     public JSONConfigFile () {
         this.nombreArchivo = "Usuarios.json";
     }
@@ -45,14 +44,12 @@ public class JSONConfigFile implements Persistance{
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             LeerAdmins(jsonObject, config);
             LeerClientes(jsonObject, config);
-            LeerHoteles(jsonObject, config);
-            LeerCuartos(jsonObject, config);
         } catch (ParseException | IOException e){
             System.out.println("Exception" + e);
         }
     }
 
-    private void LeerAdmins(JSONObject jsonObject, SistemaConfig config){
+    private void LeerAdmins (JSONObject jsonObject, SistemaConfig config) {
         JSONArray adminsJSONArray = (JSONArray) jsonObject.get("admins");
 
         if ( adminsJSONArray == null )
@@ -69,7 +66,7 @@ public class JSONConfigFile implements Persistance{
         }
     }
 
-    private void LeerClientes(JSONObject jsonObject, SistemaConfig config){
+    private void LeerClientes (JSONObject jsonObject, SistemaConfig config){
         JSONArray clientesJSONArray = (JSONArray) jsonObject.get("clientes");
 
         if ( clientesJSONArray == null )
@@ -85,39 +82,6 @@ public class JSONConfigFile implements Persistance{
             System.out.println(cl.mostrarNombres());
         }
     }
-    private void LeerHoteles(JSONObject jsonObject, SistemaConfig config){
-        JSONArray hotelesJSONArray = (JSONArray) jsonObject.get("hoteles");
 
-        if (hotelesJSONArray == null )
-            return;
-        for (Object o : hotelesJSONArray) {
-            JSONObject hoteles = (JSONObject) o;
-            String nombre = (String) hoteles.get("nombre");
-            String ciudad = (String) hoteles.get("ciudad");
-            int estrellas = (int) hoteles.get("estrelles");
-            Hotel hot = new Hotel(nombre, ciudad, estrellas);
-            config.registrarHotel(hot);
-            System.out.println(hot.mostrarNombre());
-        }
-    }
-
-    private void LeerCuartos(JSONObject jsonObject, SistemaConfig config){
-        JSONArray cuartosJSONArray = (JSONArray) jsonObject.get("cuartos");
-
-        if (cuartosJSONArray == null )
-            return;
-        for (Object o : cuartosJSONArray) {
-            JSONObject cuartos = (JSONObject) o;
-            String nombre = (String) cuartos.get("nombre");
-            String ciudad = (String) cuartos.get("ciudad");
-            int estrellas = (int) cuartos.get("estrelles");
-            int numero = (int) cuartos.get("numero");
-            int piso = (int) cuartos.get("piso");
-            boolean ocupado = (boolean) cuartos.get("ocupado");
-            Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, numero, piso, ocupado);
-            config.registrarCuarto(cuarto);
-            System.out.println(cuarto.mostrarNumero());
-        }
-    }
 }
 

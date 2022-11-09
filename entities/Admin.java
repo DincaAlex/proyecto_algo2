@@ -5,6 +5,4 @@ public class Admin extends Usuario{
         super(correo, nombres, apellidos, contrasena);
         this.tipoUsuario= "Administrador";
     }
-
-    
 }

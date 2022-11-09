@@ -1,7 +1,9 @@
 import Persistance.JSONConfigFile;
+import Persistance.JsonConfHotel;
 import Persistance.Persistance;
 import entities.Admin;
 import entities.Cliente;
+import hotel.Hotel;
 import processes.SistemaConfig;
 
 import java.util.Scanner;
@@ -19,6 +21,8 @@ public class AgenciaViajes {
 
         Persistance p = new JSONConfigFile();
         p.leerConfig(config);
+
+        Persistance p1 = new JsonConfHotel();
 
         while (!salir) {
             if (user==1) {
@@ -43,14 +47,25 @@ public class AgenciaViajes {
                         String contrasenaA = scan.next();
                         if (config.confirmarIngresoAdmin(correoA, contrasenaA)) {
                             System.out.println("Bienvenido.");
-                            menuOpcAdm();
+                            opc = menuOpcAdmin();
+                            switch (opc) {
+                                case 3 -> {
+                                    System.out.println("Ingrese el nombre del hotel");
+                                    String nombre = scan.next();
+                                    System.out.println("Ingrese la ciudad: ");
+                                    String ciudad = scan.next();
+                                    System.out.println("Ingrese las estrellas:");
+                                    int estrellas = Integer.parseInt(scan.next());
+                                    Hotel hotel = new Hotel(nombre, ciudad, estrellas);
+                                    config.registrarHotel(hotel);
+                                }
+                            }
                         }
                     }
-                    case 3 -> salir = true;
+                    default -> salir = true;
                 }
                 
-            }
-            else {
+            } else {
                 opc = menuCliente();
                 switch (opc) {
                     case 1:
@@ -74,14 +89,14 @@ public class AgenciaViajes {
                 //Menu para clientes
             }
         p.guardarConfig(config);
+            p1.guardarConfig(config);
         }
     }
     
 
 
 
-    public static int menuAdmin()
-    {
+    public static int menuAdmin() {
         System.out.println("1. Registrar administrador");
         System.out.println("2. Ingresar como administrador");
         System.out.println("3. Salir");
@@ -89,8 +104,7 @@ public class AgenciaViajes {
         return scan.nextInt();
     }
 
-    public static int menuCliente()
-    {
+    public static int menuCliente() {
         System.out.println("1. Registrar cliente");
         System.out.println("2. Ingresar como cliente");
         System.out.println("3. Salir");
@@ -98,15 +112,15 @@ public class AgenciaViajes {
         return scan.nextInt();
     }
 
-    public static void menuOpcAdm()
-    {
+    public static int menuOpcAdmin() {
         System.out.println("1. Agregar Rutas");
         System.out.println("2. Agregar ruta.Transporte");
-        System.out.println("3. Salir");
+        System.out.println("3. Agregar Hotel");
+        System.out.println("4. Agregar hotel.Cuarto");
+        System.out.println("5. Salir");
         Scanner scan = new Scanner(System.in);
-        scan.nextInt();
+        return scan.nextInt();
     }
-
 }
 
 
