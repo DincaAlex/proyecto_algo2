@@ -18,7 +18,7 @@ public class JSONConfigFileHoteles implements Persistance {
     public JSONConfigFileHoteles() {
         this.nombreArchivo = "Hoteles.json";
     }
-    @Override
+
     public void guardarConfig(SistemaConfig config) {
         JSONObject JSONConfig = new JSONObject();
         JSONConfig.put("hoteles", config.hotelesToJSON());
@@ -27,15 +27,13 @@ public class JSONConfigFileHoteles implements Persistance {
             FileWriter fw = new FileWriter(this.nombreArchivo);
             fw.write(JSONConfig.toJSONString());
             fw.flush();
-        }
-        catch (IOException ex) {
-            System.out.println("Error "+ ex);
-            ex.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Error "+ e);
+            e.printStackTrace();
         }
     }
 
-    @Override
-    public void leerConfig(SistemaConfig config) {
+    public void leerConfig (SistemaConfig config) {
         JSONParser parser = new JSONParser();
         try {
             FileReader reader = new FileReader(this.nombreArchivo); // lectura del archivo
@@ -43,11 +41,11 @@ public class JSONConfigFileHoteles implements Persistance {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             LeerHoteles(jsonObject, config);
             LeerCuartos(jsonObject, config);
-        } catch (ParseException | IOException e){
+        } catch (ParseException | IOException e) {
             System.out.println("Exception" + e);
         }
     }
-    private void LeerHoteles(JSONObject jsonObject, SistemaConfig config){
+    private void LeerHoteles (JSONObject jsonObject, SistemaConfig config) {
         JSONArray hotelesJSONArray = (JSONArray) jsonObject.get("hoteles");
 
         if (hotelesJSONArray == null )
@@ -63,7 +61,7 @@ public class JSONConfigFileHoteles implements Persistance {
         }
     }
 
-    private void LeerCuartos(JSONObject jsonObject, SistemaConfig config){
+    private void LeerCuartos (JSONObject jsonObject, SistemaConfig config) {
         JSONArray cuartosJSONArray = (JSONArray) jsonObject.get("cuartos");
 
         if (cuartosJSONArray == null )
