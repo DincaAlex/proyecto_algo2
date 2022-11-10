@@ -84,6 +84,7 @@ public class SistemaConfig
             obj.put("nombres", a.mostrarNombres());
             obj.put("apellidos", a.mostrarApellidos());
             obj.put("contrasena", a.mostrarContrasena());
+            obj.put("uuid", a.mostrarUUID());
             arrayAdmins.add(obj);
         }
         return arrayAdmins;
@@ -99,6 +100,7 @@ public class SistemaConfig
             obj.put("nombres", c.mostrarNombres());
             obj.put("apellidos", c.mostrarApellidos());
             obj.put("contrasena", c.mostrarContrasena());
+            obj.put("uuid", c.mostrarUUID());
             arrayCliente.add(obj);
         }
         return arrayCliente;

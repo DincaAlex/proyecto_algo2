@@ -58,7 +58,8 @@ public class JSONConfigFileUsuarios implements Persistance{
             String nombres = (String) admin.get("nombres");
             String apellidos = (String) admin.get("apellidos");
             String contrasena = (String) admin.get("contrasena");
-            Admin adm = new Admin(correo, nombres, apellidos, contrasena);
+            String uuid= (String) admin.get("uuid");
+            Admin adm = new Admin(correo, nombres, apellidos, contrasena, uuid);
             config.registrarAdmin(adm);
         }
     }
@@ -74,7 +75,8 @@ public class JSONConfigFileUsuarios implements Persistance{
             String nombres = (String) cliente.get("nombres");
             String apellidos = (String) cliente.get("apellidos");
             String contrasena = (String) cliente.get("contrasena");
-            Cliente cl = new Cliente(correo, nombres, apellidos, contrasena);
+            String uuid=(String) cliente.get("uuid");
+            Cliente cl = new Cliente(correo, nombres, apellidos, contrasena, uuid);
             config.registrarCliente(cl);
         }
     }

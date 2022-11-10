@@ -113,6 +113,7 @@ public class AgenciaViajes {
                         String contrasena = scan.next();
                         Cliente cliente = new Cliente(correo, nombres, apellidos, contrasena);
                         config.registrarCliente(cliente);
+                        p.guardarConfig(config);
                         break;
                     case 2:
                         System.out.println("Ingrese su correo:");
