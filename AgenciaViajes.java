@@ -115,9 +115,27 @@ public class AgenciaViajes {
                         config.registrarCliente(cliente);
                         break;
                     case 2:
-                        break;
-                    case 3:
-                        salir = true;
+                        System.out.println("Ingrese su correo:");
+                        String correoA = scan.next();
+                        System.out.println("Ingrese su contrasena: ");
+                        String contrasenaA = scan.next();
+                        if (config.confirmarIngresoCliente(correoA, contrasenaA)) {
+                            System.out.println("Bienvenido.");
+                            while(!salir){
+                                opc= menuOpcCliente();
+                                switch(opc){
+                                    case 1: 
+                                    break;
+                                    case 2: 
+                                    break;
+                                    case 3: salir=true;
+                                    break;
+                                }
+                            }
+                        }
+                    break;
+                        case 3:
+                            salir = true;
                         break;
                 }
                 //Menu para clientes
@@ -147,6 +165,13 @@ public class AgenciaViajes {
         System.out.println("3. Agregar Hotel");
         System.out.println("4. Agregar Cuarto");
         System.out.println("5. Salir");
+        Scanner scan = new Scanner(System.in);
+        return scan.nextInt();
+    }
+    public static int menuOpcCliente() {
+        System.out.println("1. Realizar reserva (en proceso)");
+        System.out.println("2. Cancelar reserva (en proceso)");
+        System.out.println("3. Salir");
         Scanner scan = new Scanner(System.in);
         return scan.nextInt();
     }

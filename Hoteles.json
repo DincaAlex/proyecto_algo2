@@ -1,1 +1,1 @@
-{"hoteles":[{"ciudad":"e","nombre":"e","estrellas":4},{"ciudad":"o","nombre":"o","estrellas":5},{"ciudad":"r","nombre":"p","estrellas":5},{"ciudad":"ml","nombre":"po","estrellas":2}],"cuartos":[]}
+{"hoteles":[{"ciudad":"e","ID":null,"nombre":"e","estrellas":4},{"ciudad":"o","ID":null,"nombre":"o","estrellas":5},{"ciudad":"r","ID":null,"nombre":"p","estrellas":5},{"ciudad":"ml","ID":null,"nombre":"po","estrellas":2},{"ciudad":"Lima","ID":"MarriotLima","nombre":"Marriot","estrellas":4}],"cuartos":[]}

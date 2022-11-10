@@ -61,6 +61,19 @@ public class SistemaConfig
         return false;
     }
 
+    public boolean confirmarIngresoCliente (String correo,String contrasena) {
+        Enumeration<Cliente> enumC = this.clientes.elements();
+        while (enumC.hasMoreElements()) {
+            Cliente cl = enumC.nextElement();
+            if (correo.equals(cl.mostrarCorreo())) {
+                if (contrasena.equals(cl.mostrarContrasena())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public JSONArray adminsToJSON () {
         JSONArray arrayAdmins = new JSONArray();
         Enumeration<Admin> adm = this.admins.elements();
