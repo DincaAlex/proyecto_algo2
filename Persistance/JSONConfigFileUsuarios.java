@@ -60,7 +60,6 @@ public class JSONConfigFileUsuarios implements Persistance{
             String contrasena = (String) admin.get("contrasena");
             Admin adm = new Admin(correo, nombres, apellidos, contrasena);
             config.registrarAdmin(adm);
-            System.out.println(adm.mostrarNombres());
         }
     }
 
@@ -77,7 +76,6 @@ public class JSONConfigFileUsuarios implements Persistance{
             String contrasena = (String) cliente.get("contrasena");
             Cliente cl = new Cliente(correo, nombres, apellidos, contrasena);
             config.registrarCliente(cl);
-            System.out.println(cl.mostrarNombres());
         }
     }
 
