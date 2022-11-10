@@ -128,7 +128,11 @@ public class AgenciaViajes {
                                     break;
                                     case 2: 
                                     break;
-                                    case 3: salir=true;
+                                    case 3:
+                                    break;
+                                    case 4:
+                                    break;
+                                    case 5: salir=true;
                                     break;
                                 }
                             }
@@ -169,9 +173,11 @@ public class AgenciaViajes {
         return scan.nextInt();
     }
     public static int menuOpcCliente() {
-        System.out.println("1. Realizar reserva (en proceso)");
-        System.out.println("2. Cancelar reserva (en proceso)");
-        System.out.println("3. Salir");
+        System.out.println("1. Realizar reserva de transporte");
+        System.out.println("2. Cancelar reserva de transporte (en proceso)");
+        System.out.println("3. Realizar reserva de hotel (en proceso)");
+        System.out.println("4. Cancelar reserva de hotel (en proceso)");
+        System.out.println("5. Salir");
         Scanner scan = new Scanner(System.in);
         return scan.nextInt();
     }
