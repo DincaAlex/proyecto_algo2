@@ -7,9 +7,9 @@ import hotel.Hotel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.Enumeration;
-import java.util.Vector;
-public class SistemaConfig 
+import java.util.*;
+
+public class SistemaConfig
 {
     private Vector<Admin> admins;
     private Vector<Cliente> clientes;
@@ -17,10 +17,10 @@ public class SistemaConfig
     private Vector<Cuarto> cuartos;
 
     public SistemaConfig () {
-        this.admins = new Vector<Admin>();
-        this.clientes = new Vector<Cliente>();
-        this.hoteles = new Vector<Hotel>();
-        this.cuartos = new Vector<Cuarto>();
+        this.admins = new Vector<>();
+        this.clientes = new Vector<>();
+        this.hoteles = new Vector<>();
+        this.cuartos = new Vector<>();
     }
     
 
@@ -34,7 +34,6 @@ public class SistemaConfig
             }
         }
         this.admins.add((Admin) admin);
-        System.out.println("Cuenta de administrador creada con exito.");   
     }
 
     public void registrarCliente (Cliente cliente) {
@@ -47,16 +46,14 @@ public class SistemaConfig
             }
         }
         this.clientes.add((Cliente) cliente);
-        System.out.println("Cuenta de cliente creada con exito.");
-        
     }
 
     public boolean confirmarIngresoAdmin (String correo,String contrasena) {
-        Enumeration <Admin> adm= this.admins.elements();
-        while(adm.hasMoreElements()) {
-            Admin a= adm.nextElement();
-            if(correo.equals(a.mostrarCorreo())) {
-                if(contrasena.equals(a.mostrarContrasena())) {
+        Enumeration<Admin> adm = this.admins.elements();
+        while (adm.hasMoreElements()) {
+            Admin a = adm.nextElement();
+            if (correo.equals(a.mostrarCorreo())) {
+                if (contrasena.equals(a.mostrarContrasena())) {
                     return true;
                 }
             }
@@ -76,7 +73,7 @@ public class SistemaConfig
             obj.put("contrasena", a.mostrarContrasena());
             arrayAdmins.add(obj);
         }
-        return  arrayAdmins;
+        return arrayAdmins;
     }
 
     public JSONArray clientesToJSON () {
@@ -104,7 +101,6 @@ public class SistemaConfig
             }
         }
         this.hoteles.add((Hotel) hotel);
-        System.out.println("Hotel registrado exitosamente.");
     }
 
     public void registrarCuarto(Cuarto cuarto) {
@@ -117,7 +113,6 @@ public class SistemaConfig
             }
         }
         this.cuartos.add((Cuarto) cuarto);
-        System.out.println("Cuarto agregado exitosamente.");
     }
 
     public JSONArray hotelesToJSON () {
@@ -126,6 +121,7 @@ public class SistemaConfig
         while (enumH.hasMoreElements()) {
             Hotel h = enumH.nextElement();
             JSONObject obj = new JSONObject();
+            obj.put("ID", h.mostrarID());
             obj.put("nombre", h.mostrarNombre());
             obj.put("ciudad", h.mostrarCiudad());
             obj.put("estrellas", h.mostrarEstrellas());
@@ -150,4 +146,37 @@ public class SistemaConfig
         }
         return arrayCuartos;
     }
+
+    public void mostrarHoteles () {
+        int i = 1;
+        Enumeration<Hotel> enu = this.hoteles.elements();
+        while (enu.hasMoreElements()) {
+            Hotel hotel = enu.nextElement();
+            System.out.println(i + ". ID: " + hotel.mostrarID());
+            System.out.println(i + ". Nombre: " + hotel.mostrarNombre());
+            System.out.println(i + ". Ciudad: " + hotel.mostrarCiudad());
+            System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas() + "\n");
+            i++;
+        }
+    }
+
+    public String buscarHotel (String ID, int num) {
+        Enumeration<Hotel> enumH = this.hoteles.elements();
+        String valor = "";
+        while (enumH.hasMoreElements()) {
+            Hotel hotel = enumH.nextElement();
+            if (ID.equals(hotel.mostrarID())) {
+                switch (num) {
+                    case 1 -> valor = hotel.mostrarNombre();
+                    case 2 -> valor = hotel.mostrarCiudad();
+                    case 3 -> {
+                        valor = String.valueOf(hotel.mostrarEstrellas());
+                        System.out.println(valor);
+                    }
+                }
+            }
+        }
+        return valor;
+    }
+
 }
