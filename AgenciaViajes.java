@@ -80,32 +80,6 @@ public class AgenciaViajes {
                                     System.out.println("Ingrese las estrellas:");
                                     int estrellas = Integer.parseInt(scan.next());
                                     String ID = nombre.replaceAll("\\s+", "") + ciudad;
-<<<<<<< HEAD
-=======
-
-                                        Hotel hotel = new Hotel(nombre, ciudad, estrellas);
-                                        config.registrarHotel(hotel);
-                                        p1.guardarConfig(config);
-                                    }
-                                    case 4 -> {
-                                        if (config.noHayHoteles()) {
-                                            System.out.println("No hay hoteles registrados.");
-                                        }
-                                        else {
-                                            config.mostrarHoteles();
-                                            scan.nextLine();
-                                            System.out.println("Escoge el nombre del hotel: ");
-                                            String nombreH = scan.nextLine();
-                                            String ciudad = config.buscarHotel(nombreH, 1);
-                                            int estrellas = Integer.parseInt(config.buscarHotel(nombreH, 2));
-
-                                            System.out.println("Ingrese el numero del cuarto: ");
-                                            int numero = Integer.parseInt(scan.next());
-                                            System.out.println("Ingrese el piso del cuarto: ");
-                                            int piso = Integer.parseInt(scan.next());
-                                            System.out.println("Ingrese si el cuarto esta ocupado:");
-                                            boolean ocupado = Boolean.parseBoolean(scan.next());
->>>>>>> parent of 69b6338 (Correccion)
 
                                     Hotel hotel = new Hotel(ID, nombre, ciudad, estrellas);
                                     config.registrarHotel(hotel);
