@@ -1,13 +1,17 @@
 package processes;
 
+import Persistance.Persistance;
+import Persistance.JSONConfigFileHoteles;
 import entities.Admin;
 import entities.Cliente;
-import hotel.Cuarto;
-import hotel.Hotel;
+import entities.Cuarto;
+import entities.Hotel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Objects;
+import java.util.Vector;
 
 public class SistemaConfig
 {
@@ -122,9 +126,12 @@ public class SistemaConfig
         Enumeration<Cuarto> enumC = this.cuartos.elements();
         while (enumC.hasMoreElements()) {
             Cuarto c = enumC.nextElement();
-            if (cuarto.mostrarNumero()==(c.mostrarNumero())) {
-                System.out.println("El cuarto ya existe.");
-                return;
+            if (Objects.equals(cuarto.mostrarID(), c.mostrarID())) {
+                if (cuarto.mostrarPiso()==c.mostrarPiso() && cuarto.mostrarNumero()==c.mostrarNumero()){
+                    System.out.println("El cuarto ya existe.");
+                    return;
+                }
+
             }
         }
         this.cuartos.add((Cuarto) cuarto);
@@ -151,6 +158,7 @@ public class SistemaConfig
         while (enumC.hasMoreElements()) {
             Cuarto c = enumC.nextElement();
             JSONObject obj = new JSONObject();
+            obj.put("ID", c.mostrarID());
             obj.put("nombre", c.mostrarNombre());
             obj.put("ciudad", c.mostrarCiudad());
             obj.put("estrellas", c.mostrarEstrellas());
@@ -160,6 +168,24 @@ public class SistemaConfig
             arrayCuartos.add(obj);
         }
         return arrayCuartos;
+    }
+
+    public void autoGenerarCuartos (String ID, String nombre, String ciudad, int estrellas, int cuartos, int pisos ) {
+        boolean ocupado = false;
+        SistemaConfig config = new SistemaConfig();
+        Persistance p = new JSONConfigFileHoteles();
+        p.leerConfig(config);
+        for (int i=1; i<=pisos; i++) {
+            for (int j=1; j<= cuartos; j++){
+                Cuarto cuarto = new Cuarto(ID, nombre, ciudad, estrellas, j, i, ocupado);
+                config.registrarCuarto(cuarto);
+                p.guardarConfig(config);
+            }
+        }
+    }
+
+    public boolean noHayHoteles () {
+        return hoteles.isEmpty();
     }
 
     public void mostrarHoteles () {
@@ -184,14 +210,10 @@ public class SistemaConfig
                 switch (num) {
                     case 1 -> valor = hotel.mostrarNombre();
                     case 2 -> valor = hotel.mostrarCiudad();
-                    case 3 -> {
-                        valor = String.valueOf(hotel.mostrarEstrellas());
-                        System.out.println(valor);
-                    }
+                    case 3 -> valor = String.valueOf(hotel.mostrarEstrellas());
                 }
             }
         }
         return valor;
     }
-
 }
