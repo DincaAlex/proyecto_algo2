@@ -1,1 +1,1 @@
-{"clientes":[{"apellidos":"Call","correo":"sergio.a@gmail.com","contrasena":"ser","uuid":"27c819cb-2345-425c-ab75-80f11ba3bbc2","nombres":"Serg"}],"admins":[{"apellidos":"Callan","correo":"sergio.callan@gmail.com","contrasena":"ser","uuid":"052c0aa6-32ef-4bbc-9971-3264edd0a749","nombres":"Sergio"}]}
+{"clientes":[],"admins":[{"apellidos":"admin","correo":"admin","contrasena":"123","uuid":"448feab9-4a38-4221-8357-51411c2d4219","nombres":"admin"}]}
