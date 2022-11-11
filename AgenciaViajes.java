@@ -35,9 +35,9 @@ public class AgenciaViajes {
                             continuar = "N";
                             System.out.println("Ingrese el correo con el que se registrara: ");
                             String correo = scan.next();
-                            System.out.println("Ingrese sus nombre: ");
+                            System.out.println("Ingrese su nombre: ");
                             String nombres = scan.next();
-                            System.out.println("Ingrese sus apellido:");
+                            System.out.println("Ingrese su apellido:");
                             String apellidos = scan.next();
                             System.out.println("Ingrese una contrasena:");
                             String contrasena = scan.next();
