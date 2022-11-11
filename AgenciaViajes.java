@@ -225,38 +225,3 @@ public class AgenciaViajes {
 }
 
 
-
-/*
-Agregar funcionamiento Clientes
-public class AgenciaViajes {
-
-    public static void main(String[] args) {
-       
-           System.out.println("BIENVENIDO A NUESTRA AGENCIA DE VIAJE \nRESERVE SU VIAJE: ");
-        System.out.println("PRESIONE EN TIPO DE TRANSPORTE QUE DESEA : \n1.Bus \n2.Avion \n3.Salir");
-   
-        Scanner t = new Scanner(System.in);
-        int p = t.nextInt();
-        
-        switch(p){
-            case 1:
-              Bus b1 = new Bus(0,"","","");
-            
-              b1.menuReserva();
-              b1.imprimirInfoReserva();
-              break;
-            case 2: 
-              Avion a1 = new Avion(0,"","","");
-              a1.menuReserva();
-              a1.imprimirInfoReserva();
-              break;
-            case 3:
-                System.out.println("GRACIAS POR SU VISITA");
-                break;
-          default:
-              System.out.println("INGRESE UN NUMERO VALIDO, GRACIAS");
-              break;
-        }
-    }
-}
-*/
