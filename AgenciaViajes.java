@@ -64,7 +64,7 @@ public class AgenciaViajes {
                                 continuar = scan.next();
                             }
                         } while (continuar.equalsIgnoreCase("s"));
-                        System.out.println("Bienvenido.\n");
+                        System.out.println("\nBienvenido.");
                         while (!salir) {
                             opc = menuOpcAdmin();
                             switch (opc) {
@@ -132,7 +132,6 @@ public class AgenciaViajes {
                                 }
                                 default -> salir = true;
                             }
-
                         }
                     }
                 default -> salir = true;
