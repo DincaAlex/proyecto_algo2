@@ -155,7 +155,6 @@ public class AgenciaViajes {
                         System.out.println("Ingrese su contrasena: ");
                         String contrasenaA = scan.next();
                         if (config.confirmarIngresoCliente(correoA, contrasenaA)) {
-                            String uuidCopia= config.copiarUUID(correoA);
                             System.out.println("Bienvenido.");
                             while(!salir){
                                 opc= menuOpcCliente();
