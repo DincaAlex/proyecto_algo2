@@ -64,6 +64,9 @@ public class AgenciaViajes {
                                 continuar = scan.next();
                             }
                         } while (continuar.equalsIgnoreCase("s"));
+                        if (!continuar.equalsIgnoreCase("s")) {
+                            break;
+                        }
                         System.out.println("Bienvenido.\n");
                         while (!salir) {
                             opc = menuOpcAdmin();
