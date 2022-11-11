@@ -78,6 +78,17 @@ public class SistemaConfig
         return false;
     }
 
+    public String copiarUUID(String correo){
+        Enumeration<Cliente> enumC = this.clientes.elements();
+        String uuidCopia="";
+        while (enumC.hasMoreElements()) {
+            Cliente cl = enumC.nextElement();
+            if (correo.equals(cl.mostrarCorreo())) {
+                uuidCopia= cl.mostrarUUID();
+            }
+        }
+        return uuidCopia;
+    }
 
     public JSONArray adminsToJSON () {
         JSONArray arrayAdmins = new JSONArray();
@@ -138,7 +149,7 @@ public class SistemaConfig
         this.cuartos.add((Cuarto) cuarto);
     }
 
-    public void reservarCuarto(Cuarto cuarto){
+    public void reservarCuarto(Cuarto cuarto, String uuid){
         Enumeration<Cuarto> enumC= this.cuartos.elements();
         while(enumC.hasMoreElements()){
             Cuarto c= enumC.nextElement();
@@ -146,6 +157,7 @@ public class SistemaConfig
                 if(!cuarto.mostrarOcupado()){
                     System.out.println("Piso: "+c.mostrarPiso()+"\nNumero: "+c.mostrarNumero());
                     c.ocupar();
+                    c.clienteReservar(uuid);
                     cuarto=c;
                     this.cuartos.add((Cuarto) cuarto);
                     this.cuartos.remove((Cuarto) c);
@@ -182,6 +194,7 @@ public class SistemaConfig
             obj.put("numero", c.mostrarNumero());
             obj.put("piso", c.mostrarPiso());
             obj.put("ocupado", c.mostrarOcupado());
+            obj.put("cReserva", c.mostrarClienteReserva());
             arrayCuartos.add(obj);
         }
         return arrayCuartos;
@@ -194,7 +207,7 @@ public class SistemaConfig
         p.leerConfig(config);
         for (int i=1; i<=pisos; i++) {
             for (int j=1; j<= cuartos; j++){
-                Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado);
+                Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado, "");
                 config.registrarCuarto(cuarto);
                 p.guardarConfig(config);
             }

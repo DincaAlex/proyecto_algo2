@@ -102,7 +102,7 @@ public class AgenciaViajes {
                                             System.out.println("Ingrese si el cuarto esta ocupado:");
                                             boolean ocupado = Boolean.parseBoolean(scan.next());
 
-                                            Cuarto cuarto = new Cuarto(nombreH, ciudad, estrellas, numero, piso, ocupado);
+                                            Cuarto cuarto = new Cuarto(nombreH, ciudad, estrellas, numero, piso, ocupado, "");
                                             config.registrarCuarto(cuarto);
                                             p1.guardarConfig(config);
                                         }
@@ -156,6 +156,7 @@ public class AgenciaViajes {
                         String contrasenaA = scan.next();
                         if (config.confirmarIngresoCliente(correoA, contrasenaA)) {
                             System.out.println("Bienvenido.");
+                            String copiaUUID= config.copiarUUID(correoA);
                             while(!salir){
                                 opc= menuOpcCliente();
                                 switch(opc){
@@ -167,8 +168,8 @@ public class AgenciaViajes {
                                         config.mostrarHoteles();
                                         System.out.println("Ingrese el nombre del hotel: ");
                                         String nHotel= scan.next();
-                                        Cuarto cu= new Cuarto(nHotel, "", 0, 0, 0, false);
-                                        config.reservarCuarto(cu);
+                                        Cuarto cu= new Cuarto(nHotel, "", 0, 0, 0, false, "");
+                                        config.reservarCuarto(cu, copiaUUID);
                                         p1.guardarConfig(config);
                                     break;
                                     case 4:
