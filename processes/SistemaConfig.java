@@ -146,9 +146,10 @@ public class SistemaConfig
                 if(!cuarto.mostrarOcupado()){
                     System.out.println("Piso: "+c.mostrarPiso()+"\nNumero: "+c.mostrarNumero());
                     c.ocupar();
-                    if(c.mostrarOcupado()){
-                        System.out.println("Reserva realizada");
-                    }
+                    cuarto=c;
+                    this.cuartos.add((Cuarto) cuarto);
+                    this.cuartos.remove((Cuarto) c);
+                    System.out.println("Reserva realizada");
                     return;
                 }
             }

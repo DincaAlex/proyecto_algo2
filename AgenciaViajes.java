@@ -169,7 +169,7 @@ public class AgenciaViajes {
                                         String nHotel= scan.next();
                                         Cuarto cu= new Cuarto(nHotel, "", 0, 0, 0, false);
                                         config.reservarCuarto(cu);
-                                        p.guardarConfig(config);
+                                        p1.guardarConfig(config);
                                     break;
                                     case 4:
                                     break;
