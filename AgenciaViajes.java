@@ -79,8 +79,6 @@ public class AgenciaViajes {
                                     String ciudad = scan.nextLine();
                                     System.out.println("Ingrese las estrellas:");
                                     int estrellas = Integer.parseInt(scan.next());
-                                    String ID = nombre.replaceAll("\\s+", "") + ciudad;
-
                                         Hotel hotel = new Hotel(nombre, ciudad, estrellas);
                                         config.registrarHotel(hotel);
                                         p1.guardarConfig(config);
