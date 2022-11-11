@@ -13,11 +13,12 @@ public class AgenciaViajes {
     public static void main(String[] args) {
         int opc;
         boolean salir = false;
+        String continuar;
         SistemaConfig config = new SistemaConfig();
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("Bienvenido al sistema de Agencia de viajes");
-        System.out.println("Ingrese el tipo de usuario: Administrador (1) o Cliente (2)");
+        System.out.println("Bienvenido al sistema de Agencia de viajes\n");
+        System.out.println("Ingrese el tipo de usuario [Administrador/Cliente] [1/2]: ");
         int user = scan.nextInt();
 
         Persistance p = new JSONConfigFileUsuarios();
@@ -30,20 +31,28 @@ public class AgenciaViajes {
                 opc = menuAdmin();
                 switch (opc) {
                     case 1 -> {
-                        System.out.println("Ingrese el correo con el que se registrara: ");
-                        String correo = scan.next();
-                        System.out.println("Ingrese sus nombre: ");
-                        String nombres = scan.next();
-                        System.out.println("Ingrese sus apellido:");
-                        String apellidos = scan.next();
-                        System.out.println("Ingrese una contrasena:");
-                        String contrasena = scan.next();
-                        Admin admin = new Admin(correo, nombres, apellidos, contrasena);
-                        config.registrarAdmin(admin);
-                        p.guardarConfig(config);
+                        do {
+                            continuar = "N";
+                            System.out.println("Ingrese el correo con el que se registrara: ");
+                            String correo = scan.next();
+                            System.out.println("Ingrese sus nombre: ");
+                            String nombres = scan.next();
+                            System.out.println("Ingrese sus apellido:");
+                            String apellidos = scan.next();
+                            System.out.println("Ingrese una contrasena:");
+                            String contrasena = scan.next();
+                            if (config.confirmarIngresoAdmin(correo, contrasena)) {
+                                System.out.println("El correo ya esta registrado. Desea intentar de nuevo? [S/N]: ");
+                                continuar = scan.next();
+                            }
+                            else {
+                                Admin admin = new Admin(correo, nombres, apellidos, contrasena);
+                                config.registrarAdmin(admin);
+                                p.guardarConfig(config);
+                            }
+                        } while (continuar.equalsIgnoreCase("s"));
                     }
                     case 2 -> {
-                        String continuar;
                         do {
                             continuar = "N";
                             System.out.println("Ingrese su correo:");
@@ -55,7 +64,7 @@ public class AgenciaViajes {
                                 continuar = scan.next();
                             }
                         } while (continuar.equalsIgnoreCase("s"));
-                        System.out.println("Bienvenido.");
+                        System.out.println("Bienvenido.\n");
                         while (!salir) {
                             opc = menuOpcAdmin();
                             switch (opc) {
