@@ -1,1 +1,1 @@
-{"clientes":[],"admins":[{"apellidos":"admin","correo":"admin","contrasena":"123","uuid":"448feab9-4a38-4221-8357-51411c2d4219","nombres":"admin"}]}
+{"clientes":[{"apellidos":"ewq","correo":"asd@gmail.com","contrasena":"asd","uuid":"4502cdf5-0873-480f-b52e-d9201420a427","nombres":"asd"}],"admins":[{"apellidos":"admin","correo":"admin","contrasena":"123","uuid":"448feab9-4a38-4221-8357-51411c2d4219","nombres":"admin"},{"apellidos":"Callan","correo":"sergio.callan@gmail.com","contrasena":"ser","uuid":"ead0edab-9e80-4a6b-8ea9-70d8d1b1766b","nombres":"Sergio"}]}

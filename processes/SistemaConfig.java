@@ -126,7 +126,7 @@ public class SistemaConfig
         Enumeration<Cuarto> enumC = this.cuartos.elements();
         while (enumC.hasMoreElements()) {
             Cuarto c = enumC.nextElement();
-            if (Objects.equals(cuarto.mostrarID(), c.mostrarID())) {
+            if (Objects.equals(cuarto.mostrarNombre(), c.mostrarNombre())) {
                 if (cuarto.mostrarPiso()==c.mostrarPiso() && cuarto.mostrarNumero()==c.mostrarNumero()){
                     System.out.println("El cuarto ya existe.");
                     return;
@@ -143,7 +143,6 @@ public class SistemaConfig
         while (enumH.hasMoreElements()) {
             Hotel h = enumH.nextElement();
             JSONObject obj = new JSONObject();
-            obj.put("ID", h.mostrarID());
             obj.put("nombre", h.mostrarNombre());
             obj.put("ciudad", h.mostrarCiudad());
             obj.put("estrellas", h.mostrarEstrellas());
@@ -158,7 +157,6 @@ public class SistemaConfig
         while (enumC.hasMoreElements()) {
             Cuarto c = enumC.nextElement();
             JSONObject obj = new JSONObject();
-            obj.put("ID", c.mostrarID());
             obj.put("nombre", c.mostrarNombre());
             obj.put("ciudad", c.mostrarCiudad());
             obj.put("estrellas", c.mostrarEstrellas());
@@ -170,14 +168,14 @@ public class SistemaConfig
         return arrayCuartos;
     }
 
-    public void autoGenerarCuartos (String ID, String nombre, String ciudad, int estrellas, int cuartos, int pisos ) {
+    public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int cuartos, int pisos ) {
         boolean ocupado = false;
         SistemaConfig config = new SistemaConfig();
         Persistance p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         for (int i=1; i<=pisos; i++) {
             for (int j=1; j<= cuartos; j++){
-                Cuarto cuarto = new Cuarto(ID, nombre, ciudad, estrellas, j, i, ocupado);
+                Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado);
                 config.registrarCuarto(cuarto);
                 p.guardarConfig(config);
             }
@@ -193,7 +191,6 @@ public class SistemaConfig
         Enumeration<Hotel> enu = this.hoteles.elements();
         while (enu.hasMoreElements()) {
             Hotel hotel = enu.nextElement();
-            System.out.println(i + ". ID: " + hotel.mostrarID());
             System.out.println(i + ". Nombre: " + hotel.mostrarNombre());
             System.out.println(i + ". Ciudad: " + hotel.mostrarCiudad());
             System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas() + "\n");
@@ -201,16 +198,15 @@ public class SistemaConfig
         }
     }
 
-    public String buscarHotel (String ID, int num) {
+    public String buscarHotel (String nombre, int num) {
         Enumeration<Hotel> enumH = this.hoteles.elements();
         String valor = "";
         while (enumH.hasMoreElements()) {
             Hotel hotel = enumH.nextElement();
-            if (ID.equals(hotel.mostrarID())) {
+            if (nombre.equals(hotel.mostrarNombre())) {
                 switch (num) {
-                    case 1 -> valor = hotel.mostrarNombre();
-                    case 2 -> valor = hotel.mostrarCiudad();
-                    case 3 -> valor = String.valueOf(hotel.mostrarEstrellas());
+                    case 1 -> valor = hotel.mostrarCiudad();
+                    case 2 -> valor = String.valueOf(hotel.mostrarEstrellas());
                 }
             }
         }
