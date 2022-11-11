@@ -216,7 +216,7 @@ public class AgenciaViajes {
     public static int menuOpcCliente() {
         System.out.println("1. Realizar reserva de transporte (en proceso)");
         System.out.println("2. Cancelar reserva de transporte (en proceso)");
-        System.out.println("3. Realizar reserva de hotel (en proceso)");
+        System.out.println("3. Realizar reserva de hotel");
         System.out.println("4. Cancelar reserva de hotel (en proceso)");
         System.out.println("5. Salir");
         Scanner scan = new Scanner(System.in);
