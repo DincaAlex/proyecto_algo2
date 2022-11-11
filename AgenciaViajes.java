@@ -35,9 +35,9 @@ public class AgenciaViajes {
                             continuar = "N";
                             System.out.println("Ingrese el correo con el que se registrara: ");
                             String correo = scan.next();
-                            System.out.println("Ingrese sus nombre: ");
+                            System.out.println("Ingrese su nombre: ");
                             String nombres = scan.next();
-                            System.out.println("Ingrese sus apellido:");
+                            System.out.println("Ingrese su apellido:");
                             String apellidos = scan.next();
                             System.out.println("Ingrese una contrasena:");
                             String contrasena = scan.next();
@@ -219,7 +219,7 @@ public class AgenciaViajes {
     public static int menuOpcCliente() {
         System.out.println("1. Realizar reserva de transporte (en proceso)");
         System.out.println("2. Cancelar reserva de transporte (en proceso)");
-        System.out.println("3. Realizar reserva de hotel (en proceso)");
+        System.out.println("3. Realizar reserva de hotel");
         System.out.println("4. Cancelar reserva de hotel (en proceso)");
         System.out.println("5. Salir");
         Scanner scan = new Scanner(System.in);
