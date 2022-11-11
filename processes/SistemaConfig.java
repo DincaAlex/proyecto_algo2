@@ -191,12 +191,16 @@ public class SistemaConfig
     public void mostrarHoteles () {
         int i = 1;
         Enumeration<Hotel> enu = this.hoteles.elements();
+        SistemaConfig config = new SistemaConfig();
+        Persistance p = new JSONConfigFileHoteles();
+        p.leerConfig(config);
         while (enu.hasMoreElements()) {
             Hotel hotel = enu.nextElement();
             System.out.println(i + ". ID: " + hotel.mostrarID());
             System.out.println(i + ". Nombre: " + hotel.mostrarNombre());
             System.out.println(i + ". Ciudad: " + hotel.mostrarCiudad());
-            System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas() + "\n");
+            System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas());
+            System.out.println(i + ". Numero de cuartos: " + config.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
             i++;
         }
     }
@@ -215,5 +219,16 @@ public class SistemaConfig
             }
         }
         return valor;
+    }
+
+    public int contarCuartosHotel (String nombre) {
+        int cant = 0;
+        Enumeration<Cuarto> enumC = this.cuartos.elements();
+        while (enumC.hasMoreElements()) {
+            Cuarto cuarto = enumC.nextElement();
+            if (nombre.equals(cuarto.mostrarNombre()))
+                cant++;
+        }
+        return cant;
     }
 }
