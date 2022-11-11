@@ -196,7 +196,7 @@ public class SistemaConfig
             Hotel hotel = enu.nextElement();
             System.out.println(i + ". Nombre: " + hotel.mostrarNombre());
             System.out.println(i + ". Ciudad: " + hotel.mostrarCiudad());
-            System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas() + "");
+            System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas());
             System.out.println(i + ". Numero de cuartos: " + config.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
             i++;
         }
