@@ -53,7 +53,6 @@ public class JSONConfigFileHoteles implements Persistance {
             return;
         for (Object o : hotelesJSONArray) {
             JSONObject hoteles = (JSONObject) o;
-            String ID = (String) hoteles.get("ID");
             String nombre = (String) hoteles.get("nombre");
             String ciudad = (String) hoteles.get("ciudad");
             int estrellas = (int)(long) hoteles.get("estrellas");
@@ -72,7 +71,6 @@ public class JSONConfigFileHoteles implements Persistance {
             String nombre = (String) cuartos.get("nombre");
             String ciudad = (String) cuartos.get("ciudad");
             int estrellas = (int)(long) cuartos.get("estrellas");
-            String ID = (String) cuartos.get("ID");
             int numero = (int)(long) cuartos.get("numero");
             int piso = (int)(long) cuartos.get("piso");
             boolean ocupado = (boolean) cuartos.get("ocupado");
