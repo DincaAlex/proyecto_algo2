@@ -1,7 +1,7 @@
 package Persistance;
 
-import hotel.Cuarto;
-import hotel.Hotel;
+import entities.Cuarto;
+import entities.Hotel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
