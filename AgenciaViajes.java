@@ -3,8 +3,8 @@ import Persistance.JSONConfigFileUsuarios;
 import Persistance.Persistance;
 import entities.Admin;
 import entities.Cliente;
-import hotel.Cuarto;
-import hotel.Hotel;
+import entities.Cuarto;
+import entities.Hotel;
 import processes.SistemaConfig;
 
 import java.util.Scanner;
@@ -53,6 +53,7 @@ public class AgenciaViajes {
                                 opc = menuOpcAdmin();
                                 switch (opc) {
                                     case 1, 2 -> {
+                                        System.out.println("Menu en construcción.");
                                     }
                                     case 3 -> {
                                         scan.nextLine();
@@ -62,7 +63,6 @@ public class AgenciaViajes {
                                         String ciudad = scan.nextLine();
                                         System.out.println("Ingrese las estrellas:");
                                         int estrellas = Integer.parseInt(scan.next());
-                                        System.out.println(estrellas);
                                         String ID = nombre.replaceAll("\\s+", "") + ciudad;
 
                                         Hotel hotel = new Hotel(ID, nombre, ciudad, estrellas);
@@ -70,25 +70,51 @@ public class AgenciaViajes {
                                         p1.guardarConfig(config);
                                     }
                                     case 4 -> {
-                                        config.mostrarHoteles();
-                                        scan.nextLine();
-                                        System.out.println("Escoger el ID del hotel al cual quiere agregar un cuarto: ");
-                                        String opcID = scan.nextLine();
+                                        if (config.noHayHoteles()) {
+                                            System.out.println("No hay hoteles registrados.");
+                                        }
+                                        else {
+                                            config.mostrarHoteles();
+                                            scan.nextLine();
+                                            System.out.println("Escoge el ID del hotel: ");
+                                            String opcID = scan.nextLine();
 
-                                        String nombre = config.buscarHotel(opcID, 1);
-                                        String ciudad = config.buscarHotel(opcID, 2);
-                                        int estrellas = Integer.parseInt(config.buscarHotel(opcID, 3));
+                                            String nombre = config.buscarHotel(opcID, 1);
+                                            String ciudad = config.buscarHotel(opcID, 2);
+                                            int estrellas = Integer.parseInt(config.buscarHotel(opcID, 3));
 
-                                        System.out.println("Ingrese el numero del cuarto: ");
-                                        int numero = Integer.parseInt(scan.next());
-                                        System.out.println("Ingrese el piso del cuarto: ");
-                                        int piso = Integer.parseInt(scan.next());
-                                        System.out.println("Ingrese si el cuarto esta ocupado:");
-                                        boolean ocupado = Boolean.parseBoolean(scan.next());
+                                            System.out.println("Ingrese el numero del cuarto: ");
+                                            int numero = Integer.parseInt(scan.next());
+                                            System.out.println("Ingrese el piso del cuarto: ");
+                                            int piso = Integer.parseInt(scan.next());
+                                            System.out.println("Ingrese si el cuarto esta ocupado:");
+                                            boolean ocupado = Boolean.parseBoolean(scan.next());
 
-                                        Cuarto cuarto = new Cuarto(opcID, nombre, ciudad, estrellas, numero, piso, ocupado);
-                                        config.registrarCuarto(cuarto);
-                                        p1.guardarConfig(config);
+                                            Cuarto cuarto = new Cuarto(opcID, nombre, ciudad, estrellas, numero, piso, ocupado);
+                                            config.registrarCuarto(cuarto);
+                                            p1.guardarConfig(config);
+                                        }
+                                    }
+                                    case 5 -> {
+                                        if (config.noHayHoteles()) {
+                                            System.out.println("No hay hoteles registrados.");
+                                        }
+                                        else {
+                                            System.out.println("Lista de hoteles registrados:");
+                                            config.mostrarHoteles();
+                                            scan.nextLine();
+                                            System.out.println("Escoge el ID del hotel: ");
+                                            String opcID = scan.nextLine();
+                                            String nombre = config.buscarHotel(opcID, 1);
+                                            String ciudad = config.buscarHotel(opcID, 2);
+                                            int estrellas = Integer.parseInt(config.buscarHotel(opcID, 3));
+
+                                            System.out.println("Numero de pisos: ");
+                                            int numP = scan.nextInt();
+                                            System.out.println("Numero de cuartos por piso: ");
+                                            int numC = scan.nextInt();
+                                            config.autoGenerarCuartos(opcID, nombre, ciudad, estrellas, numC, numP);
+                                        }
                                     }
                                     default -> salir = true;
                                 }
@@ -169,7 +195,8 @@ public class AgenciaViajes {
         System.out.println("2. Agregar Transporte [En construcción]");
         System.out.println("3. Agregar Hotel");
         System.out.println("4. Agregar Cuarto");
-        System.out.println("5. Salir");
+        System.out.println("5. Autogenerar Cuartos");
+        System.out.println("6. Salir");
         Scanner scan = new Scanner(System.in);
         return scan.nextInt();
     }
