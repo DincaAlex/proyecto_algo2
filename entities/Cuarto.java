@@ -1,4 +1,4 @@
-package hotel;
+package entities;
 
 public class Cuarto extends Hotel {
     private int numero;
@@ -23,4 +23,5 @@ public class Cuarto extends Hotel {
     public boolean mostrarOcupado () {
         return ocupado;
     }
+
 }

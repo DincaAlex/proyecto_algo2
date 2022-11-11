@@ -1,4 +1,4 @@
-package hotel;
+package entities;
 
 public class Hotel {
     private String ID;
