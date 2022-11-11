@@ -24,4 +24,7 @@ public class Cuarto extends Hotel {
         return ocupado;
     }
 
+    public void ocupar(){
+        this.ocupado=true;
+    }
 }

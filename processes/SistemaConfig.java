@@ -78,6 +78,7 @@ public class SistemaConfig
         return false;
     }
 
+
     public JSONArray adminsToJSON () {
         JSONArray arrayAdmins = new JSONArray();
         Enumeration<Admin> adm = this.admins.elements();
@@ -137,6 +138,23 @@ public class SistemaConfig
         this.cuartos.add((Cuarto) cuarto);
     }
 
+    public void reservarCuarto(Cuarto cuarto){
+        Enumeration<Cuarto> enumC= this.cuartos.elements();
+        while(enumC.hasMoreElements()){
+            Cuarto c= enumC.nextElement();
+            while(cuarto.mostrarNombre().equals(c.mostrarNombre())){
+                if(!cuarto.mostrarOcupado()){
+                    System.out.println("Piso: "+c.mostrarPiso()+"\nNumero: "+c.mostrarNumero());
+                    c.ocupar();
+                    if(c.mostrarOcupado()){
+                        System.out.println("Reserva realizada");
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
     public JSONArray hotelesToJSON () {
         JSONArray arrayHoteles = new JSONArray();
         Enumeration<Hotel> enumH = this.hoteles.elements();
@@ -189,15 +207,11 @@ public class SistemaConfig
     public void mostrarHoteles () {
         int i = 1;
         Enumeration<Hotel> enu = this.hoteles.elements();
-        SistemaConfig config = new SistemaConfig();
-        Persistance p = new JSONConfigFileHoteles();
-        p.leerConfig(config);
         while (enu.hasMoreElements()) {
             Hotel hotel = enu.nextElement();
             System.out.println(i + ". Nombre: " + hotel.mostrarNombre());
             System.out.println(i + ". Ciudad: " + hotel.mostrarCiudad());
-            System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas());
-            System.out.println(i + ". Numero de cuartos: " + config.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
+            System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas() + "\n");
             i++;
         }
     }
@@ -215,16 +229,5 @@ public class SistemaConfig
             }
         }
         return valor;
-    }
-
-    public int contarCuartosHotel (String nombre) {
-        int cant = 0;
-        Enumeration<Cuarto> enumC = this.cuartos.elements();
-        while (enumC.hasMoreElements()) {
-            Cuarto cuarto = enumC.nextElement();
-            if (nombre.equals(cuarto.mostrarNombre()))
-                cant++;
-        }
-        return cant;
     }
 }

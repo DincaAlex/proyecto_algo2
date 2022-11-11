@@ -64,7 +64,7 @@ public class AgenciaViajes {
                                 continuar = scan.next();
                             }
                         } while (continuar.equalsIgnoreCase("s"));
-                        System.out.println("\nBienvenido.");
+                        System.out.println("Bienvenido.\n");
                         while (!salir) {
                             opc = menuOpcAdmin();
                             switch (opc) {
@@ -79,9 +79,6 @@ public class AgenciaViajes {
                                     String ciudad = scan.nextLine();
                                     System.out.println("Ingrese las estrellas:");
                                     int estrellas = Integer.parseInt(scan.next());
-                                    String ID = nombre.replaceAll("\\s+", "") + ciudad;
-<<<<<<< HEAD
-
                                         Hotel hotel = new Hotel(nombre, ciudad, estrellas);
                                         config.registrarHotel(hotel);
                                         p1.guardarConfig(config);
@@ -104,66 +101,39 @@ public class AgenciaViajes {
                                             int piso = Integer.parseInt(scan.next());
                                             System.out.println("Ingrese si el cuarto esta ocupado:");
                                             boolean ocupado = Boolean.parseBoolean(scan.next());
-=======
->>>>>>> 1dea494e7242918a7c0807d18eec41b41c6ca9c6
 
-                                    Hotel hotel = new Hotel(ID, nombre, ciudad, estrellas);
-                                    config.registrarHotel(hotel);
-                                    p1.guardarConfig(config);
-                                }
-                                case 4 -> {
-                                    if (config.noHayHoteles()) {
-                                        System.out.println("No hay hoteles registrados.");
-                                    } else {
-                                        config.mostrarHoteles();
-                                        scan.nextLine();
-                                        System.out.println("Escoge el ID del hotel: ");
-                                        String opcID = scan.nextLine();
-
-                                        String nombre = config.buscarHotel(opcID, 1);
-                                        String ciudad = config.buscarHotel(opcID, 2);
-                                        int estrellas = Integer.parseInt(config.buscarHotel(opcID, 3));
-
-                                        System.out.println("Ingrese el numero del cuarto: ");
-                                        int numero = Integer.parseInt(scan.next());
-                                        System.out.println("Ingrese el piso del cuarto: ");
-                                        int piso = Integer.parseInt(scan.next());
-                                        System.out.println("Ingrese si el cuarto esta ocupado:");
-                                        boolean ocupado = Boolean.parseBoolean(scan.next());
-
-                                        Cuarto cuarto = new Cuarto(opcID, nombre, ciudad, estrellas, numero, piso, ocupado);
-                                        config.registrarCuarto(cuarto);
-                                        p1.guardarConfig(config);
+                                            Cuarto cuarto = new Cuarto(nombreH, ciudad, estrellas, numero, piso, ocupado);
+                                            config.registrarCuarto(cuarto);
+                                            p1.guardarConfig(config);
+                                        }
                                     }
-                                }
-                                case 5 -> {
-                                    if (config.noHayHoteles()) {
-                                        System.out.println("No hay hoteles registrados.");
-                                    } else {
-                                        System.out.println("Lista de hoteles registrados:");
-                                        config.mostrarHoteles();
-                                        scan.nextLine();
-                                        System.out.println("Escoge el ID del hotel: ");
-                                        String opcID = scan.nextLine();
-                                        String nombre = config.buscarHotel(opcID, 1);
-                                        String ciudad = config.buscarHotel(opcID, 2);
-                                        int estrellas = Integer.parseInt(config.buscarHotel(opcID, 3));
+                                    case 5 -> {
+                                        if (config.noHayHoteles()) {
+                                            System.out.println("No hay hoteles registrados.");
+                                        }
+                                        else {
+                                            System.out.println("Lista de hoteles registrados:");
+                                            config.mostrarHoteles();
+                                            scan.nextLine();
+                                            System.out.println("Escoge el nombre del hotel: ");
+                                            String nombreH = scan.nextLine();
+                                            String ciudad = config.buscarHotel(nombreH, 1);
+                                            int estrellas = Integer.parseInt(config.buscarHotel(nombreH, 2));
 
-                                        System.out.println("Numero de pisos: ");
-                                        int numP = scan.nextInt();
-                                        System.out.println("Numero de cuartos por piso: ");
-                                        int numC = scan.nextInt();
-                                        config.autoGenerarCuartos(opcID, nombre, ciudad, estrellas, numC, numP);
+                                            System.out.println("Numero de pisos: ");
+                                            int numP = scan.nextInt();
+                                            System.out.println("Numero de cuartos por piso: ");
+                                            int numC = scan.nextInt();
+                                            config.autoGenerarCuartos(nombreH, ciudad, estrellas, numC, numP);
+                                        }
                                     }
-                                }
-                                default -> salir = true;
+                                    default -> salir = true;
                             }
                         }
                     }
-                default -> salir = true;
                 }
-
-            } else{
+            }
+            else{
                 opc = menuCliente();
                 switch (opc) {
                     case 1 -> {
@@ -185,14 +155,27 @@ public class AgenciaViajes {
                         System.out.println("Ingrese su contrasena: ");
                         String contrasenaA = scan.next();
                         if (config.confirmarIngresoCliente(correoA, contrasenaA)) {
+                            String uuidCopia= config.copiarUUID(correoA);
                             System.out.println("Bienvenido.");
-                            while (!salir) {
-                                opc = menuOpcCliente();
-                                switch (opc) {
-                                    case 1, 2, 3, 4: break;
-                                    case 5:
-                                        salir = true;
-                                        break;
+                            while(!salir){
+                                opc= menuOpcCliente();
+                                switch(opc){
+                                    case 1: 
+                                    break;
+                                    case 2: 
+                                    break;
+                                    case 3:
+                                        config.mostrarHoteles();
+                                        System.out.println("Ingrese el nombre del hotel: ");
+                                        String nHotel= scan.next();
+                                        Cuarto cu= new Cuarto(nHotel, "", 0, 0, 0, false);
+                                        config.reservarCuarto(cu);
+                                        p.guardarConfig(config);
+                                    break;
+                                    case 4:
+                                    break;
+                                    case 5: salir=true;
+                                    break;
                                 }
                             }
                         }
@@ -231,7 +214,7 @@ public class AgenciaViajes {
     }
 
     public static int menuOpcCliente() {
-        System.out.println("1. Realizar reserva de transporte");
+        System.out.println("1. Realizar reserva de transporte (en proceso)");
         System.out.println("2. Cancelar reserva de transporte (en proceso)");
         System.out.println("3. Realizar reserva de hotel (en proceso)");
         System.out.println("4. Cancelar reserva de hotel (en proceso)");

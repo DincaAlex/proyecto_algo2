@@ -80,5 +80,6 @@ public class JSONConfigFileUsuarios implements Persistance{
             config.registrarCliente(cl);
         }
     }
+
 }
 
