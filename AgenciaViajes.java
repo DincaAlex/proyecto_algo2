@@ -62,11 +62,11 @@ public class AgenciaViajes {
                             if (!config.confirmarIngresoAdmin(correoA, contrasenaA)) {
                                 System.out.println("No se encontró el usuario. Desea intentar de nuevo? [S/N]: ");
                                 continuar = scan.next();
+                                if(continuar=="N"|| continuar== "n"){
+                                    break;
+                                }
                             }
                         } while (continuar.equalsIgnoreCase("s"));
-                        if (!continuar.equalsIgnoreCase("s")) {
-                            break;
-                        }
                         System.out.println("Bienvenido.\n");
                         while (!salir) {
                             opc = menuOpcAdmin();
