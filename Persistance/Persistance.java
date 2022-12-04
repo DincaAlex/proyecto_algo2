@@ -1,7 +1,7 @@
 package Persistance;
-import processes.SistemaConfig;
+import processes.ConfigUsers;
 
 public interface Persistance {
-    void guardarConfig(SistemaConfig config);
-    void leerConfig(SistemaConfig config);
+    void guardarConfig(ConfigUsers config);
+    void leerConfig(ConfigUsers config);
 }

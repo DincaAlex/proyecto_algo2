@@ -6,20 +6,21 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import processes.SistemaConfig;
+
+import processes.ConfigHoteles;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONConfigFileHoteles implements Persistance {
+public class JSONConfigFileHoteles implements HotelPersistance {
     String nombreArchivo;
 
     public JSONConfigFileHoteles() {
         this.nombreArchivo = "Hoteles.json";
     }
 
-    public void guardarConfig(SistemaConfig config) {
+    public void guardarConfig(ConfigHoteles config) {
         JSONObject JSONConfig = new JSONObject();
         JSONConfig.put("hoteles", config.hotelesToJSON());
         JSONConfig.put("cuartos", config.cuartosToJSON());
@@ -33,7 +34,7 @@ public class JSONConfigFileHoteles implements Persistance {
         }
     }
 
-    public void leerConfig (SistemaConfig config) {
+    public void leerConfig (ConfigHoteles config) {
         JSONParser parser = new JSONParser();
         try {
             FileReader reader = new FileReader(this.nombreArchivo); // lectura del archivo
@@ -46,7 +47,7 @@ public class JSONConfigFileHoteles implements Persistance {
         }
     }
 
-    private void LeerHoteles (JSONObject jsonObject, SistemaConfig config) {
+    private void LeerHoteles (JSONObject jsonObject, ConfigHoteles config) {
         JSONArray hotelesJSONArray = (JSONArray) jsonObject.get("hoteles");
 
         if (hotelesJSONArray == null )
@@ -61,7 +62,7 @@ public class JSONConfigFileHoteles implements Persistance {
         }
     }
 
-    private void LeerCuartos (JSONObject jsonObject, SistemaConfig config) {
+    private void LeerCuartos (JSONObject jsonObject, ConfigHoteles config) {
         JSONArray cuartosJSONArray = (JSONArray) jsonObject.get("cuartos");
 
         if (cuartosJSONArray == null )

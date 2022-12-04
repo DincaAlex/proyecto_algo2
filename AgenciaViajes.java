@@ -1,3 +1,4 @@
+import Persistance.HotelPersistance;
 import Persistance.JSONConfigFileHoteles;
 import Persistance.JSONConfigFileUsuarios;
 import Persistance.Persistance;
@@ -5,7 +6,8 @@ import entities.Admin;
 import entities.Cliente;
 import entities.Cuarto;
 import entities.Hotel;
-import processes.SistemaConfig;
+import processes.ConfigHoteles;
+import processes.ConfigUsers;
 
 import java.util.Scanner;
 
@@ -14,7 +16,8 @@ public class AgenciaViajes {
         int opc;
         boolean salir = false;
         String continuar;
-        SistemaConfig config = new SistemaConfig();
+        ConfigUsers config = new ConfigUsers();
+        ConfigHoteles config2= new ConfigHoteles();
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Bienvenido al sistema de Agencia de viajes\n");
@@ -23,8 +26,8 @@ public class AgenciaViajes {
 
         Persistance p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
-        Persistance p1 = new JSONConfigFileHoteles();
-        p1.leerConfig(config);
+        HotelPersistance p1 = new JSONConfigFileHoteles();
+        p1.leerConfig(config2);
 
         while (!salir) {
             if (user == 1) {
@@ -83,20 +86,20 @@ public class AgenciaViajes {
                                     System.out.println("Ingrese las estrellas:");
                                     int estrellas = Integer.parseInt(scan.next());
                                         Hotel hotel = new Hotel(nombre, ciudad, estrellas);
-                                        config.registrarHotel(hotel);
-                                        p1.guardarConfig(config);
+                                        config2.registrarHotel(hotel);
+                                        p1.guardarConfig(config2);
                                     }
                                     case 4 -> {
-                                        if (config.noHayHoteles()) {
+                                        if (config2.noHayHoteles()) {
                                             System.out.println("No hay hoteles registrados.");
                                         }
                                         else {
-                                            config.mostrarHoteles();
+                                            config2.mostrarHoteles();
                                             scan.nextLine();
                                             System.out.println("Escoge el nombre del hotel: ");
                                             String nombreH = scan.nextLine();
-                                            String ciudad = config.buscarHotel(nombreH, 1);
-                                            int estrellas = Integer.parseInt(config.buscarHotel(nombreH, 2));
+                                            String ciudad = config2.buscarHotel(nombreH, 1);
+                                            int estrellas = Integer.parseInt(config2.buscarHotel(nombreH, 2));
 
                                             System.out.println("Ingrese el numero del cuarto: ");
                                             int numero = Integer.parseInt(scan.next());
@@ -106,28 +109,29 @@ public class AgenciaViajes {
                                             boolean ocupado = Boolean.parseBoolean(scan.next());
 
                                             Cuarto cuarto = new Cuarto(nombreH, ciudad, estrellas, numero, piso, ocupado, "");
-                                            config.registrarCuarto(cuarto);
-                                            p1.guardarConfig(config);
+                                            config2.registrarCuarto(cuarto);
+                                            p1.guardarConfig(config2);
                                         }
                                     }
                                     case 5 -> {
-                                        if (config.noHayHoteles()) {
+                                        if (config2.noHayHoteles()) {
                                             System.out.println("No hay hoteles registrados.");
                                         }
                                         else {
                                             System.out.println("Lista de hoteles registrados:");
-                                            config.mostrarHoteles();
+                                            config2.mostrarHoteles();
                                             scan.nextLine();
                                             System.out.println("Escoge el nombre del hotel: ");
                                             String nombreH = scan.nextLine();
-                                            String ciudad = config.buscarHotel(nombreH, 1);
-                                            int estrellas = Integer.parseInt(config.buscarHotel(nombreH, 2));
+                                            String ciudad = config2.buscarHotel(nombreH, 1);
+                                            int estrellas = Integer.parseInt(config2.buscarHotel(nombreH, 2));
 
                                             System.out.println("Numero de pisos: ");
                                             int numP = scan.nextInt();
                                             System.out.println("Numero de cuartos por piso: ");
                                             int numC = scan.nextInt();
-                                            config.autoGenerarCuartos(nombreH, ciudad, estrellas, numC, numP);
+                                            config2.autoGenerarCuartos(nombreH, ciudad, estrellas, numC, numP);
+                                            p1.guardarConfig(config2);
                                         }
                                     }
                                     default -> salir = true;
@@ -168,12 +172,12 @@ public class AgenciaViajes {
                                     case 2: 
                                     break;
                                     case 3:
-                                        config.mostrarHoteles();
+                                        config2.mostrarHoteles();
                                         System.out.println("Ingrese el nombre del hotel: ");
                                         String nHotel= scan.next();
                                         Cuarto cu= new Cuarto(nHotel, "", 0, 0, 0, false, "");
-                                        config.reservarCuarto(cu, copiaUUID);
-                                        p1.guardarConfig(config);
+                                        config2.reservarCuarto(cu, copiaUUID);
+                                        p1.guardarConfig(config2);
                                     break;
                                     case 4:
                                     break;

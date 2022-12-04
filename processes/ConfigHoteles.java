@@ -1,127 +1,26 @@
 package processes;
 
-import Persistance.Persistance;
-import Persistance.JSONConfigFileHoteles;
-import entities.Admin;
-import entities.Cliente;
-import entities.Cuarto;
-import entities.Hotel;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import java.util.Enumeration;
 import java.util.Objects;
 import java.util.Vector;
 
-public class SistemaConfig
-{
-    private Vector<Admin> admins;
-    private Vector<Cliente> clientes;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import Persistance.HotelPersistance;
+import Persistance.JSONConfigFileHoteles;
+import entities.Cuarto;
+import entities.Hotel;
+
+public class ConfigHoteles {
     private Vector<Hotel> hoteles;
     private Vector<Cuarto> cuartos;
-
-    public SistemaConfig () {
-        this.admins = new Vector<>();
-        this.clientes = new Vector<>();
+    
+    public ConfigHoteles(){
         this.hoteles = new Vector<>();
         this.cuartos = new Vector<>();
     }
     
-
-    public void registrarAdmin(Admin admin) {
-        Enumeration<Admin> adm= this.admins.elements();
-        while(adm.hasMoreElements()) {
-            Admin a= adm.nextElement();
-            if(admin.mostrarCorreo().equals(a.mostrarCorreo())) {
-                System.out.println("Correo ya utilizado con anterioridad,no se ha creado una nueva cuenta de administrador.");
-                return;
-            }
-        }
-        this.admins.add((Admin) admin);
-    }
-
-    public void registrarCliente (Cliente cliente) {
-        Enumeration<Cliente> cl= this.clientes.elements();
-        while (cl.hasMoreElements()) {
-            Cliente c= cl.nextElement();
-            if (cliente.mostrarCorreo().equals(c.mostrarCorreo())) {
-                System.out.println("Correo ya utilizado con anterioridad, no se ha creado una nueva cuenta.");
-                return;
-            }
-        }
-        this.clientes.add((Cliente) cliente);
-    }
-
-    public boolean confirmarIngresoAdmin (String correo,String contrasena) {
-        Enumeration<Admin> adm = this.admins.elements();
-        while (adm.hasMoreElements()) {
-            Admin a = adm.nextElement();
-            if (correo.equals(a.mostrarCorreo())) {
-                if (contrasena.equals(a.mostrarContrasena())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean confirmarIngresoCliente (String correo,String contrasena) {
-        Enumeration<Cliente> enumC = this.clientes.elements();
-        while (enumC.hasMoreElements()) {
-            Cliente cl = enumC.nextElement();
-            if (correo.equals(cl.mostrarCorreo())) {
-                if (contrasena.equals(cl.mostrarContrasena())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public String copiarUUID(String correo){
-        Enumeration<Cliente> enumC = this.clientes.elements();
-        String uuidCopia="";
-        while (enumC.hasMoreElements()) {
-            Cliente cl = enumC.nextElement();
-            if (correo.equals(cl.mostrarCorreo())) {
-                uuidCopia= cl.mostrarUUID();
-            }
-        }
-        return uuidCopia;
-    }
-
-    public JSONArray adminsToJSON () {
-        JSONArray arrayAdmins = new JSONArray();
-        Enumeration<Admin> adm = this.admins.elements();
-        while(adm.hasMoreElements()) {
-            Admin a = adm.nextElement();
-            JSONObject obj = new JSONObject();
-            obj.put("correo", a.mostrarCorreo());
-            obj.put("nombres", a.mostrarNombres());
-            obj.put("apellidos", a.mostrarApellidos());
-            obj.put("contrasena", a.mostrarContrasena());
-            obj.put("uuid", a.mostrarUUID());
-            arrayAdmins.add(obj);
-        }
-        return arrayAdmins;
-    }
-
-    public JSONArray clientesToJSON () {
-        JSONArray arrayCliente = new JSONArray();
-        Enumeration<Cliente> cl = this.clientes.elements();
-        while(cl.hasMoreElements()) {
-            Cliente c = cl.nextElement();
-            JSONObject obj = new JSONObject();
-            obj.put("correo", c.mostrarCorreo());
-            obj.put("nombres", c.mostrarNombres());
-            obj.put("apellidos", c.mostrarApellidos());
-            obj.put("contrasena", c.mostrarContrasena());
-            obj.put("uuid", c.mostrarUUID());
-            arrayCliente.add(obj);
-        }
-        return arrayCliente;
-    }
-
     public void registrarHotel (Hotel hotel) {
         Enumeration<Hotel> enumH = this.hoteles.elements();
         while (enumH.hasMoreElements()) {
@@ -202,12 +101,13 @@ public class SistemaConfig
 
     public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int cuartos, int pisos ) {
         boolean ocupado = false;
-        SistemaConfig config = new SistemaConfig();
-        Persistance p = new JSONConfigFileHoteles();
+        ConfigHoteles config = new ConfigHoteles();
+        HotelPersistance p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         for (int i=1; i<=pisos; i++) {
             for (int j=1; j<= cuartos; j++){
                 Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado, "");
+                this.cuartos.add(cuarto);
                 config.registrarCuarto(cuarto);
                 p.guardarConfig(config);
             }
@@ -221,8 +121,8 @@ public class SistemaConfig
     public void mostrarHoteles () {
         int i = 1;
         Enumeration<Hotel> enu = this.hoteles.elements();
-        SistemaConfig config = new SistemaConfig();
-        Persistance p = new JSONConfigFileHoteles();
+        ConfigHoteles config = new ConfigHoteles();
+        HotelPersistance p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         while (enu.hasMoreElements()) {
             Hotel hotel = enu.nextElement();
@@ -259,4 +159,6 @@ public class SistemaConfig
         }
         return cant;
     }
+
 }
+
