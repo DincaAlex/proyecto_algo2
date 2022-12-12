@@ -107,8 +107,9 @@ public class AgenciaViajes {
                                             int piso = Integer.parseInt(scan.next());
                                             System.out.println("Ingrese si el cuarto esta ocupado:");
                                             boolean ocupado = Boolean.parseBoolean(scan.next());
-
-                                            Cuarto cuarto = new Cuarto(nombreH, ciudad, estrellas, numero, piso, ocupado, "");
+                                            int idNum= piso*100+numero;
+                                            String id= String.valueOf(idNum);
+                                            Cuarto cuarto = new Cuarto(nombreH, ciudad, estrellas, numero, piso, ocupado, "", id);
                                             config2.registrarCuarto(cuarto);
                                             p1.guardarConfig(config2);
                                         }
@@ -175,7 +176,7 @@ public class AgenciaViajes {
                                         config2.mostrarHoteles();
                                         System.out.println("Ingrese el nombre del hotel: ");
                                         String nHotel= scan.next();
-                                        Cuarto cu= new Cuarto(nHotel, "", 0, 0, 0, false, "");
+                                        Cuarto cu= new Cuarto(nHotel, "", 0, 0, 0, false, "", "");
                                         config2.reservarCuarto(cu, copiaUUID);
                                         p1.guardarConfig(config2);
                                     break;

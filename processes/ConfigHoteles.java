@@ -1,6 +1,8 @@
 package processes;
 
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -14,11 +16,11 @@ import entities.Hotel;
 
 public class ConfigHoteles {
     private Vector<Hotel> hoteles;
-    private Vector<Cuarto> cuartos;
+    private HashMap<String, Cuarto> cuartos;
     
     public ConfigHoteles(){
         this.hoteles = new Vector<>();
-        this.cuartos = new Vector<>();
+        this.cuartos = new HashMap<String, Cuarto>();
     }
     
     public void registrarHotel (Hotel hotel) {
@@ -34,37 +36,22 @@ public class ConfigHoteles {
     }
 
     public void registrarCuarto(Cuarto cuarto) {
-        Enumeration<Cuarto> enumC = this.cuartos.elements();
-        while (enumC.hasMoreElements()) {
-            Cuarto c = enumC.nextElement();
-            if (Objects.equals(cuarto.mostrarNombre(), c.mostrarNombre())) {
-                if (cuarto.mostrarPiso()==c.mostrarPiso() && cuarto.mostrarNumero()==c.mostrarNumero()){
-                    System.out.println("El cuarto ya existe.");
-                    return;
-                }
-
-            }
+        if(this.cuartos.containsKey((Object)cuarto.getID())){
+            System.out.println("El cuarto ya existe.");
+            return;
         }
-        this.cuartos.add((Cuarto) cuarto);
+        this.cuartos.put(cuarto.getID(), cuarto);
     }
 
     public void reservarCuarto(Cuarto cuarto, String uuid){
-        Enumeration<Cuarto> enumC= this.cuartos.elements();
-        while(enumC.hasMoreElements()){
-            Cuarto c= enumC.nextElement();
-            while(cuarto.mostrarNombre().equals(c.mostrarNombre())){
-                if(!cuarto.mostrarOcupado()){
-                    System.out.println("Piso: "+c.mostrarPiso()+"\nNumero: "+c.mostrarNumero());
-                    c.ocupar();
-                    c.clienteReservar(uuid);
-                    cuarto=c;
-                    this.cuartos.add((Cuarto) cuarto);
-                    this.cuartos.remove((Cuarto) c);
-                    System.out.println("Reserva realizada");
-                    return;
-                }
-            }
+        Cuarto c= this.cuartos.get(cuarto.getID());
+        if (c==null){
+            System.out.println("El cuarto no existe");
+            return;
         }
+        c.ocupar();
+        c.clienteReservar(uuid);
+        System.out.println("Reserva realizada");
     }
 
     public JSONArray hotelesToJSON () {
@@ -83,7 +70,7 @@ public class ConfigHoteles {
 
     public JSONArray cuartosToJSON () {
         JSONArray arrayCuartos = new JSONArray();
-        Enumeration<Cuarto> enumC = this.cuartos.elements();
+        Enumeration<Cuarto> enumC = Collections.enumeration(this.cuartos.values());
         while (enumC.hasMoreElements()) {
             Cuarto c = enumC.nextElement();
             JSONObject obj = new JSONObject();
@@ -99,15 +86,17 @@ public class ConfigHoteles {
         return arrayCuartos;
     }
 
-    public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int cuartos, int pisos ) {
+    public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int numCuartos, int pisos ) {
         boolean ocupado = false;
         ConfigHoteles config = new ConfigHoteles();
         HotelPersistance p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         for (int i=1; i<=pisos; i++) {
-            for (int j=1; j<= cuartos; j++){
-                Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado, "");
-                this.cuartos.add(cuarto);
+            for (int j=1; j<= numCuartos; j++){
+                int idNum= i*100+j;
+                String id= String.valueOf(idNum);
+                Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado, "", id); //Cambiar el constructor
+                this.cuartos.put(cuarto.getID(), cuarto);
                 config.registrarCuarto(cuarto);
                 p.guardarConfig(config);
             }
@@ -151,7 +140,7 @@ public class ConfigHoteles {
 
     public int contarCuartosHotel (String nombre) {
         int cant = 0;
-        Enumeration<Cuarto> enumC = this.cuartos.elements();
+        Enumeration<Cuarto> enumC = Collections.enumeration(this.cuartos.values());
         while (enumC.hasMoreElements()) {
             Cuarto cuarto = enumC.nextElement();
             if (nombre.equals(cuarto.mostrarNombre()))

@@ -41,7 +41,7 @@ public class JSONConfigFileHoteles implements HotelPersistance {
 
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             LeerHoteles(jsonObject, config);
-            LeerCuartos(jsonObject, config);
+            LeerCuartos(jsonObject, config); //Arreglar el mostrar
         } catch (ParseException | IOException e) {
             System.out.println("Exception" + e);
         }
@@ -69,6 +69,7 @@ public class JSONConfigFileHoteles implements HotelPersistance {
             return;
         for (Object o : cuartosJSONArray) {
             JSONObject cuartos = (JSONObject) o;
+            String id= (String) cuartos.get("id");
             String nombre = (String) cuartos.get("nombre");
             String ciudad = (String) cuartos.get("ciudad");
             int estrellas = (int)(long) cuartos.get("estrellas");
@@ -76,7 +77,7 @@ public class JSONConfigFileHoteles implements HotelPersistance {
             int piso = (int)(long) cuartos.get("piso");
             boolean ocupado = (boolean) cuartos.get("ocupado");
             String cReserva= (String) cuartos.get("cReserva");
-            Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, numero, piso, ocupado, cReserva);
+            Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, numero, piso, ocupado, cReserva, id);
             config.registrarCuarto(cuarto);
         }
     }
