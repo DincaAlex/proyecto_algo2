@@ -118,7 +118,7 @@ public class ConfigHoteles {
         }
     }
 
-    public Hotel buscarHotel (String nombre) {
+    public Hotel recuperarHotel(String nombre) {
         Enumeration<Hotel> enumH = Collections.enumeration(this.hoteles.values());
         String ciudad = "";
         int estrellas = -1; // error en caso de no encontrar el hotel

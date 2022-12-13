@@ -182,7 +182,7 @@ public class AgenciaViajes {
             config.mostrarHoteles();
             System.out.println("Escoge el nombre del hotel: ");
             String nombreH = scan.nextLine();
-            Hotel hotel = config.buscarHotel(nombreH);
+            Hotel hotel = config.recuperarHotel(nombreH);
             String ciudad = hotel.mostrarCiudad();
             int estrellas = hotel.mostrarEstrellas();
             System.out.println("Ingrese el numero del cuarto: ");
@@ -218,7 +218,7 @@ public class AgenciaViajes {
                 config.mostrarHoteles();
                 System.out.println("Elige el nombre del hotel: ");
                 nombreHotel = scan.nextLine();
-                Hotel hotel = config.buscarHotel(nombreHotel);
+                Hotel hotel = config.recuperarHotel(nombreHotel);
                 ciudad = hotel.mostrarCiudad();
                 estrellas = hotel.mostrarEstrellas();
 
