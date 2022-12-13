@@ -5,45 +5,38 @@ import entities.Usuario.Cliente;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Vector;
+import java.util.HashMap;
 
 public class ConfigUsuarios
 {
-    private Vector<Admin> admins;
-    private Vector<Cliente> clientes;
+    private HashMap<String, Admin> admins;
+    private HashMap<String, Cliente> clientes;
 
     public ConfigUsuarios() {
-        this.admins = new Vector<>();
-        this.clientes = new Vector<>();
+        this.admins = new HashMap<String, Admin>();
+        this.clientes = new HashMap<String, Cliente>();
     }
 
     public void registrarAdmin(Admin admin) {
-        Enumeration<Admin> adm= this.admins.elements();
-        while(adm.hasMoreElements()) {
-            Admin a= adm.nextElement();
-            if(admin.mostrarCorreo().equals(a.mostrarCorreo())) {
-                System.out.println("Correo ya utilizado con anterioridad, no se ha creado una nueva cuenta.");
-                return;
-            }
+        if(this.admins.containsKey((Object)admin.mostrarCorreo())){
+            System.out.println("Correo en uso actualmente, no se ha creado una nueva cuenta.");
+            return;
         }
-        this.admins.add((Admin) admin);
+        this.admins.put(admin.mostrarCorreo(), admin);
     }
 
     public void registrarCliente (Cliente cliente) {
-        Enumeration<Cliente> cl= this.clientes.elements();
-        while (cl.hasMoreElements()) {
-            Cliente c= cl.nextElement();
-            if (cliente.mostrarCorreo().equals(c.mostrarCorreo())) {
-                System.out.println("Correo ya utilizado con anterioridad, no se ha creado una nueva cuenta.");
-                return;
-            }
+        if(this.clientes.containsKey((Object)cliente.mostrarCorreo())){
+            System.out.println("Correo en uso actualmente, no se ha creado una nueva cuenta.");
+            return;
         }
-        this.clientes.add((Cliente) cliente);
+        this.clientes.put(cliente.mostrarCorreo(), cliente);
     }
 
     public boolean confirmarIngresoAdmin (String correo,String contrasena) {
-        Enumeration<Admin> adm = this.admins.elements();
+        Enumeration<Admin> adm = Collections.enumeration(this.admins.values());
         while (adm.hasMoreElements()) {
             Admin a = adm.nextElement();
             if (correo.equals(a.mostrarCorreo())) {
@@ -56,7 +49,7 @@ public class ConfigUsuarios
     }
 
     public boolean confirmarIngresoCliente (String correo,String contrasena) {
-        Enumeration<Cliente> enumC = this.clientes.elements();
+        Enumeration<Cliente> enumC = Collections.enumeration(this.clientes.values());
         while (enumC.hasMoreElements()) {
             Cliente cl = enumC.nextElement();
             if (correo.equals(cl.mostrarCorreo())) {
@@ -69,7 +62,7 @@ public class ConfigUsuarios
     }
 
     public String copiarUUID(String correo){
-        Enumeration<Cliente> enumC = this.clientes.elements();
+        Enumeration<Cliente> enumC = Collections.enumeration(this.clientes.values());
         String uuidCopia="";
         while (enumC.hasMoreElements()) {
             Cliente cl = enumC.nextElement();
@@ -82,7 +75,7 @@ public class ConfigUsuarios
 
     public JSONArray adminsToJSON () {
         JSONArray arrayAdmins = new JSONArray();
-        Enumeration<Admin> adm = this.admins.elements();
+        Enumeration<Admin> adm = Collections.enumeration(this.admins.values());
         while(adm.hasMoreElements()) {
             Admin a = adm.nextElement();
             JSONObject obj = new JSONObject();
@@ -98,7 +91,7 @@ public class ConfigUsuarios
 
     public JSONArray clientesToJSON () {
         JSONArray arrayCliente = new JSONArray();
-        Enumeration<Cliente> cl = this.clientes.elements();
+        Enumeration<Cliente> cl = Collections.enumeration(this.clientes.values());
         while(cl.hasMoreElements()) {
             Cliente c = cl.nextElement();
             JSONObject obj = new JSONObject();
