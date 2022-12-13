@@ -1,4 +1,4 @@
-package entities;
+package entities.Usuario;
 
 import java.util.UUID;
 
