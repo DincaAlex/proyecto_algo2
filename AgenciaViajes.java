@@ -46,7 +46,7 @@ public class AgenciaViajes {
             while(!salir && entradaExitosa) {
                 switch (menuOpcionesAdmin()) {
                     case 1 -> agregarRutaAdmin();
-                    case 2 -> agregarTransporteAdmin(); // agregar transporte
+                    case 2 -> agregarTransporteAdmin();
                     case 3 -> agregarHotelAdmin();
                     case 4 -> {
                         config.mostrarHoteles();
@@ -157,7 +157,7 @@ public class AgenciaViajes {
 
     public static int menuOpcionesAdmin() {
         System.out.println("1. Agregar Ruta");
-        System.out.println("2. Agregar Transporte [En construcción]");
+        System.out.println("2. Agregar Transporte");
         System.out.println("3. Agregar Hotel");
         System.out.println("4. Mostrar Hoteles");
         System.out.println("5. Agregar Cuarto");
@@ -301,7 +301,7 @@ public class AgenciaViajes {
         int minutosD= scan.nextInt();
         int segundosD= scan.nextInt();
         LocalDateTime hDestino= LocalDateTime.of(anioD, mesD, diaD, horasD, minutosD, segundosD);
-        Transporte transporte= new Transporte(tipoTransporte, empresa, calidad, hPartida, hDestino);
+        Transporte transporte= new Transporte(tipoTransporte, empresa, calidad, hPartida.toString(), hDestino.toString());
         config.registrarTransporte(transporte);
         p.guardarConfig(config);
     }

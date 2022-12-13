@@ -1,15 +1,13 @@
 package entities.Viajes;
 
-import java.time.LocalDateTime;
-
 public class Transporte {
     public String tipo;
     public String empresa;
     public String calidad;
-    public LocalDateTime horaPartida;
-    public LocalDateTime horaDestino;
+    public String horaPartida;
+    public String horaDestino;
 
-    public Transporte(String tipo, String empresa, String calidad, LocalDateTime horaPartida, LocalDateTime horaDestino){
+    public Transporte(String tipo, String empresa, String calidad, String horaPartida, String horaDestino){
         this.tipo = tipo;
         this.empresa = empresa;
         this.calidad = calidad;
@@ -29,11 +27,11 @@ public class Transporte {
         return calidad;
     }
 
-    public LocalDateTime mostrarHoraPartida() {
+    public String mostrarHoraPartida() {
         return horaPartida;
     }
 
-    public LocalDateTime mostrarHoraDestino() {
+    public String mostrarHoraDestino() {
         return horaDestino;
     }
 }
