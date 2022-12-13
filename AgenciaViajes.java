@@ -16,11 +16,9 @@ public class AgenciaViajes {
     public static void main (String[] args) {
         Scanner scan = new Scanner(System.in);
         boolean salir = false;
-
         System.out.println("Bienvenido al sistema de Agencia de viajes\n");
         System.out.println("Ingrese el tipo de usuario [Administrador/Cliente] [1/2]: ");
         int user = scan.nextInt();
-
         while (!salir) {
             if (user == 1)
                 salir = menuAdmin();
@@ -36,7 +34,6 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
-
         if (opcion==1)
             registrarAdmin();
         if (opcion==2){
@@ -64,7 +61,6 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
-
         switch (opcion) {
             case 1 -> registrarCliente();
             case 2 -> {
@@ -87,10 +83,9 @@ public class AgenciaViajes {
         ConfigUsuarios config = new ConfigUsuarios();
         PersistanceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
-        String retry;
-
+        String retryAnswer;
         do {
-            retry = "N";
+            retryAnswer = "n";
             System.out.println("Ingrese el correo con el que se registrara: ");
             String correo = scan.next();
             System.out.println("Ingrese su nombre: ");
@@ -101,8 +96,8 @@ public class AgenciaViajes {
             String contrasena = scan.next();
             if (config.confirmarIngresoAdmin(correo, contrasena)) {
                 System.out.println("El correo ya esta registrado. Desea intentar de nuevo? [S/N]: ");
-                retry = scan.next();
-                if (Objects.equals(retry, "N") || Objects.equals(retry, "n"))
+                retryAnswer = scan.next();
+                if (retryAnswer.equalsIgnoreCase("n"))
                     break;
             }
             else {
@@ -110,7 +105,7 @@ public class AgenciaViajes {
                 config.registrarAdmin(admin);
                 p.guardarConfig(config);
             }
-        } while (retry.equalsIgnoreCase("s"));
+        } while (retryAnswer.equalsIgnoreCase("s"));
     }
 
     public static boolean ingresarAdmin() {
@@ -118,10 +113,9 @@ public class AgenciaViajes {
         ConfigUsuarios config = new ConfigUsuarios();
         PersistanceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
-        String retryAnswer = "";
+        String retryAnswer;
         int retryTimes = 0;
         boolean entradaExitosa = false;
-
         do {
             retryAnswer = "n";
             System.out.println("Ingrese su correo:");
@@ -165,7 +159,6 @@ public class AgenciaViajes {
         ConfigHoteles config = new ConfigHoteles();
         PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
-
         System.out.println("Ingrese el nombre del hotel: ");
         String nombre = scan.nextLine();
         System.out.println("Ingrese la ciudad: ");
@@ -182,7 +175,6 @@ public class AgenciaViajes {
         ConfigHoteles config = new ConfigHoteles();
         PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
-
         if (config.noHayHoteles()) {
             System.out.println("No hay hoteles registrados.");
         }
@@ -193,7 +185,6 @@ public class AgenciaViajes {
             Hotel hotel = config.buscarHotel(nombreH);
             String ciudad = hotel.mostrarCiudad();
             int estrellas = hotel.mostrarEstrellas();
-
             System.out.println("Ingrese el numero del cuarto: ");
             int numero = Integer.parseInt(scan.next());
             System.out.println("Ingrese el piso del cuarto: ");
@@ -213,7 +204,6 @@ public class AgenciaViajes {
         ConfigHoteles config = new ConfigHoteles();
         PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
-
         if (config.noHayHoteles()) {
             System.out.println("No hay hoteles registrados.");
         }
@@ -255,18 +245,29 @@ public class AgenciaViajes {
         ConfigUsuarios config = new ConfigUsuarios();
         PersistanceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
-
-        System.out.println("Ingrese el correo con el que se registrara: ");
-        String correo = scan.next();
-        System.out.println("Ingrese sus nombre: ");
-        String nombres = scan.next();
-        System.out.println("Ingrese sus apellido:");
-        String apellidos = scan.next();
-        System.out.println("Ingrese una contrasena:");
-        String contrasena = scan.next();
-        Cliente cliente = new Cliente(correo, nombres, apellidos, contrasena);
-        config.registrarCliente(cliente);
-        p.guardarConfig(config);
+        String retryAnswer;
+        do {
+            retryAnswer = "n";
+            System.out.println("Ingrese el correo con el que se registrara: ");
+            String correo = scan.next();
+            System.out.println("Ingrese su nombre: ");
+            String nombres = scan.next();
+            System.out.println("Ingrese su apellido:");
+            String apellidos = scan.next();
+            System.out.println("Ingrese una contrasena:");
+            String contrasena = scan.next();
+            if (config.confirmarIngresoCliente(correo, contrasena)) {
+                System.out.println("El correo ya esta registrado. Desea intentar de nuevo? [S/N]: ");
+                retryAnswer = scan.next();
+                if (retryAnswer.equalsIgnoreCase("n"))
+                    break;
+            }
+            else {
+                Cliente cliente = new Cliente(correo, nombres, apellidos, contrasena);
+                config.registrarCliente(cliente);
+                p.guardarConfig(config);
+            }
+        } while (retryAnswer.equalsIgnoreCase("s"));
     }
 
     public static String ingresarCliente() {
@@ -277,7 +278,6 @@ public class AgenciaViajes {
         String copiaUUID = "";
         String retryAnswer = "n";
         int retryTimes = 0;
-
         do {
             System.out.println("Ingrese su correo:");
             String correoA = scan.next();
@@ -320,7 +320,6 @@ public class AgenciaViajes {
         ConfigHoteles config = new ConfigHoteles();
         PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
-
         config.mostrarHoteles();
         System.out.println("Ingrese el nombre del hotel: ");
         String nHotel = scan.next();
