@@ -118,19 +118,22 @@ public class ConfigHoteles {
         }
     }
 
-    public String buscarHotel (String nombre, int num) {
-        String valor = "";
+    public Hotel buscarHotel (String nombre) {
         Enumeration<Hotel> enumH = Collections.enumeration(this.hoteles.values());
+        String ciudad = "";
+        int estrellas = -1; // error en caso de no encontrar el hotel
         while (enumH.hasMoreElements()) {
             Hotel hotel = enumH.nextElement();
             if (nombre.equals(hotel.mostrarNombre())) {
-                switch (num) {
-                    case 1 -> valor = hotel.mostrarCiudad();
-                    case 2 -> valor = String.valueOf(hotel.mostrarEstrellas());
-                }
+                ciudad = hotel.mostrarCiudad();
+                estrellas = Integer.parseInt(String.valueOf(hotel.mostrarEstrellas()));
+            }
+            else {
+                System.out.println("No se encontró el hotel.");
             }
         }
-        return valor;
+
+        return new Hotel(nombre, ciudad, estrellas);
     }
 
     public int contarCuartosHotel (String nombre) {

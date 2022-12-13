@@ -40,21 +40,45 @@ public class AgenciaViajes {
         if (opcion==1)
             registrarAdmin();
         if (opcion==2){
-            if (ingresarAdmin()) {
-                while(!salir) {
-                    switch (menuOpcionesAdmin()) {
-                        case 1, 2 -> System.out.println("Menu en construcción.");
-                        case 3 -> agregarHotelAdmin();
-                        case 4 -> agregarCuartoAdmin();
-                        case 5 -> autogenerarCuartosAdmin();
-                        default -> salir = true;
-                    }
+            boolean entradaExitosa = ingresarAdmin();
+            while(!salir && entradaExitosa) {
+                switch (menuOpcionesAdmin()) {
+                    case 1, 2 -> System.out.println("Menu en construcción.");
+                    case 3 -> agregarHotelAdmin();
+                    case 4 -> agregarCuartoAdmin();
+                    case 5 -> autogenerarCuartosAdmin();
+                    default -> salir = true;
                 }
             }
         }
         else
             salir = true;
 
+        return salir;
+    }
+
+    public static boolean menuCliente() {
+        System.out.println("1. Registrar cliente");
+        System.out.println("2. Ingresar como cliente");
+        System.out.println("3. Salir");
+        Scanner scan = new Scanner(System.in);
+        int opcion = scan.nextInt();
+        boolean salir = false;
+
+        switch (opcion) {
+            case 1 -> registrarCliente();
+            case 2 -> {
+                String UUID = ingresarCliente();
+                while (!salir && !Objects.equals(UUID, "null")) {
+                    switch (menuOpcionesCliente()) {
+                        case 1,2,4,5 -> System.out.println("Menu en construcción");
+                        case 3 -> reservarHotelCliente(UUID);
+                        default -> salir = true;
+                    }
+                }
+            }
+            default -> salir = true;
+        }
         return salir;
     }
 
@@ -94,26 +118,34 @@ public class AgenciaViajes {
         ConfigUsuarios config = new ConfigUsuarios();
         PersistanceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
-        String retry;
+        String retryAnswer = "";
+        int retryTimes = 0;
         boolean entradaExitosa = false;
 
         do {
-            retry = "N";
+            retryAnswer = "n";
             System.out.println("Ingrese su correo:");
             String correoA = scan.next();
             System.out.println("Ingrese su contrasena: ");
             String contrasenaA = scan.next();
             if (!config.confirmarIngresoAdmin(correoA, contrasenaA)) {
                 System.out.println("No se encontró el usuario. Desea intentar de nuevo? [S/N]: ");
-                retry = scan.next();
-                if (Objects.equals(retry, "N") || Objects.equals(retry, "n"))
+                retryAnswer = scan.next();
+                if (retryAnswer.equalsIgnoreCase("n"))
                     break;
+                if (retryTimes>=3) {
+                    System.out.println("Excedió el número máximo de intentos.");
+                    retryAnswer = "n";
+                    break;
+                }
+                if (retryAnswer.equalsIgnoreCase("s"))
+                    retryTimes++;
             }
             else {
                 entradaExitosa = true;
                 System.out.println("Bienvenido.\n");
             }
-        } while (retry.equalsIgnoreCase("s"));
+        } while (retryAnswer.equalsIgnoreCase("s"));
         return entradaExitosa;
     }
 
@@ -158,8 +190,9 @@ public class AgenciaViajes {
             config.mostrarHoteles();
             System.out.println("Escoge el nombre del hotel: ");
             String nombreH = scan.nextLine();
-            String ciudad = config.buscarHotel(nombreH, 1);
-            int estrellas = Integer.parseInt(config.buscarHotel(nombreH, 2));
+            Hotel hotel = config.buscarHotel(nombreH);
+            String ciudad = hotel.mostrarCiudad();
+            int estrellas = hotel.mostrarEstrellas();
 
             System.out.println("Ingrese el numero del cuarto: ");
             int numero = Integer.parseInt(scan.next());
@@ -185,45 +218,36 @@ public class AgenciaViajes {
             System.out.println("No hay hoteles registrados.");
         }
         else {
-            System.out.println("Lista de hoteles registrados:");
-            config.mostrarHoteles();
-            System.out.println("Escoge el nombre del hotel: ");
-            String nombreH = scan.nextLine();
-            String ciudad = config.buscarHotel(nombreH, 1);
-            int estrellas = Integer.parseInt(config.buscarHotel(nombreH, 2));
+            String ciudad;
+            int estrellas;
+            String nombreHotel;
+            String retry;
+            do {
+                retry = "N";
+                System.out.println("Lista de hoteles registrados:");
+                config.mostrarHoteles();
+                System.out.println("Elige el nombre del hotel: ");
+                nombreHotel = scan.nextLine();
+                Hotel hotel = config.buscarHotel(nombreHotel);
+                ciudad = hotel.mostrarCiudad();
+                estrellas = hotel.mostrarEstrellas();
 
-            System.out.println("Numero de pisos: ");
-            int numP = scan.nextInt();
-            System.out.println("Numero de cuartos por piso: ");
-            int numC = scan.nextInt();
-            config.autoGenerarCuartos(nombreH, ciudad, estrellas, numC, numP);
-            p.guardarConfig(config);
-        }
-    }
-
-    public static boolean menuCliente() {
-        System.out.println("1. Registrar cliente");
-        System.out.println("2. Ingresar como cliente");
-        System.out.println("3. Salir");
-        Scanner scan = new Scanner(System.in);
-        int opcion = scan.nextInt();
-        boolean salir = false;
-
-        switch (opcion) {
-            case 1 -> registrarCliente();
-            case 2 -> {
-                String UUID = ingresarCliente();
-                while (!salir) {
-                    switch (menuOpcionesCliente()) {
-                        case 1,2,4,5 -> System.out.println("Menu en construcción");
-                        case 3 -> reservarHotelCliente(UUID);
-                        default -> salir = true;
-                    }
+                if (estrellas==-1) { // error para el caso en que lo ingresado no se encuentra
+                    System.out.println("Desea intentar de nuevo? [S/N]: ");
+                    retry = scan.next();
+                    if (retry.equalsIgnoreCase("n"))
+                        break;
                 }
-            }
-            default -> salir = true;
+                else {
+                    System.out.println("Numero de pisos: ");
+                    int numP = scan.nextInt();
+                    System.out.println("Numero de cuartos por piso: ");
+                    int numC = scan.nextInt();
+                    config.autoGenerarCuartos(nombreHotel, ciudad, estrellas, numC, numP);
+                    p.guardarConfig(config);
+                }
+            } while (retry.equalsIgnoreCase("s"));
         }
-        return salir;
     }
 
     public static void registrarCliente() {
@@ -250,19 +274,34 @@ public class AgenciaViajes {
         ConfigUsuarios config = new ConfigUsuarios();
         PersistanceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
-        String copiaUUID;
+        String copiaUUID = "";
+        String retryAnswer = "n";
+        int retryTimes = 0;
 
-        System.out.println("Ingrese su correo:");
-        String correoA = scan.next();
-        System.out.println("Ingrese su contrasena: ");
-        String contrasenaA = scan.next();
-        if (config.confirmarIngresoCliente(correoA, contrasenaA)) {
-            System.out.println("Bienvenido.");
-            copiaUUID = config.copiarUUID(correoA);
-        }
-        else {
-            copiaUUID = "null"; // en caso de no encontrar el usuario
-        }
+        do {
+            System.out.println("Ingrese su correo:");
+            String correoA = scan.next();
+            System.out.println("Ingrese su contrasena: ");
+            String contrasenaA = scan.next();
+            if (!config.confirmarIngresoCliente(correoA, contrasenaA)) {
+                System.out.println("No se encontró el usuario.\n");
+                System.out.println("Desea intentar de nuevo? [S/N]: ");
+                retryAnswer = scan.next();
+                if (retryAnswer.equalsIgnoreCase("n"))
+                    break;
+                if (retryTimes>=3) {
+                    System.out.println("Excedió el número máximo de intentos.");
+                    retryAnswer = "n";
+                    break;
+                }
+                if (retryAnswer.equalsIgnoreCase("s"))
+                    retryTimes++;
+            }
+            else {
+                System.out.println("Bienvenido.");
+                copiaUUID = config.copiarUUID(correoA);
+            }
+        } while (retryAnswer.equalsIgnoreCase("s"));
         return copiaUUID;
     }
 
