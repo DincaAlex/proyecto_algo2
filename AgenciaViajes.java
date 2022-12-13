@@ -342,7 +342,7 @@ public class AgenciaViajes {
         p.leerConfig(config);
         config.mostrarHoteles();
         System.out.println("Ingrese el nombre del hotel: ");
-        String nHotel = scan.next();
+        String nHotel = scan.nextLine();
         Cuarto cu = new Cuarto(nHotel, "", 0, 0, 0, false, "", "");
         config.reservarCuarto(cu, UUID);
         p.guardarConfig(config);

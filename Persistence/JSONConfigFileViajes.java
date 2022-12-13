@@ -11,6 +11,7 @@ import processes.ConfigViajes;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 public class JSONConfigFileViajes {
     private String nombreArchivo;
@@ -73,8 +74,8 @@ public class JSONConfigFileViajes {
             String tipo = (String) transporte.get("tipo");
             String empresa = (String) transporte.get("empresa");
             String calidad = (String) transporte.get("calidad");
-            int horaPartida = (Integer) transporte.get("hora-partida");
-            int horaDestino = (Integer) transporte.get("hora-llegada");
+            Date horaPartida = (Date) transporte.get("hora-partida");
+            Date horaDestino = (Date) transporte.get("hora-llegada");
             Transporte trans = new Transporte(tipo, empresa, calidad, horaPartida, horaDestino);
             config.registrarTransporte(trans);
         }

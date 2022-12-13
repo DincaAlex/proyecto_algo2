@@ -38,14 +38,22 @@ public class ConfigHoteles {
     }
 
     public void reservarCuarto(Cuarto cuarto, String uuid){
-        Cuarto c = this.cuartos.get(cuarto.getID());
-        if (c==null) {
-            System.out.println("El cuarto no existe");
-            return;
-        }
-        c.ocupar();
-        c.clienteReservar(uuid);
-        System.out.println("Reserva realizada");
+        Enumeration<Cuarto> enumC= Collections.enumeration(this.cuartos.values());
+        while(enumC.hasMoreElements()){
+            Cuarto c= enumC.nextElement();
+            while(cuarto.mostrarNombre().equals(c.mostrarNombre())){
+                if(!c.mostrarOcupado()){
+                    System.out.println("ID de la habitación: "+c.getID());
+                    c.ocupar();
+                    c.clienteReservar(uuid);
+                    cuarto=c;
+                    this.cuartos.remove(c.getID(), c);
+                    this.cuartos.put(cuarto.getID(), cuarto);
+                    System.out.println("Reserva realizada");
+                    return;
+                }
+            }
+        }    
     }
 
     public JSONArray hotelesToJSON () {
