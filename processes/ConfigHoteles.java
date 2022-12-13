@@ -15,24 +15,20 @@ import entities.Cuarto;
 import entities.Hotel;
 
 public class ConfigHoteles {
-    private Vector<Hotel> hoteles;
+    private HashMap<String, Hotel> hoteles;
     private HashMap<String, Cuarto> cuartos;
     
     public ConfigHoteles(){
-        this.hoteles = new Vector<>();
+        this.hoteles = new HashMap<String, Hotel>();
         this.cuartos = new HashMap<String, Cuarto>();
     }
     
     public void registrarHotel (Hotel hotel) {
-        Enumeration<Hotel> enumH = this.hoteles.elements();
-        while (enumH.hasMoreElements()) {
-            Hotel h = enumH.nextElement();
-            if (hotel.mostrarNombre().equals(h.mostrarNombre())) {
-                System.out.println("El hotel ya esta registrado.");
-                return;
-            }
+        if(this.hoteles.containsKey((Object)hotel.mostrarNombre())){
+            System.out.println("El hotel ya esta registrado.");
+            return;
         }
-        this.hoteles.add((Hotel) hotel);
+        this.hoteles.put(hotel.mostrarNombre(), hotel);
     }
 
     public void registrarCuarto(Cuarto cuarto) {
@@ -56,7 +52,7 @@ public class ConfigHoteles {
 
     public JSONArray hotelesToJSON () {
         JSONArray arrayHoteles = new JSONArray();
-        Enumeration<Hotel> enumH = this.hoteles.elements();
+        Enumeration<Hotel> enumH = Collections.enumeration(this.hoteles.values());
         while (enumH.hasMoreElements()) {
             Hotel h = enumH.nextElement();
             JSONObject obj = new JSONObject();
@@ -109,7 +105,7 @@ public class ConfigHoteles {
 
     public void mostrarHoteles () {
         int i = 1;
-        Enumeration<Hotel> enu = this.hoteles.elements();
+        Enumeration<Hotel> enu = Collections.enumeration(this.hoteles.values());
         ConfigHoteles config = new ConfigHoteles();
         HotelPersistance p = new JSONConfigFileHoteles();
         p.leerConfig(config);
@@ -123,16 +119,12 @@ public class ConfigHoteles {
         }
     }
 
-    public String buscarHotel (String nombre, int num) {
-        Enumeration<Hotel> enumH = this.hoteles.elements();
+    public String buscarHotel (String nombre, int num, Hotel hotel) {
         String valor = "";
-        while (enumH.hasMoreElements()) {
-            Hotel hotel = enumH.nextElement();
-            if (nombre.equals(hotel.mostrarNombre())) {
-                switch (num) {
-                    case 1 -> valor = hotel.mostrarCiudad();
-                    case 2 -> valor = String.valueOf(hotel.mostrarEstrellas());
-                }
+        if(this.hoteles.containsKey((Object)hotel.mostrarNombre())){
+            switch (num) {
+                case 1 -> valor = hotel.mostrarCiudad();
+                case 2 -> valor = String.valueOf(hotel.mostrarEstrellas());
             }
         }
         return valor;
