@@ -13,7 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONConfigFileHoteles implements PersistanceHoteles {
+public class JSONConfigFileHoteles implements PersistenceHoteles {
     String nombreArchivo;
 
     public JSONConfigFileHoteles() {

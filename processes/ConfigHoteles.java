@@ -8,7 +8,7 @@ import entities.Hotel.Cuarto;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import Persistence.PersistanceHoteles;
+import Persistence.PersistenceHoteles;
 import Persistence.JSONConfigFileHoteles;
 import entities.Hotel.Hotel;
 
@@ -84,7 +84,7 @@ public class ConfigHoteles {
     public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int numCuartos, int pisos) {
         boolean ocupado = false;
         ConfigHoteles config = new ConfigHoteles();
-        PersistanceHoteles p = new JSONConfigFileHoteles();
+        PersistenceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         for (int i=1; i<=pisos; i++) {
             for (int j=1; j<= numCuartos; j++){
@@ -106,7 +106,7 @@ public class ConfigHoteles {
         int i = 1;
         Enumeration<Hotel> enu = Collections.enumeration(this.hoteles.values());
         ConfigHoteles config = new ConfigHoteles();
-        PersistanceHoteles p = new JSONConfigFileHoteles();
+        PersistenceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         while (enu.hasMoreElements()) {
             Hotel hotel = enu.nextElement();

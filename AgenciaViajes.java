@@ -1,13 +1,12 @@
-import Persistence.PersistanceHoteles;
-import Persistence.JSONConfigFileHoteles;
-import Persistence.JSONConfigFileUsuarios;
-import Persistence.PersistenceUsuarios;
+import Persistence.*;
 import entities.Hotel.Cuarto;
 import entities.Hotel.Hotel;
 import entities.Usuario.Admin;
 import entities.Usuario.Cliente;
+import entities.Viajes.Ruta;
 import processes.ConfigHoteles;
 import processes.ConfigUsuarios;
+import processes.ConfigViajes;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -44,6 +43,7 @@ public class AgenciaViajes {
                     case 3 -> agregarHotelAdmin();
                     case 4 -> agregarCuartoAdmin();
                     case 5 -> autogenerarCuartosAdmin();
+                    case 6 -> agregarRutaAdmin();
                     default -> salir = true;
                 }
             }
@@ -149,7 +149,8 @@ public class AgenciaViajes {
         System.out.println("3. Agregar Hotel");
         System.out.println("4. Agregar Cuarto");
         System.out.println("5. Autogenerar Cuartos");
-        System.out.println("6. Salir");
+        System.out.println("6. Agregar Ruta");
+        System.out.println("7. Salir");
         Scanner scan = new Scanner(System.in);
         return scan.nextInt();
     }
@@ -157,7 +158,7 @@ public class AgenciaViajes {
     public static void agregarHotelAdmin() {
         Scanner scan = new Scanner(System.in);
         ConfigHoteles config = new ConfigHoteles();
-        PersistanceHoteles p = new JSONConfigFileHoteles();
+        PersistenceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         System.out.println("Ingrese el nombre del hotel: ");
         String nombre = scan.nextLine();
@@ -173,7 +174,7 @@ public class AgenciaViajes {
     public static void agregarCuartoAdmin() {
         Scanner scan = new Scanner(System.in);
         ConfigHoteles config = new ConfigHoteles();
-        PersistanceHoteles p = new JSONConfigFileHoteles();
+        PersistenceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         if (config.noHayHoteles()) {
             System.out.println("No hay hoteles registrados.");
@@ -202,7 +203,7 @@ public class AgenciaViajes {
     public static void autogenerarCuartosAdmin() {
         Scanner scan = new Scanner(System.in);
         ConfigHoteles config = new ConfigHoteles();
-        PersistanceHoteles p = new JSONConfigFileHoteles();
+        PersistenceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         if (config.noHayHoteles()) {
             System.out.println("No hay hoteles registrados.");
@@ -238,6 +239,25 @@ public class AgenciaViajes {
                 }
             } while (retry.equalsIgnoreCase("s"));
         }
+    }
+
+    public static void agregarRutaAdmin() {
+        Scanner scan = new Scanner(System.in);
+        ConfigViajes config = new ConfigViajes();
+        JSONConfigFileViajes p = new JSONConfigFileViajes();
+        p.leerConfig(config);
+
+        System.out.println("Ingrese el ID de la ruta: ");
+        String ID = scan.next();
+        System.out.println("Ingrese la ciudad de partida: ");
+        String ciudadPartida = scan.next();
+        System.out.println("Ingrese la ciudad de destino:");
+        String ciudadDestino = scan.next();
+        System.out.println("Ingrese el tipo de transporte:");
+        String transporte = scan.next();
+        Ruta ruta = new Ruta(ID, ciudadPartida, ciudadDestino, transporte);
+        config.registrarRuta(ruta);
+        p.guardarConfig(config);
     }
 
     public static void registrarCliente() {
@@ -318,7 +338,7 @@ public class AgenciaViajes {
     public static void reservarHotelCliente(String UUID) {
         Scanner scan = new Scanner(System.in);
         ConfigHoteles config = new ConfigHoteles();
-        PersistanceHoteles p = new JSONConfigFileHoteles();
+        PersistenceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         config.mostrarHoteles();
         System.out.println("Ingrese el nombre del hotel: ");
