@@ -6,19 +6,39 @@ public class Transporte {
     public String tipo;
     public String empresa;
     public String calidad;
-    public int horaP;
-    public int horaL;
+    public int horaPartida;
+    public int horaDestino;
 
-    public Transporte(String tipo, String empresa, String calidad, int horaP, int horaL){
-        this.tipo=tipo;
-        this.empresa=empresa;
-        this.calidad=calidad;
-        this.horaP=horaP;
-        this.horaL=horaL;
+    public Transporte(String tipo, String empresa, String calidad, int horaPartida, int horaDestino){
+        this.tipo = tipo;
+        this.empresa = empresa;
+        this.calidad = calidad;
+        this.horaPartida = horaPartida;
+        this.horaDestino = horaDestino;
     }
 
-    public void reservaTransporte(){
-        System.out.println("Eliga la calidad del bus: \n1.PRIMERA_CLASE  \n2.SEGUNDA_CLASE  \n3.ECONOMICO\n");
+    public String mostrarTipo() {
+        return tipo;
+    }
+
+    public String mostrarEmpresa() {
+        return empresa;
+    }
+
+    public String mostrarCalidad() {
+        return calidad;
+    }
+
+    public int mostrarHoraPartida() {
+        return horaPartida;
+    }
+
+    public int mostrarHoraDestino() {
+        return horaDestino;
+    }
+
+    public void reservaTransporte() {
+        System.out.println("Elegir la calidad del bus: \n1.PRIMERA_CLASE  \n2.SEGUNDA_CLASE  \n3.ECONOMICO\n");
         Scanner c = new Scanner(System.in);
         int cal = c.nextInt();
         switch (cal) {
