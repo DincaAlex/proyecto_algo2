@@ -40,8 +40,8 @@ public class ConfigHoteles {
     }
 
     public void reservarCuarto(Cuarto cuarto, String uuid){
-        Cuarto c= this.cuartos.get(cuarto.getID());
-        if (c==null){
+        Cuarto c = this.cuartos.get(cuarto.getID());
+        if (c==null) {
             System.out.println("El cuarto no existe");
             return;
         }
@@ -82,21 +82,21 @@ public class ConfigHoteles {
         return arrayCuartos;
     }
 
-    public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int numCuartos, int pisos ) {
+    public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int numCuartos, int pisos) {
         boolean ocupado = false;
         ConfigHoteles config = new ConfigHoteles();
         HotelPersistance p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         for (int i=1; i<=pisos; i++) {
             for (int j=1; j<= numCuartos; j++){
-                int idNum= i*100+j;
-                String id= String.valueOf(idNum);
-                Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado, "", id); //Cambiar el constructor
+                int idNum = i*100+j; // genera el ID
+                String id = String.valueOf(idNum);
+                Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado, "", id);
                 this.cuartos.put(cuarto.getID(), cuarto);
                 config.registrarCuarto(cuarto);
-                p.guardarConfig(config);
             }
         }
+        p.guardarConfig(config);
     }
 
     public boolean noHayHoteles () {
@@ -119,12 +119,16 @@ public class ConfigHoteles {
         }
     }
 
-    public String buscarHotel (String nombre, int num, Hotel hotel) {
+    public String buscarHotel (String nombre, int num) {
         String valor = "";
-        if(this.hoteles.containsKey((Object)hotel.mostrarNombre())){
-            switch (num) {
-                case 1 -> valor = hotel.mostrarCiudad();
-                case 2 -> valor = String.valueOf(hotel.mostrarEstrellas());
+        Enumeration<Hotel> enumH = Collections.enumeration(this.hoteles.values());
+        while (enumH.hasMoreElements()) {
+            Hotel hotel = enumH.nextElement();
+            if (nombre.equals(hotel.mostrarNombre())) {
+                switch (num) {
+                    case 1 -> valor = hotel.mostrarCiudad();
+                    case 2 -> valor = String.valueOf(hotel.mostrarEstrellas());
+                }
             }
         }
         return valor;
