@@ -1,4 +1,4 @@
-package entities;
+package entities.Hotel;
 
 public class Hotel {
     private String nombre;

@@ -1,4 +1,4 @@
-package entities;
+package entities.Hotel;
 
 public class Cuarto extends Hotel {
     private int numero;
