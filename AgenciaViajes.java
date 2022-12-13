@@ -4,10 +4,12 @@ import entities.Hotel.Hotel;
 import entities.Usuario.Admin;
 import entities.Usuario.Cliente;
 import entities.Viajes.Ruta;
+import entities.Viajes.Transporte;
 import processes.ConfigHoteles;
 import processes.ConfigUsuarios;
 import processes.ConfigViajes;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -44,7 +46,7 @@ public class AgenciaViajes {
             while(!salir && entradaExitosa) {
                 switch (menuOpcionesAdmin()) {
                     case 1 -> agregarRutaAdmin();
-                    case 2 -> System.out.println("Menu en construcción."); // agregar transporte
+                    case 2 -> agregarTransporteAdmin(); // agregar transporte
                     case 3 -> agregarHotelAdmin();
                     case 4 -> {
                         config.mostrarHoteles();
@@ -269,6 +271,41 @@ public class AgenciaViajes {
         config.registrarRuta(ruta);
         p.guardarConfig(config);
     }
+
+    public static void agregarTransporteAdmin(){
+        Scanner scan= new Scanner(System.in);
+        ConfigViajes config= new ConfigViajes();
+        JSONConfigFileViajes p= new JSONConfigFileViajes();
+        p.leerConfig(config);
+        System.out.println("Ingrese el tipo de transporte: ");
+        String tipoTransporte= scan.next();
+        System.out.println("Ingrese la empresa:");
+        String empresa= scan.next();
+        System.out.println("Ingrese la calidad del servicio: ");
+        String calidad= scan.next();
+        System.out.println("Ingrese el dia de partida (dd-mm-yyyy): ");
+        int diaP= scan.nextInt();
+        int mesP= scan.nextInt();
+        int anioP= scan.nextInt();
+        System.out.println("Ingrese la hora de partida (hh-mm-ss): ");
+        int horasP= scan.nextInt();
+        int minutosP= scan.nextInt();
+        int segundosP= scan.nextInt();
+        LocalDateTime hPartida= LocalDateTime.of(anioP, mesP, diaP, horasP, minutosP, segundosP);
+        System.out.println("Ingrese el dia de destino (dd-mm-yyyy): ");
+        int diaD= scan.nextInt();
+        int mesD= scan.nextInt();
+        int anioD= scan.nextInt();
+        System.out.println("Ingrese la hora de destino (hh-mm-ss): ");
+        int horasD= scan.nextInt();
+        int minutosD= scan.nextInt();
+        int segundosD= scan.nextInt();
+        LocalDateTime hDestino= LocalDateTime.of(anioD, mesD, diaD, horasD, minutosD, segundosD);
+        Transporte transporte= new Transporte(tipoTransporte, empresa, calidad, hPartida, hDestino);
+        config.registrarTransporte(transporte);
+        p.guardarConfig(config);
+    }
+
 
     public static void registrarCliente() {
         Scanner scan = new Scanner(System.in);

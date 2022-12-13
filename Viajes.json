@@ -1,1 +1,1 @@
-{"transportes":[],"rutas":[{"ciudad-destino":"Cuzco","ciudad-partida":"Lima","transporte":"avion","ID":"12345"}]}
+{"transportes":[{"tipo":"Avion","hora-llegada":2022-12-23T16:45,"hora-partida":2022-12-23T12:30,"empresa":"Volanding","calidad":"VIP"}],"rutas":[{"ciudad-destino":"Cuzco","ciudad-partida":"Lima","transporte":"avion","ID":"12345"}]}

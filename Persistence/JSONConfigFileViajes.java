@@ -11,7 +11,7 @@ import processes.ConfigViajes;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class JSONConfigFileViajes {
     private String nombreArchivo;
@@ -74,8 +74,8 @@ public class JSONConfigFileViajes {
             String tipo = (String) transporte.get("tipo");
             String empresa = (String) transporte.get("empresa");
             String calidad = (String) transporte.get("calidad");
-            Date horaPartida = (Date) transporte.get("hora-partida");
-            Date horaDestino = (Date) transporte.get("hora-llegada");
+            LocalDateTime horaPartida = (LocalDateTime) transporte.get("hora-partida");
+            LocalDateTime horaDestino = (LocalDateTime) transporte.get("hora-llegada");
             Transporte trans = new Transporte(tipo, empresa, calidad, horaPartida, horaDestino);
             config.registrarTransporte(trans);
         }
