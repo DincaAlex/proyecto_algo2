@@ -1,13 +1,13 @@
-import Persistance.HotelPersistance;
+import Persistance.PersistanceHoteles;
 import Persistance.JSONConfigFileHoteles;
 import Persistance.JSONConfigFileUsuarios;
-import Persistance.Persistance;
+import Persistance.PersistanceUsuarios;
 import entities.Admin;
 import entities.Cliente;
 import entities.Cuarto;
 import entities.Hotel;
 import processes.ConfigHoteles;
-import processes.ConfigUsers;
+import processes.ConfigUsuarios;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -60,8 +60,8 @@ public class AgenciaViajes {
 
     public static void registrarAdmin() {
         Scanner scan = new Scanner(System.in);
-        ConfigUsers config = new ConfigUsers();
-        Persistance p = new JSONConfigFileUsuarios();
+        ConfigUsuarios config = new ConfigUsuarios();
+        PersistanceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
         String retry;
 
@@ -91,8 +91,8 @@ public class AgenciaViajes {
 
     public static boolean ingresarAdmin() {
         Scanner scan = new Scanner(System.in);
-        ConfigUsers config = new ConfigUsers();
-        Persistance p = new JSONConfigFileUsuarios();
+        ConfigUsuarios config = new ConfigUsuarios();
+        PersistanceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
         String retry;
         boolean entradaExitosa = false;
@@ -131,7 +131,7 @@ public class AgenciaViajes {
     public static void agregarHotelAdmin() {
         Scanner scan = new Scanner(System.in);
         ConfigHoteles config = new ConfigHoteles();
-        HotelPersistance p = new JSONConfigFileHoteles();
+        PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
 
         System.out.println("Ingrese el nombre del hotel: ");
@@ -148,7 +148,7 @@ public class AgenciaViajes {
     public static void agregarCuartoAdmin() {
         Scanner scan = new Scanner(System.in);
         ConfigHoteles config = new ConfigHoteles();
-        HotelPersistance p = new JSONConfigFileHoteles();
+        PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
 
         if (config.noHayHoteles()) {
@@ -178,7 +178,7 @@ public class AgenciaViajes {
     public static void autogenerarCuartosAdmin() {
         Scanner scan = new Scanner(System.in);
         ConfigHoteles config = new ConfigHoteles();
-        HotelPersistance p = new JSONConfigFileHoteles();
+        PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
 
         if (config.noHayHoteles()) {
@@ -228,8 +228,8 @@ public class AgenciaViajes {
 
     public static void registrarCliente() {
         Scanner scan = new Scanner(System.in);
-        ConfigUsers config = new ConfigUsers();
-        Persistance p = new JSONConfigFileUsuarios();
+        ConfigUsuarios config = new ConfigUsuarios();
+        PersistanceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
 
         System.out.println("Ingrese el correo con el que se registrara: ");
@@ -247,8 +247,8 @@ public class AgenciaViajes {
 
     public static String ingresarCliente() {
         Scanner scan = new Scanner(System.in);
-        ConfigUsers config = new ConfigUsers();
-        Persistance p = new JSONConfigFileUsuarios();
+        ConfigUsuarios config = new ConfigUsuarios();
+        PersistanceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
         String copiaUUID;
 
@@ -279,7 +279,7 @@ public class AgenciaViajes {
     public static void reservarHotelCliente(String UUID) {
         Scanner scan = new Scanner(System.in);
         ConfigHoteles config = new ConfigHoteles();
-        HotelPersistance p = new JSONConfigFileHoteles();
+        PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
 
         config.mostrarHoteles();

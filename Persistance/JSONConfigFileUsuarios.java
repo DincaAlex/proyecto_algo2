@@ -6,20 +6,20 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import processes.ConfigUsers;
+import processes.ConfigUsuarios;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONConfigFileUsuarios implements Persistance{
+public class JSONConfigFileUsuarios implements PersistanceUsuarios {
     private String nombreArchivo;
 
     public JSONConfigFileUsuarios() {
         this.nombreArchivo = "Usuarios.json";
     }
 
-    public void guardarConfig (ConfigUsers config) {
+    public void guardarConfig (ConfigUsuarios config) {
         JSONObject JSONConfig = new JSONObject();
         JSONConfig.put("admins", config.adminsToJSON());
         JSONConfig.put("clientes", config.clientesToJSON());
@@ -34,7 +34,7 @@ public class JSONConfigFileUsuarios implements Persistance{
         }
     }
 
-    public void leerConfig (ConfigUsers config) {
+    public void leerConfig (ConfigUsuarios config) {
         JSONParser parser = new JSONParser();
         try {
             FileReader reader = new FileReader(this.nombreArchivo); // lectura del archivo
@@ -47,7 +47,7 @@ public class JSONConfigFileUsuarios implements Persistance{
         }
     }
 
-    private void LeerAdmins (JSONObject jsonObject, ConfigUsers config) {
+    private void LeerAdmins (JSONObject jsonObject, ConfigUsuarios config) {
         JSONArray adminsJSONArray = (JSONArray) jsonObject.get("admins");
 
         if ( adminsJSONArray == null )
@@ -64,7 +64,7 @@ public class JSONConfigFileUsuarios implements Persistance{
         }
     }
 
-    private void LeerClientes (JSONObject jsonObject, ConfigUsers config){
+    private void LeerClientes (JSONObject jsonObject, ConfigUsuarios config){
         JSONArray clientesJSONArray = (JSONArray) jsonObject.get("clientes");
 
         if ( clientesJSONArray == null )

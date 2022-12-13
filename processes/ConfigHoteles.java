@@ -3,13 +3,11 @@ package processes;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Objects;
-import java.util.Vector;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import Persistance.HotelPersistance;
+import Persistance.PersistanceHoteles;
 import Persistance.JSONConfigFileHoteles;
 import entities.Cuarto;
 import entities.Hotel;
@@ -86,7 +84,7 @@ public class ConfigHoteles {
     public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int numCuartos, int pisos) {
         boolean ocupado = false;
         ConfigHoteles config = new ConfigHoteles();
-        HotelPersistance p = new JSONConfigFileHoteles();
+        PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         for (int i=1; i<=pisos; i++) {
             for (int j=1; j<= numCuartos; j++){
@@ -108,7 +106,7 @@ public class ConfigHoteles {
         int i = 1;
         Enumeration<Hotel> enu = Collections.enumeration(this.hoteles.values());
         ConfigHoteles config = new ConfigHoteles();
-        HotelPersistance p = new JSONConfigFileHoteles();
+        PersistanceHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(config);
         while (enu.hasMoreElements()) {
             Hotel hotel = enu.nextElement();

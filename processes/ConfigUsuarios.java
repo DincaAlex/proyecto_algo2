@@ -8,12 +8,12 @@ import org.json.simple.JSONObject;
 import java.util.Enumeration;
 import java.util.Vector;
 
-public class ConfigUsers
+public class ConfigUsuarios
 {
     private Vector<Admin> admins;
     private Vector<Cliente> clientes;
 
-    public ConfigUsers () {
+    public ConfigUsuarios() {
         this.admins = new Vector<>();
         this.clientes = new Vector<>();
     }
