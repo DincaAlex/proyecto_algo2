@@ -27,10 +27,14 @@ public class AgenciaViajes {
     }
 
     public static boolean menuAdmin() {
+        Scanner scan = new Scanner(System.in);
+        ConfigHoteles config = new ConfigHoteles();
+        PersistenceHoteles p = new JSONConfigFileHoteles();
+        p.leerConfig(config);
+
         System.out.println("1. Registrar administrador");
         System.out.println("2. Ingresar como administrador");
         System.out.println("3. Salir");
-        Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
         if (opcion==1)
@@ -39,11 +43,17 @@ public class AgenciaViajes {
             boolean entradaExitosa = ingresarAdmin();
             while(!salir && entradaExitosa) {
                 switch (menuOpcionesAdmin()) {
-                    case 1, 2 -> System.out.println("Menu en construcción.");
+                    case 1 -> agregarRutaAdmin();
+                    case 2 -> System.out.println("Menu en construcción."); // agregar transporte
                     case 3 -> agregarHotelAdmin();
-                    case 4 -> agregarCuartoAdmin();
-                    case 5 -> autogenerarCuartosAdmin();
-                    case 6 -> agregarRutaAdmin();
+                    case 4 -> {
+                        config.mostrarHoteles();
+                        System.out.println("Presione ENTER para continuar...");
+                        scan.nextLine(); // creo que el scan.nextInt anterior está malogrando algo
+                        scan.nextLine(); // detiene el código
+                    }
+                    case 5 -> agregarCuartoAdmin();
+                    case 6 -> autogenerarCuartosAdmin();
                     default -> salir = true;
                 }
             }
@@ -144,12 +154,12 @@ public class AgenciaViajes {
     }
 
     public static int menuOpcionesAdmin() {
-        System.out.println("1. Agregar Rutas [En construcción]");
+        System.out.println("1. Agregar Ruta");
         System.out.println("2. Agregar Transporte [En construcción]");
         System.out.println("3. Agregar Hotel");
-        System.out.println("4. Agregar Cuarto");
-        System.out.println("5. Autogenerar Cuartos");
-        System.out.println("6. Agregar Ruta");
+        System.out.println("4. Mostrar Hoteles");
+        System.out.println("5. Agregar Cuarto");
+        System.out.println("6. Autogenerar Cuartos");
         System.out.println("7. Salir");
         Scanner scan = new Scanner(System.in);
         return scan.nextInt();
