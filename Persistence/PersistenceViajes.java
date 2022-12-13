@@ -1,5 +1,4 @@
 package Persistence;
-
 import processes.ConfigViajes;
 
 public interface PersistenceViajes {
