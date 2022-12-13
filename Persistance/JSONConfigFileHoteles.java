@@ -69,7 +69,7 @@ public class JSONConfigFileHoteles implements HotelPersistance {
             return;
         for (Object o : cuartosJSONArray) {
             JSONObject cuartos = (JSONObject) o;
-            String id= (String) cuartos.get("id");
+            String id = (String) cuartos.get("ID");
             String nombre = (String) cuartos.get("nombre");
             String ciudad = (String) cuartos.get("ciudad");
             int estrellas = (int)(long) cuartos.get("estrellas");

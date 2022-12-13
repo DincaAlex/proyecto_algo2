@@ -70,6 +70,7 @@ public class ConfigHoteles {
         while (enumC.hasMoreElements()) {
             Cuarto c = enumC.nextElement();
             JSONObject obj = new JSONObject();
+            obj.put("ID", c.getID());
             obj.put("nombre", c.mostrarNombre());
             obj.put("ciudad", c.mostrarCiudad());
             obj.put("estrellas", c.mostrarEstrellas());
@@ -144,6 +145,5 @@ public class ConfigHoteles {
         }
         return cant;
     }
-
 }
 
