@@ -1,4 +1,4 @@
-package Persistance;
+package Persistence;
 
 import entities.Cuarto;
 import entities.Hotel;

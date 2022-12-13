@@ -1,4 +1,4 @@
-package Persistance;
+package Persistence;
 import processes.ConfigHoteles;
 
 public interface PersistanceHoteles {

@@ -7,8 +7,8 @@ import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import Persistance.PersistanceHoteles;
-import Persistance.JSONConfigFileHoteles;
+import Persistence.PersistanceHoteles;
+import Persistence.JSONConfigFileHoteles;
 import entities.Cuarto;
 import entities.Hotel;
 
@@ -147,4 +147,3 @@ public class ConfigHoteles {
         return cant;
     }
 }
-

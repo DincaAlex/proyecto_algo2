@@ -17,14 +17,13 @@ public class ConfigUsuarios
         this.admins = new Vector<>();
         this.clientes = new Vector<>();
     }
-    
 
     public void registrarAdmin(Admin admin) {
         Enumeration<Admin> adm= this.admins.elements();
         while(adm.hasMoreElements()) {
             Admin a= adm.nextElement();
             if(admin.mostrarCorreo().equals(a.mostrarCorreo())) {
-                System.out.println("Correo ya utilizado con anterioridad,no se ha creado una nueva cuenta de administrador.");
+                System.out.println("Correo ya utilizado con anterioridad, no se ha creado una nueva cuenta.");
                 return;
             }
         }

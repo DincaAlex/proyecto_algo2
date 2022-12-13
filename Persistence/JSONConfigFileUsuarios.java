@@ -1,4 +1,4 @@
-package Persistance;
+package Persistence;
 
 import entities.Admin;
 import entities.Cliente;
@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONConfigFileUsuarios implements PersistanceUsuarios {
+public class JSONConfigFileUsuarios implements PersistenceUsuarios {
     private String nombreArchivo;
 
     public JSONConfigFileUsuarios() {
@@ -80,6 +80,5 @@ public class JSONConfigFileUsuarios implements PersistanceUsuarios {
             config.registrarCliente(cl);
         }
     }
-
 }
 

@@ -1,7 +1,7 @@
-package Persistance;
+package Persistence;
 import processes.ConfigUsuarios;
 
-public interface PersistanceUsuarios {
+public interface PersistenceUsuarios {
     void guardarConfig(ConfigUsuarios config);
     void leerConfig(ConfigUsuarios config);
 }

@@ -1,7 +1,7 @@
-import Persistance.PersistanceHoteles;
-import Persistance.JSONConfigFileHoteles;
-import Persistance.JSONConfigFileUsuarios;
-import Persistance.PersistanceUsuarios;
+import Persistence.PersistanceHoteles;
+import Persistence.JSONConfigFileHoteles;
+import Persistence.JSONConfigFileUsuarios;
+import Persistence.PersistenceUsuarios;
 import entities.Admin;
 import entities.Cliente;
 import entities.Cuarto;
@@ -81,7 +81,7 @@ public class AgenciaViajes {
     public static void registrarAdmin() {
         Scanner scan = new Scanner(System.in);
         ConfigUsuarios config = new ConfigUsuarios();
-        PersistanceUsuarios p = new JSONConfigFileUsuarios();
+        PersistenceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
         String retryAnswer;
         do {
@@ -111,7 +111,7 @@ public class AgenciaViajes {
     public static boolean ingresarAdmin() {
         Scanner scan = new Scanner(System.in);
         ConfigUsuarios config = new ConfigUsuarios();
-        PersistanceUsuarios p = new JSONConfigFileUsuarios();
+        PersistenceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
         String retryAnswer;
         int retryTimes = 0;
@@ -243,7 +243,7 @@ public class AgenciaViajes {
     public static void registrarCliente() {
         Scanner scan = new Scanner(System.in);
         ConfigUsuarios config = new ConfigUsuarios();
-        PersistanceUsuarios p = new JSONConfigFileUsuarios();
+        PersistenceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
         String retryAnswer;
         do {
@@ -273,7 +273,7 @@ public class AgenciaViajes {
     public static String ingresarCliente() {
         Scanner scan = new Scanner(System.in);
         ConfigUsuarios config = new ConfigUsuarios();
-        PersistanceUsuarios p = new JSONConfigFileUsuarios();
+        PersistenceUsuarios p = new JSONConfigFileUsuarios();
         p.leerConfig(config);
         String copiaUUID = "";
         String retryAnswer = "n";
