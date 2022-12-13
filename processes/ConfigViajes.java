@@ -1,9 +1,7 @@
 package processes;
 
-import entities.Cuarto;
-import entities.Hotel;
-import entities.Ruta;
-import entities.Transporte;
+import entities.Viajes.Ruta;
+import entities.Viajes.Transporte;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

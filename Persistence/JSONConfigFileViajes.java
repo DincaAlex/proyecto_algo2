@@ -1,14 +1,11 @@
 package Persistence;
 
-import entities.Admin;
-import entities.Cliente;
-import entities.Ruta;
-import entities.Transporte;
+import entities.Viajes.Ruta;
+import entities.Viajes.Transporte;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import processes.ConfigUsuarios;
 import processes.ConfigViajes;
 
 import java.io.FileReader;

@@ -1,7 +1,7 @@
 package Persistence;
 
-import entities.Admin;
-import entities.Cliente;
+import entities.Usuario.Admin;
+import entities.Usuario.Cliente;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -76,8 +76,8 @@ public class JSONConfigFileUsuarios implements PersistenceUsuarios {
             String apellidos = (String) cliente.get("apellidos");
             String contrasena = (String) cliente.get("contrasena");
             String uuid=(String) cliente.get("uuid");
-            Cliente cl = new Cliente(correo, nombres, apellidos, contrasena, uuid);
-            config.registrarCliente(cl);
+            Cliente cli = new Cliente(correo, nombres, apellidos, contrasena, uuid);
+            config.registrarCliente(cli);
         }
     }
 }

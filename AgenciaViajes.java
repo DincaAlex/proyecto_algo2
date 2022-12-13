@@ -2,10 +2,10 @@ import Persistence.PersistanceHoteles;
 import Persistence.JSONConfigFileHoteles;
 import Persistence.JSONConfigFileUsuarios;
 import Persistence.PersistenceUsuarios;
-import entities.Admin;
-import entities.Cliente;
-import entities.Cuarto;
-import entities.Hotel;
+import entities.Hotel.Cuarto;
+import entities.Hotel.Hotel;
+import entities.Usuario.Admin;
+import entities.Usuario.Cliente;
 import processes.ConfigHoteles;
 import processes.ConfigUsuarios;
 

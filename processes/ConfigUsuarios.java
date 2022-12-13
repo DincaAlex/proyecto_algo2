@@ -1,7 +1,7 @@
 package processes;
 
-import entities.Admin;
-import entities.Cliente;
+import entities.Usuario.Admin;
+import entities.Usuario.Cliente;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

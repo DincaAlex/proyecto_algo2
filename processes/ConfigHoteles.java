@@ -4,13 +4,13 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 
+import entities.Hotel.Cuarto;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Persistence.PersistanceHoteles;
 import Persistence.JSONConfigFileHoteles;
-import entities.Cuarto;
-import entities.Hotel;
+import entities.Hotel.Hotel;
 
 public class ConfigHoteles {
     private HashMap<String, Hotel> hoteles;
