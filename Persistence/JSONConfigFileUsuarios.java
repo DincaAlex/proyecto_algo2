@@ -6,23 +6,24 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import processes.ConfigUsuarios;
+import processes.ConfigAdmins;
+import processes.ConfigClientes;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONConfigFileUsuarios implements PersistenceUsuarios {
+public class JSONConfigFileUsuarios implements Persistence<ConfigAdmins, ConfigClientes> {
     private String nombreArchivo;
 
     public JSONConfigFileUsuarios() {
         this.nombreArchivo = "Usuarios.json";
     }
 
-    public void guardarConfig (ConfigUsuarios config) {
+    public void guardarConfig (ConfigAdmins args1, ConfigClientes args2) {
         JSONObject JSONConfig = new JSONObject();
-        JSONConfig.put("admins", config.adminsToJSON());
-        JSONConfig.put("clientes", config.clientesToJSON());
+        JSONConfig.put("admins", args1.ToJSON());
+        JSONConfig.put("clientes", args2.ToJSON());
         try {
             FileWriter fw = new FileWriter(this.nombreArchivo);
             fw.write(JSONConfig.toJSONString());
@@ -34,20 +35,20 @@ public class JSONConfigFileUsuarios implements PersistenceUsuarios {
         }
     }
 
-    public void leerConfig (ConfigUsuarios config) {
+    public void leerConfig (ConfigAdmins args1, ConfigClientes args2) {
         JSONParser parser = new JSONParser();
         try {
             FileReader reader = new FileReader(this.nombreArchivo); // lectura del archivo
 
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            LeerAdmins(jsonObject, config);
-            LeerClientes(jsonObject, config);
+            LeerAdmins(jsonObject, args1);
+            LeerClientes(jsonObject, args2);
         } catch (ParseException | IOException e){
             System.out.println("Exception" + e);
         }
     }
 
-    private void LeerAdmins (JSONObject jsonObject, ConfigUsuarios config) {
+    private void LeerAdmins (JSONObject jsonObject, ConfigAdmins config) {
         JSONArray adminsJSONArray = (JSONArray) jsonObject.get("admins");
 
         if ( adminsJSONArray == null )
@@ -60,11 +61,11 @@ public class JSONConfigFileUsuarios implements PersistenceUsuarios {
             String contrasena = (String) admin.get("contrasena");
             String uuid= (String) admin.get("uuid");
             Admin adm = new Admin(correo, nombres, apellidos, contrasena, uuid);
-            config.registrarAdmin(adm);
+            config.registrar(adm);
         }
     }
 
-    private void LeerClientes (JSONObject jsonObject, ConfigUsuarios config){
+    private void LeerClientes (JSONObject jsonObject, ConfigClientes config){
         JSONArray clientesJSONArray = (JSONArray) jsonObject.get("clientes");
 
         if ( clientesJSONArray == null )
@@ -77,7 +78,7 @@ public class JSONConfigFileUsuarios implements PersistenceUsuarios {
             String contrasena = (String) cliente.get("contrasena");
             String uuid=(String) cliente.get("uuid");
             Cliente cli = new Cliente(correo, nombres, apellidos, contrasena, uuid);
-            config.registrarCliente(cli);
+            config.registrar(cli);
         }
     }
 }

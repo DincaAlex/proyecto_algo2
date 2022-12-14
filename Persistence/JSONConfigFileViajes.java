@@ -6,23 +6,24 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import processes.ConfigViajes;
+import processes.ConfigRutas;
+import processes.ConfigTransportes;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONConfigFileViajes {
+public class JSONConfigFileViajes implements Persistence<ConfigRutas, ConfigTransportes> {
     private String nombreArchivo;
 
     public JSONConfigFileViajes() {
         this.nombreArchivo = "Viajes.json";
     }
 
-    public void guardarConfig (ConfigViajes config) {
+    public void guardarConfig (ConfigRutas args1, ConfigTransportes args2) {
         JSONObject JSONConfig = new JSONObject();
-        JSONConfig.put("rutas", config.rutasToJSON());
-        JSONConfig.put("transportes", config.transporteToJSON());
+        JSONConfig.put("rutas", args1.ToJSON());
+        JSONConfig.put("transportes", args2.ToJSON());
         try {
             FileWriter fw = new FileWriter(this.nombreArchivo);
             fw.write(JSONConfig.toJSONString());
@@ -34,20 +35,20 @@ public class JSONConfigFileViajes {
         }
     }
 
-    public void leerConfig (ConfigViajes config) {
+    public void leerConfig (ConfigRutas args1, ConfigTransportes args2) {
         JSONParser parser = new JSONParser();
         try {
             FileReader reader = new FileReader(this.nombreArchivo); // lectura del archivo
 
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            LeerRutas(jsonObject, config);
-            LeerTransporte(jsonObject, config);
+            LeerRutas(jsonObject, args1);
+            LeerTransporte(jsonObject, args2);
         } catch (ParseException | IOException e){
             System.out.println("Exception" + e);
         }
     }
 
-    private void LeerRutas (JSONObject jsonObject, ConfigViajes config) {
+    private void LeerRutas (JSONObject jsonObject, ConfigRutas config) {
         JSONArray rutasJSONArray = (JSONArray) jsonObject.get("rutas");
 
         if (rutasJSONArray==null)
@@ -59,11 +60,11 @@ public class JSONConfigFileViajes {
             String ciudadDestino = (String) ruta.get("ciudad-destino");
             String transporte = (String) ruta.get("transporte");
             Ruta rut = new Ruta(ID, ciudadPartida, ciudadDestino, transporte);
-            config.registrarRuta(rut);
+            config.registrar(rut);
         }
     }
 
-    private void LeerTransporte (JSONObject jsonObject, ConfigViajes config){
+    private void LeerTransporte (JSONObject jsonObject, ConfigTransportes config){
         JSONArray transportesJSONArray = (JSONArray) jsonObject.get("transporte");
 
         if (transportesJSONArray==null)
@@ -76,7 +77,7 @@ public class JSONConfigFileViajes {
             String horaPartida = (String) transporte.get("hora-partida");
             String horaDestino = (String) transporte.get("hora-llegada");
             Transporte trans = new Transporte(tipo, empresa, calidad, horaPartida, horaDestino);
-            config.registrarTransporte(trans);
+            config.registrar(trans);
         }
     }
 }

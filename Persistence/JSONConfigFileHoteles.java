@@ -6,24 +6,24 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
+import processes.ConfigCuartos;
 import processes.ConfigHoteles;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONConfigFileHoteles implements PersistenceHoteles {
+public class JSONConfigFileHoteles implements Persistence<ConfigHoteles, ConfigCuartos> {
     String nombreArchivo;
 
-    public JSONConfigFileHoteles() {
+    public JSONConfigFileHoteles () {
         this.nombreArchivo = "Hoteles.json";
     }
 
-    public void guardarConfig(ConfigHoteles config) {
+    public void guardarConfig (ConfigHoteles args1, ConfigCuartos args2) {
         JSONObject JSONConfig = new JSONObject();
-        JSONConfig.put("hoteles", config.hotelesToJSON());
-        JSONConfig.put("cuartos", config.cuartosToJSON());
+        JSONConfig.put("hoteles", args1.ToJSON());
+        JSONConfig.put("cuartos", args2.ToJSON());
         try {
             FileWriter fw = new FileWriter(this.nombreArchivo);
             fw.write(JSONConfig.toJSONString());
@@ -34,14 +34,14 @@ public class JSONConfigFileHoteles implements PersistenceHoteles {
         }
     }
 
-    public void leerConfig (ConfigHoteles config) {
+    public void leerConfig (ConfigHoteles args1, ConfigCuartos args2) {
         JSONParser parser = new JSONParser();
         try {
             FileReader reader = new FileReader(this.nombreArchivo); // lectura del archivo
 
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            LeerHoteles(jsonObject, config);
-            LeerCuartos(jsonObject, config); //Arreglar el mostrar
+            LeerHoteles(jsonObject, args1);
+            LeerCuartos(jsonObject, args2); //Arreglar el mostrar
         } catch (ParseException | IOException e) {
             System.out.println("Exception" + e);
         }
@@ -58,11 +58,11 @@ public class JSONConfigFileHoteles implements PersistenceHoteles {
             String ciudad = (String) hoteles.get("ciudad");
             int estrellas = (int)(long) hoteles.get("estrellas");
             Hotel hot = new Hotel(nombre, ciudad, estrellas);
-            config.registrarHotel(hot);
+            config.registrar(hot);
         }
     }
 
-    private void LeerCuartos (JSONObject jsonObject, ConfigHoteles config) {
+    private void LeerCuartos (JSONObject jsonObject, ConfigCuartos config) {
         JSONArray cuartosJSONArray = (JSONArray) jsonObject.get("cuartos");
 
         if (cuartosJSONArray == null )
@@ -78,7 +78,7 @@ public class JSONConfigFileHoteles implements PersistenceHoteles {
             boolean ocupado = (boolean) cuartos.get("ocupado");
             String cReserva= (String) cuartos.get("cReserva");
             Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, numero, piso, ocupado, cReserva, id);
-            config.registrarCuarto(cuarto);
+            config.registrar(cuarto);
         }
     }
 }
