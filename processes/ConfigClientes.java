@@ -1,6 +1,7 @@
 package processes;
 
 import Persistence.JSONConfigFileUsuarios;
+import entities.Usuario.Admin;
 import entities.Usuario.Cliente;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,23 +12,21 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class ConfigClientes implements Config<Cliente> {
-    private final HashMap<String, Cliente> clientes;
+    private static HashMap<String, Cliente> clientes;
+    private static final ConfigAdmins configAdmins = new ConfigAdmins();
+    private static final ConfigClientes configClientes = new ConfigClientes();
 
     public ConfigClientes() {
-        this.clientes = new HashMap<String, Cliente>();
+        clientes = new HashMap<String, Cliente>();
     }
 
     public void registrar (Cliente args) {
-        if(this.clientes.containsKey(args.mostrarCorreo())){
-            System.out.println("Correo en uso actualmente, no se ha creado una nueva cuenta.");
-            return;
-        }
-        this.clientes.put(args.mostrarCorreo(), args);
+        clientes.put(args.mostrarCorreo(), args);
     }
 
     public JSONArray ToJSON () {
         JSONArray arrayCliente = new JSONArray();
-        Enumeration<Cliente> cl = Collections.enumeration(this.clientes.values());
+        Enumeration<Cliente> cl = Collections.enumeration(clientes.values());
         while(cl.hasMoreElements()) {
             Cliente c = cl.nextElement();
             JSONObject obj = new JSONObject();
@@ -41,8 +40,44 @@ public class ConfigClientes implements Config<Cliente> {
         return arrayCliente;
     }
 
+    private void agregar (Cliente cliente) {
+        if(clientes.containsKey(cliente.mostrarCorreo())){
+            System.out.println("Correo en uso actualmente, no se ha creado una nueva cuenta.");
+            return;
+        }
+        clientes.put(cliente.mostrarCorreo(), cliente);
+    }
+
+    private void actualizar () {
+        JSONConfigFileUsuarios p = new JSONConfigFileUsuarios();
+        p.leerConfig(configAdmins, configClientes);
+    }
+
+    private void guardar () {
+        JSONConfigFileUsuarios p = new JSONConfigFileUsuarios();
+        p.guardarConfig(configAdmins, configClientes);
+    }
+
+    private void eliminar (String correo) {
+        actualizar();
+        Enumeration<Cliente> enumH = Collections.enumeration(clientes.values());
+
+        while (enumH.hasMoreElements()) {
+            Cliente cliente = enumH.nextElement();
+            if (correo.equals(cliente.mostrarCorreo())) {
+                clientes.remove(cliente.mostrarCorreo(), cliente);
+                clientes.remove(cliente.mostrarNombres(), cliente);
+                clientes.remove(cliente.mostrarApellidos(), cliente);
+                clientes.remove(cliente.mostrarContrasena(), cliente);
+                clientes.remove(cliente.mostrarUUID(), cliente);
+                System.out.println("Cuenta de cliente eliminada exitosamente");
+                break;
+            }
+        }
+    }
+
     public boolean confirmarIngresoCliente (String correo,String contrasena) {
-        Enumeration<Cliente> enumC = Collections.enumeration(this.clientes.values());
+        Enumeration<Cliente> enumC = Collections.enumeration(clientes.values());
         while (enumC.hasMoreElements()) {
             Cliente cl = enumC.nextElement();
             if (correo.equals(cl.mostrarCorreo())) {
@@ -55,7 +90,7 @@ public class ConfigClientes implements Config<Cliente> {
     }
 
     public String copiarUUID (String correo){
-        Enumeration<Cliente> enumC = Collections.enumeration(this.clientes.values());
+        Enumeration<Cliente> enumC = Collections.enumeration(clientes.values());
         String uuidCopia="";
         while (enumC.hasMoreElements()) {
             Cliente cl = enumC.nextElement();
@@ -67,11 +102,9 @@ public class ConfigClientes implements Config<Cliente> {
     }
 
     public void registrarCliente () {
+        actualizar();
         Scanner scan = new Scanner(System.in);
-        ConfigAdmins configAdmins = new ConfigAdmins();
-        ConfigClientes configClientes = new ConfigClientes();
-        JSONConfigFileUsuarios persistenceUsuarios = new JSONConfigFileUsuarios();
-        persistenceUsuarios.leerConfig(configAdmins, configClientes);
+
         String retryAnswer;
         do {
             retryAnswer = "n";
@@ -91,18 +124,16 @@ public class ConfigClientes implements Config<Cliente> {
             }
             else {
                 Cliente cliente = new Cliente(correo, nombres, apellidos, contrasena);
-                configClientes.registrar(cliente);
-                persistenceUsuarios.guardarConfig(configAdmins, configClientes);
+                agregar(cliente);
+                guardar();
             }
         } while (retryAnswer.equalsIgnoreCase("s"));
     }
 
     public String ingresarCliente () {
+        actualizar();
         Scanner scan = new Scanner(System.in);
-        ConfigAdmins configAdmins = new ConfigAdmins();
-        ConfigClientes configClientes = new ConfigClientes();
-        JSONConfigFileUsuarios persistenceUsuarios = new JSONConfigFileUsuarios();
-        persistenceUsuarios.leerConfig(configAdmins, configClientes);
+
         String copiaUUID = "";
         String retryAnswer = "n";
         int retryTimes = 0;
@@ -131,5 +162,30 @@ public class ConfigClientes implements Config<Cliente> {
             }
         } while (retryAnswer.equalsIgnoreCase("s"));
         return copiaUUID;
+    }
+
+    public void mostrarClientes () {
+        actualizar();
+        Enumeration<Cliente> enu = Collections.enumeration(clientes.values());
+
+        int i = 0;
+        while (enu.hasMoreElements()) {
+            Cliente cliente = enu.nextElement();
+            System.out.println(i + ". Correo: " + cliente.mostrarCorreo());
+            System.out.println(i + ". Nombres: " + cliente.mostrarNombres());
+            System.out.println(i + ". Apellidos: " + cliente.mostrarApellidos());
+            i++;
+        }
+    }
+
+    public void eliminarCliente () {
+        Scanner scan = new Scanner(System.in);
+        actualizar();
+
+        mostrarClientes();
+        System.out.println("Ingrese el correo del cliente: ");
+        String correo = scan.nextLine();
+        eliminar(correo);
+        guardar();
     }
 }

@@ -11,37 +11,21 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class ConfigAdmins implements Config<Admin> {
-    private final HashMap<String, Admin> admins;
+    private static HashMap<String, Admin> admins;
+    private static final ConfigAdmins configAdmins = new ConfigAdmins();
+    private static final ConfigClientes configClientes = new ConfigClientes();
 
     public ConfigAdmins () {
-        this.admins = new HashMap<String, Admin>();
+        admins = new HashMap<String, Admin>();
     }
 
     public void registrar (Admin args) {
-        if(this.admins.containsKey(args.mostrarCorreo())){
-            System.out.println("Correo en uso actualmente, no se ha creado una nueva cuenta.");
-            return;
-        }
-        this.admins.put(args.mostrarCorreo(), args);
-    }
-
-
-    public boolean confirmarIngresoAdmin (String correo,String contrasena) {
-        Enumeration<Admin> adm = Collections.enumeration(this.admins.values());
-        while (adm.hasMoreElements()) {
-            Admin a = adm.nextElement();
-            if (correo.equals(a.mostrarCorreo())) {
-                if (contrasena.equals(a.mostrarContrasena())) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        admins.put(args.mostrarCorreo(), args);
     }
 
     public JSONArray ToJSON () {
         JSONArray arrayAdmins = new JSONArray();
-        Enumeration<Admin> adm = Collections.enumeration(this.admins.values());
+        Enumeration<Admin> adm = Collections.enumeration(admins.values());
         while(adm.hasMoreElements()) {
             Admin a = adm.nextElement();
             JSONObject obj = new JSONObject();
@@ -55,12 +39,59 @@ public class ConfigAdmins implements Config<Admin> {
         return arrayAdmins;
     }
 
+    private void agregar (Admin admin) {
+        if(admins.containsKey(admin.mostrarCorreo())){
+            System.out.println("Correo en uso actualmente, no se ha creado una nueva cuenta.");
+            return;
+        }
+        admins.put(admin.mostrarCorreo(), admin);
+    }
+
+    private void actualizar () {
+        JSONConfigFileUsuarios p = new JSONConfigFileUsuarios();
+        p.leerConfig(configAdmins, configClientes);
+    }
+
+    private void guardar () {
+        JSONConfigFileUsuarios p = new JSONConfigFileUsuarios();
+        p.guardarConfig(configAdmins, configClientes);
+    }
+
+    private void eliminar (String correo) {
+        actualizar();
+        Enumeration<Admin> enumH = Collections.enumeration(admins.values());
+
+        while (enumH.hasMoreElements()) {
+            Admin admin = enumH.nextElement();
+            if (correo.equals(admin.mostrarCorreo())) {
+                admins.remove(admin.mostrarCorreo(), admin);
+                admins.remove(admin.mostrarNombres(), admin);
+                admins.remove(admin.mostrarApellidos(), admin);
+                admins.remove(admin.mostrarContrasena(), admin);
+                admins.remove(admin.mostrarUUID(), admin);
+                System.out.println("Cuenta de administrador eliminada exitosamente");
+                break;
+            }
+        }
+    }
+
+    public boolean confirmarIngresoAdmin (String correo,String contrasena) {
+        Enumeration<Admin> adm = Collections.enumeration(admins.values());
+        while (adm.hasMoreElements()) {
+            Admin a = adm.nextElement();
+            if (correo.equals(a.mostrarCorreo())) {
+                if (contrasena.equals(a.mostrarContrasena())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void registrarAdmin () {
+        actualizar();
         Scanner scan = new Scanner(System.in);
-        ConfigAdmins configAdmins = new ConfigAdmins();
-        ConfigClientes configClientes = new ConfigClientes();
-        JSONConfigFileUsuarios persistenceUsuarios = new JSONConfigFileUsuarios();
-        persistenceUsuarios.leerConfig(configAdmins, configClientes);
+
         String retryAnswer;
         do {
             retryAnswer = "n";
@@ -80,18 +111,16 @@ public class ConfigAdmins implements Config<Admin> {
             }
             else {
                 Admin admin = new Admin(correo, nombres, apellidos, contrasena);
-                configAdmins.registrar(admin);
-                persistenceUsuarios.guardarConfig(configAdmins, configClientes);
+                agregar(admin);
+                guardar();
             }
         } while (retryAnswer.equalsIgnoreCase("s"));
     }
 
     public boolean ingresarAdmin() {
+        actualizar();
         Scanner scan = new Scanner(System.in);
-        ConfigAdmins configAdmins = new ConfigAdmins();
-        ConfigClientes configClientes = new ConfigClientes();
-        JSONConfigFileUsuarios persistenceUsuarios = new JSONConfigFileUsuarios();
-        persistenceUsuarios.leerConfig(configAdmins, configClientes);
+
         String retryAnswer;
         int retryTimes = 0;
         boolean entradaExitosa = false;
@@ -120,5 +149,30 @@ public class ConfigAdmins implements Config<Admin> {
             }
         } while (retryAnswer.equalsIgnoreCase("s"));
         return entradaExitosa;
+    }
+
+    public void mostrarAdmins () {
+        actualizar();
+        Enumeration<Admin> enu = Collections.enumeration(admins.values());
+
+        int i = 0;
+        while (enu.hasMoreElements()) {
+            Admin admin = enu.nextElement();
+            System.out.println(i + ". Correo: " + admin.mostrarCorreo());
+            System.out.println(i + ". Nombres: " + admin.mostrarNombres());
+            System.out.println(i + ". Apellidos: " + admin.mostrarApellidos());
+            i++;
+        }
+    }
+
+    public void eliminarAdmin () {
+        Scanner scan = new Scanner(System.in);
+        actualizar();
+
+        mostrarAdmins();
+        System.out.println("Ingrese el correo del administrador: ");
+        String correo = scan.nextLine();
+        eliminar(correo);
+        guardar();
     }
 }

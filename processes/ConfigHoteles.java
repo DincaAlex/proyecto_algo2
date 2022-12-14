@@ -56,6 +56,22 @@ public class ConfigHoteles implements Config<Hotel> {
         }
         hoteles.put(hotel.mostrarNombre(), hotel);
     }
+
+    private void eliminar (String nombreHotel) {
+        actualizar();
+        Enumeration<Hotel> enumH = Collections.enumeration(hoteles.values());
+
+        while (enumH.hasMoreElements()) {
+            Hotel hotel = enumH.nextElement();
+            if (nombreHotel.equals(hotel.mostrarNombre())) {
+                hoteles.remove(hotel.mostrarNombre(), hotel);
+                hoteles.remove(hotel.mostrarCiudad(), hotel);
+                hoteles.remove(hotel.mostrarEstrellas(), hotel);
+                System.out.println("Hotel eliminado exitosamente");
+                break;
+            }
+        }
+    }
     
     public boolean noHayHoteles () {
         return hoteles.isEmpty();
@@ -128,22 +144,6 @@ public class ConfigHoteles implements Config<Hotel> {
         Cuarto cu = new Cuarto(nHotel, "", 0, 0, 0, false, "", "");
         configCuartos.reservar(cu, UUID);
         guardar();
-    }
-
-    public void eliminar (String nombreHotel) {
-        actualizar();
-        Enumeration<Hotel> enumH = Collections.enumeration(hoteles.values());
-
-        while (enumH.hasMoreElements()) {
-            Hotel hotel = enumH.nextElement();
-            if (nombreHotel.equals(hotel.mostrarNombre())) {
-                hoteles.remove(hotel.mostrarNombre(), hotel);
-                hoteles.remove(hotel.mostrarCiudad(), hotel);
-                hoteles.remove(hotel.mostrarEstrellas(), hotel);
-                System.out.println("Hotel eliminado exitosamente");
-                break;
-            }
-        }
     }
 
     public void eliminarHotel () {

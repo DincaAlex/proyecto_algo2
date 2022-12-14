@@ -83,7 +83,9 @@ public class AgenciaViajes {
         System.out.println("2. Transporte");
         System.out.println("3. Hoteles");
         System.out.println("4. Cuartos");
-        System.out.println("5. Salir");
+        System.out.println("5. Administradores");
+        System.out.println("6. Clientes");
+        System.out.println("7. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
@@ -95,6 +97,8 @@ public class AgenciaViajes {
                 case 2 -> exit = menuTransporteAdmin();
                 case 3 -> exit = menuHotelesAdmin();
                 case 4 -> exit = menuCuartosAdmin();
+                case 5 -> exit = menuAdminAdmin();
+                case 6 -> exit = menuClientesAdmin();
                 default -> {
                     salir = true;
                     exit = true;
@@ -183,6 +187,44 @@ public class AgenciaViajes {
             case 2 -> configCuartos.agregarCuarto();
             case 3 -> configCuartos.generarCuartosEnMasse();
             case 4 -> configCuartos.eliminarCuarto();
+            default -> salir = true;
+        }
+        return salir;
+    }
+
+    public static boolean menuAdminAdmin () {
+        System.out.println("Menu de los administradores");
+        System.out.println("1. Mostrar ");
+        System.out.println("2. Agregar");
+        System.out.println("3. Eliminar ");
+        System.out.println("4. Salir");
+        Scanner scan = new Scanner(System.in);
+        int opcion = scan.nextInt();
+        boolean salir = false;
+
+        switch (opcion) {
+            case 1 -> configAdmins.mostrarAdmins();
+            case 2 -> configAdmins.registrarAdmin();
+            case 3 -> configAdmins.eliminarAdmin();
+            default -> salir = true;
+        }
+        return salir;
+    }
+
+    public static boolean menuClientesAdmin () {
+        System.out.println("Menu de los clientes");
+        System.out.println("1. Mostrar");
+        System.out.println("2. Agregar");
+        System.out.println("3. Eliminar");
+        System.out.println("4. Salir");
+        Scanner scan = new Scanner(System.in);
+        int opcion = scan.nextInt();
+        boolean salir = false;
+
+        switch (opcion) {
+            case 1 -> configClientes.mostrarClientes();
+            case 2 -> configClientes.registrarCliente();
+            case 3 -> configClientes.eliminarCliente();
             default -> salir = true;
         }
         return salir;
