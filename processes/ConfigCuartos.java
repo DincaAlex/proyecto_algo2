@@ -12,27 +12,25 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class ConfigCuartos implements Config<Cuarto> {
-    private final HashMap<String, Cuarto> cuartos;
+    private static HashMap<String, Cuarto> cuartos;
+    private static final ConfigHoteles configHoteles = new ConfigHoteles();
+    private static final ConfigCuartos configCuartos = new ConfigCuartos();
 
     public ConfigCuartos(){
-        this.cuartos = new HashMap<String, Cuarto>();
+        cuartos = new HashMap<String, Cuarto>();
     }
 
-    public void registrar(Cuarto args) {
-        if(this.cuartos.containsKey((Object)args.getID())){
-            System.out.println("El cuarto ya existe.");
-            return;
-        }
-        this.cuartos.put(args.getID(), args);
+    public void registrar (Cuarto args) {
+        cuartos.put(args.mostrarID(), args);
     }
 
-    public JSONArray ToJSON() {
+    public JSONArray ToJSON () {
         JSONArray arrayCuartos = new JSONArray();
-        Enumeration<Cuarto> enumC = Collections.enumeration(this.cuartos.values());
+        Enumeration<Cuarto> enumC = Collections.enumeration(cuartos.values());
         while (enumC.hasMoreElements()) {
             Cuarto c = enumC.nextElement();
             JSONObject obj = new JSONObject();
-            obj.put("ID", c.getID());
+            obj.put("ID", c.mostrarID());
             obj.put("nombre", c.mostrarNombre());
             obj.put("ciudad", c.mostrarCiudad());
             obj.put("estrellas", c.mostrarEstrellas());
@@ -44,18 +42,58 @@ public class ConfigCuartos implements Config<Cuarto> {
         }
         return arrayCuartos;
     }
+
+    private void actualizar () {
+        JSONConfigFileHoteles p = new JSONConfigFileHoteles();
+        p.leerConfig(configHoteles, configCuartos);
+    }
+
+    private void guardar () {
+        JSONConfigFileHoteles p = new JSONConfigFileHoteles();
+        p.guardarConfig(configHoteles, configCuartos);
+    }
+
+    private void agregar (Cuarto cuarto) {
+        if(cuartos.containsKey(cuarto.mostrarID())){
+            System.out.println("El cuarto" + cuarto.mostrarID() + "ya existe.");
+            return;
+        }
+        cuartos.put(cuarto.mostrarID(), cuarto);
+    }
+
+    private void eliminar (String nombreHotel, String ID) {
+        actualizar();
+        Enumeration<Cuarto> enumH = Collections.enumeration(cuartos.values());
+
+        while (enumH.hasMoreElements()) {
+            Cuarto cuarto = enumH.nextElement();
+            if (nombreHotel.equals(cuarto.mostrarNombre()) && ID.equals(cuarto.mostrarID())) {
+                cuartos.remove(cuarto.mostrarID(), cuarto);
+                cuartos.remove(cuarto.mostrarNombre(), cuarto);
+                cuartos.remove(cuarto.mostrarCiudad(), cuarto);
+                cuartos.remove(cuarto.mostrarEstrellas(), cuarto);
+                cuartos.remove(cuarto.mostrarNumero(), cuarto);
+                cuartos.remove(cuarto.mostrarPiso(), cuarto);
+                cuartos.remove(cuarto.mostrarOcupado(), cuarto);
+                cuartos.remove(cuarto.mostrarClienteReserva(), cuarto);
+                System.out.println("Cuarto" +cuarto.mostrarID() + "eliminado exitosamente");
+                break;
+            }
+        }
+    }
+
     public void reservar (Cuarto cuarto, String uuid) {
-        Enumeration<Cuarto> enumC= Collections.enumeration(this.cuartos.values());
+        Enumeration<Cuarto> enumC = Collections.enumeration(cuartos.values());
         while(enumC.hasMoreElements()){
-            Cuarto c= enumC.nextElement();
+            Cuarto c = enumC.nextElement();
             while(cuarto.mostrarNombre().equals(c.mostrarNombre())){
                 if(!c.mostrarOcupado()){
-                    System.out.println("ID de la habitación: "+c.getID());
+                    System.out.println("ID de la habitación: "+c.mostrarID());
                     c.ocupar();
                     c.clienteReservar(uuid);
                     cuarto=c;
-                    this.cuartos.remove(c.getID(), c);
-                    this.cuartos.put(cuarto.getID(), cuarto);
+                    cuartos.remove(c.mostrarID(), c);
+                    cuartos.put(cuarto.mostrarID(), cuarto);
                     System.out.println("Reserva realizada");
                     return;
                 }
@@ -64,26 +102,26 @@ public class ConfigCuartos implements Config<Cuarto> {
     }
 
     public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int numCuartos, int pisos) {
+        actualizar();
+
         boolean ocupado = false;
-        ConfigCuartos configCuartos = new ConfigCuartos();
-        ConfigHoteles configHoteles = new ConfigHoteles();
-        JSONConfigFileHoteles p = new JSONConfigFileHoteles();
-        p.leerConfig(configHoteles, configCuartos);
         for (int i=1; i<=pisos; i++) {
             for (int j=1; j<= numCuartos; j++){
                 int idNum = i*100+j; // genera el ID
                 String id = String.valueOf(idNum);
                 Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado, "", id);
-                this.cuartos.put(cuarto.getID(), cuarto);
-                configCuartos.registrar(cuarto);
+                cuartos.put(cuarto.mostrarID(), cuarto);
+                agregar(cuarto);
             }
         }
-        p.guardarConfig(configHoteles, configCuartos);
+        guardar();
     }
 
     public int contarCuartosHotel (String nombre) {
+        actualizar();
+        Enumeration<Cuarto> enumC = Collections.enumeration(cuartos.values());
+
         int cant = 0;
-        Enumeration<Cuarto> enumC = Collections.enumeration(this.cuartos.values());
         while (enumC.hasMoreElements()) {
             Cuarto cuarto = enumC.nextElement();
             if (nombre.equals(cuarto.mostrarNombre()))
@@ -93,11 +131,9 @@ public class ConfigCuartos implements Config<Cuarto> {
     }
 
     public void agregarCuarto () {
+        actualizar();
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles configHoteles = new ConfigHoteles();
-        ConfigCuartos configCuartos = new ConfigCuartos();
-        JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
-        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+
         if (configHoteles.noHayHoteles()) {
             System.out.println("No hay hoteles registrados.");
         }
@@ -117,17 +153,14 @@ public class ConfigCuartos implements Config<Cuarto> {
             int idNum = piso*100+numero;
             String id = String.valueOf(idNum);
             Cuarto cuarto = new Cuarto(nombreH, ciudad, estrellas, numero, piso, ocupado, "", id);
-            configCuartos.registrar(cuarto);
-            persistenceHoteles.guardarConfig(configHoteles, configCuartos);
+            agregar(cuarto);
+            guardar();
         }
     }
 
     public void generarCuartosEnMasse () {
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles configHoteles = new ConfigHoteles();
-        ConfigCuartos configCuartos = new ConfigCuartos();
-        JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
-        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+
         if (configHoteles.noHayHoteles()) {
             System.out.println("No hay hoteles registrados.");
         }
@@ -157,10 +190,44 @@ public class ConfigCuartos implements Config<Cuarto> {
                     int numP = scan.nextInt();
                     System.out.println("Numero de cuartos por piso: ");
                     int numC = scan.nextInt();
-                    configCuartos.autoGenerarCuartos(nombreHotel, ciudad, estrellas, numC, numP);
-                    persistenceHoteles.guardarConfig(configHoteles, configCuartos);
+                    autoGenerarCuartos(nombreHotel, ciudad, estrellas, numC, numP);
                 }
             } while (retry.equalsIgnoreCase("s"));
+        }
+    }
+
+    public void mostrarCuartosHotel (String nombreHotel) {
+        actualizar();
+        Enumeration<Cuarto> enumeration = Collections.enumeration(cuartos.values());
+
+        while (enumeration.hasMoreElements()) {
+            Cuarto cuarto = enumeration.nextElement();
+            if (nombreHotel.equals(cuarto.mostrarNombre())) {
+                System.out.println(cuarto.mostrarID() + ". Numero: " + cuarto.mostrarNumero());
+                System.out.println(cuarto.mostrarID() + ". Piso: " + cuarto.mostrarPiso());
+                System.out.println(cuarto.mostrarID() + ". Ocupado: " + cuarto.mostrarOcupado());
+                if (cuarto.mostrarOcupado())
+                    System.out.println(cuarto.mostrarID() + ". Cliente: " + cuarto.mostrarClienteReserva());
+            }
+        }
+    }
+
+    public void eliminarCuarto () {
+        Scanner scan = new Scanner(System.in);
+        actualizar();
+
+        if (!configHoteles.mostrarHoteles()) {
+            System.out.println("Ingrese el nombre del hotel: ");
+            String nombreHotel = scan.nextLine();
+            if (contarCuartosHotel(nombreHotel)>0) {
+                mostrarCuartosHotel(nombreHotel);
+                System.out.println("Ingrese el ID del cuarto: ");
+                String ID = scan.nextLine();
+                eliminar(nombreHotel, ID);
+            }
+            else
+                System.out.println("No hay cuartos en el hotel.");
+            guardar();
         }
     }
 }
