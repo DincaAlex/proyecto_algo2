@@ -5,15 +5,23 @@ import entities.Usuario.Admin;
 import entities.Usuario.Cliente;
 import entities.Viajes.Ruta;
 import entities.Viajes.Transporte;
-import processes.ConfigHoteles;
-import processes.ConfigUsuarios;
-import processes.ConfigViajes;
+import processes.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class AgenciaViajes {
+    static ConfigAdmins configAdmins = new ConfigAdmins();
+    static ConfigClientes configClientes = new ConfigClientes();
+    static JSONConfigFileUsuarios persistenceUsuarios = new JSONConfigFileUsuarios();
+    static ConfigRutas configRutas = new ConfigRutas();
+    static ConfigTransportes configTransportes = new ConfigTransportes();
+    static JSONConfigFileViajes persistenceViajes = new JSONConfigFileViajes();
+    static ConfigHoteles configHoteles = new ConfigHoteles();
+    static ConfigCuartos configCuartos = new ConfigCuartos();
+    static JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
+
     public static void main (String[] args) {
         Scanner scan = new Scanner(System.in);
         boolean salir = false;
@@ -30,9 +38,10 @@ public class AgenciaViajes {
 
     public static boolean menuAdmin() {
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles config = new ConfigHoteles();
-        PersistenceHoteles p = new JSONConfigFileHoteles();
-        p.leerConfig(config);
+        ConfigHoteles configHoteles = new ConfigHoteles();
+        ConfigCuartos configCuartos = new ConfigCuartos();
+        JSONConfigFileHoteles p = new JSONConfigFileHoteles();
+        p.leerConfig(configHoteles, configCuartos);
 
         System.out.println("1. Registrar administrador");
         System.out.println("2. Ingresar como administrador");
@@ -41,7 +50,7 @@ public class AgenciaViajes {
         boolean salir = false;
         if (opcion==1)
             registrarAdmin();
-        if (opcion==2){
+        if (opcion==2) {
             boolean entradaExitosa = ingresarAdmin();
             while(!salir && entradaExitosa) {
                 switch (menuOpcionesAdmin()) {
@@ -49,7 +58,7 @@ public class AgenciaViajes {
                     case 2 -> agregarTransporteAdmin();
                     case 3 -> agregarHotelAdmin();
                     case 4 -> {
-                        config.mostrarHoteles();
+                        configHoteles.mostrarHoteles();
                         System.out.println("Presione ENTER para continuar...");
                         scan.nextLine(); // creo que el scan.nextInt anterior está malogrando algo
                         scan.nextLine(); // detiene el código
@@ -92,9 +101,7 @@ public class AgenciaViajes {
 
     public static void registrarAdmin() {
         Scanner scan = new Scanner(System.in);
-        ConfigUsuarios config = new ConfigUsuarios();
-        PersistenceUsuarios p = new JSONConfigFileUsuarios();
-        p.leerConfig(config);
+        persistenceUsuarios.leerConfig(configAdmins, configClientes);
         String retryAnswer;
         do {
             retryAnswer = "n";
@@ -106,7 +113,7 @@ public class AgenciaViajes {
             String apellidos = scan.next();
             System.out.println("Ingrese una contrasena:");
             String contrasena = scan.next();
-            if (config.confirmarIngresoAdmin(correo, contrasena)) {
+            if (configAdmins.confirmarIngresoAdmin(correo, contrasena)) {
                 System.out.println("El correo ya esta registrado. Desea intentar de nuevo? [S/N]: ");
                 retryAnswer = scan.next();
                 if (retryAnswer.equalsIgnoreCase("n"))
@@ -114,17 +121,15 @@ public class AgenciaViajes {
             }
             else {
                 Admin admin = new Admin(correo, nombres, apellidos, contrasena);
-                config.registrarAdmin(admin);
-                p.guardarConfig(config);
+                configAdmins.registrar(admin);
+                persistenceUsuarios.guardarConfig(configAdmins, configClientes);
             }
         } while (retryAnswer.equalsIgnoreCase("s"));
     }
 
     public static boolean ingresarAdmin() {
         Scanner scan = new Scanner(System.in);
-        ConfigUsuarios config = new ConfigUsuarios();
-        PersistenceUsuarios p = new JSONConfigFileUsuarios();
-        p.leerConfig(config);
+        persistenceUsuarios.leerConfig(configAdmins, configClientes);
         String retryAnswer;
         int retryTimes = 0;
         boolean entradaExitosa = false;
@@ -134,7 +139,7 @@ public class AgenciaViajes {
             String correoA = scan.next();
             System.out.println("Ingrese su contrasena: ");
             String contrasenaA = scan.next();
-            if (!config.confirmarIngresoAdmin(correoA, contrasenaA)) {
+            if (!configAdmins.confirmarIngresoAdmin(correoA, contrasenaA)) {
                 System.out.println("No se encontró el usuario. Desea intentar de nuevo? [S/N]: ");
                 retryAnswer = scan.next();
                 if (retryAnswer.equalsIgnoreCase("n"))
@@ -155,23 +160,101 @@ public class AgenciaViajes {
         return entradaExitosa;
     }
 
-    public static int menuOpcionesAdmin() {
-        System.out.println("1. Agregar Ruta");
-        System.out.println("2. Agregar Transporte");
-        System.out.println("3. Agregar Hotel");
-        System.out.println("4. Mostrar Hoteles");
-        System.out.println("5. Agregar Cuarto");
-        System.out.println("6. Autogenerar Cuartos");
-        System.out.println("7. Salir");
+    public static int menuOpcionesAdmin () {
+        System.out.println("Elija el menu que desa acceder:");
+        System.out.println("1. Rutas");
+        System.out.println("2. Transporte");
+        System.out.println("3. Hoteles");
+        System.out.println("4. Cuartos");
+        System.out.println("5. Salir");
         Scanner scan = new Scanner(System.in);
         return scan.nextInt();
+
+        // switch (opcion) {
+          //  case 1 -> menuRutasAdmin();
+          //  case 2 -> menuTransporteAdmin();
+          //  case 3 -> menuHotelesAdmin();
+          //  case 4 -> menuCuartosAdmin();
+        //}
     }
 
-    public static void agregarHotelAdmin() {
+    public static void menuRutasAdmin () {
+        System.out.println("Menu de las rutas");
+        System.out.println("1. Mostrar");
+        System.out.println("2. Agregar");
+        System.out.println("3. Eliminar");
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles config = new ConfigHoteles();
-        PersistenceHoteles p = new JSONConfigFileHoteles();
-        p.leerConfig(config);
+        int opcion = scan.nextInt();
+
+        switch (opcion) {
+            case 1, 3, 2 -> {
+            }
+        }
+    }
+
+    public static void menuTransporteAdmin () {
+        System.out.println("Menu de los transportes");
+        System.out.println("1. Mostrar");
+        System.out.println("2. Agregar");
+        System.out.println("3. Eliminar");
+        Scanner scan = new Scanner(System.in);
+        int opcion = scan.nextInt();
+
+        switch (opcion) {
+            case 1, 3, 2 -> {
+            }
+        }
+    }
+
+    public static void menuHotelesAdmin () {
+        System.out.println("Menu de los hoteles");
+        System.out.println("1. Mostrar");
+        System.out.println("2. Agregar");
+        System.out.println("3. Eliminar");
+        Scanner scan = new Scanner(System.in);
+        int opcion = scan.nextInt();
+
+        switch (opcion) {
+            case 1, 3, 2 -> {
+            }
+        }
+    }
+
+    public static void menuCuartosAdmin () {
+        System.out.println("Menu de los cuartos");
+        System.out.println("1. Mostrar");
+        System.out.println("2. Agregar");
+        System.out.println("3. Agregar en masse");
+        System.out.println("3. Eliminar");
+        Scanner scan = new Scanner(System.in);
+        int opcion = scan.nextInt();
+
+        switch (opcion) {
+            case 1, 3, 2 -> {
+            }
+        }
+    }
+
+    public static void agregarRutaAdmin() {
+        Scanner scan = new Scanner(System.in);
+        persistenceViajes.leerConfig(configRutas, configTransportes);
+
+        System.out.println("Ingrese el ID de la ruta: ");
+        String ID = scan.next();
+        System.out.println("Ingrese la ciudad de partida: ");
+        String ciudadPartida = scan.next();
+        System.out.println("Ingrese la ciudad de destino:");
+        String ciudadDestino = scan.next();
+        System.out.println("Ingrese el tipo de transporte:");
+        String transporte = scan.next();
+        Ruta ruta = new Ruta(ID, ciudadPartida, ciudadDestino, transporte);
+        configRutas.registrar(ruta);
+        persistenceViajes.guardarConfig(configRutas, configTransportes);
+    }
+
+    public static void agregarHotelAdmin () {
+        Scanner scan = new Scanner(System.in);
+        persistenceHoteles.leerConfig(configHoteles, configCuartos);
         System.out.println("Ingrese el nombre del hotel: ");
         String nombre = scan.nextLine();
         System.out.println("Ingrese la ciudad: ");
@@ -179,23 +262,21 @@ public class AgenciaViajes {
         System.out.println("Ingrese las estrellas:");
         int estrellas = Integer.parseInt(scan.next());
         Hotel hotel = new Hotel(nombre, ciudad, estrellas);
-        config.registrarHotel(hotel);
-        p.guardarConfig(config);
+        configHoteles.registrar(hotel);
+        persistenceHoteles.guardarConfig(configHoteles, configCuartos);
     }
 
-    public static void agregarCuartoAdmin() {
+    public static void agregarCuartoAdmin () {
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles config = new ConfigHoteles();
-        PersistenceHoteles p = new JSONConfigFileHoteles();
-        p.leerConfig(config);
-        if (config.noHayHoteles()) {
+        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+        if (configHoteles.noHayHoteles()) {
             System.out.println("No hay hoteles registrados.");
         }
         else {
-            config.mostrarHoteles();
+            configHoteles.mostrarHoteles();
             System.out.println("Escoge el nombre del hotel: ");
             String nombreH = scan.nextLine();
-            Hotel hotel = config.recuperarHotel(nombreH);
+            Hotel hotel = configHoteles.recuperarHotel(nombreH);
             String ciudad = hotel.mostrarCiudad();
             int estrellas = hotel.mostrarEstrellas();
             System.out.println("Ingrese el numero del cuarto: ");
@@ -207,17 +288,15 @@ public class AgenciaViajes {
             int idNum = piso*100+numero;
             String id = String.valueOf(idNum);
             Cuarto cuarto = new Cuarto(nombreH, ciudad, estrellas, numero, piso, ocupado, "", id);
-            config.registrarCuarto(cuarto);
-            p.guardarConfig(config);
+            configCuartos.registrar(cuarto);
+            persistenceHoteles.guardarConfig(configHoteles, configCuartos);
         }
     }
 
     public static void autogenerarCuartosAdmin() {
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles config = new ConfigHoteles();
-        PersistenceHoteles p = new JSONConfigFileHoteles();
-        p.leerConfig(config);
-        if (config.noHayHoteles()) {
+        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+        if (configHoteles.noHayHoteles()) {
             System.out.println("No hay hoteles registrados.");
         }
         else {
@@ -228,10 +307,10 @@ public class AgenciaViajes {
             do {
                 retry = "N";
                 System.out.println("Lista de hoteles registrados:");
-                config.mostrarHoteles();
+                configHoteles.mostrarHoteles();
                 System.out.println("Elige el nombre del hotel: ");
                 nombreHotel = scan.nextLine();
-                Hotel hotel = config.recuperarHotel(nombreHotel);
+                Hotel hotel = configHoteles.recuperarHotel(nombreHotel);
                 ciudad = hotel.mostrarCiudad();
                 estrellas = hotel.mostrarEstrellas();
 
@@ -246,37 +325,18 @@ public class AgenciaViajes {
                     int numP = scan.nextInt();
                     System.out.println("Numero de cuartos por piso: ");
                     int numC = scan.nextInt();
-                    config.autoGenerarCuartos(nombreHotel, ciudad, estrellas, numC, numP);
-                    p.guardarConfig(config);
+                    configCuartos.autoGenerarCuartos(nombreHotel, ciudad, estrellas, numC, numP);
+                    persistenceHoteles.guardarConfig(configHoteles, configCuartos);
                 }
             } while (retry.equalsIgnoreCase("s"));
         }
     }
 
-    public static void agregarRutaAdmin() {
-        Scanner scan = new Scanner(System.in);
-        ConfigViajes config = new ConfigViajes();
-        JSONConfigFileViajes p = new JSONConfigFileViajes();
-        p.leerConfig(config);
 
-        System.out.println("Ingrese el ID de la ruta: ");
-        String ID = scan.next();
-        System.out.println("Ingrese la ciudad de partida: ");
-        String ciudadPartida = scan.next();
-        System.out.println("Ingrese la ciudad de destino:");
-        String ciudadDestino = scan.next();
-        System.out.println("Ingrese el tipo de transporte:");
-        String transporte = scan.next();
-        Ruta ruta = new Ruta(ID, ciudadPartida, ciudadDestino, transporte);
-        config.registrarRuta(ruta);
-        p.guardarConfig(config);
-    }
 
-    public static void agregarTransporteAdmin(){
+    public static void agregarTransporteAdmin () {
         Scanner scan= new Scanner(System.in);
-        ConfigViajes config= new ConfigViajes();
-        JSONConfigFileViajes p= new JSONConfigFileViajes();
-        p.leerConfig(config);
+        persistenceViajes.leerConfig(configRutas, configTransportes);
         System.out.println("Ingrese el tipo de transporte: ");
         String tipoTransporte= scan.next();
         System.out.println("Ingrese la empresa:");
@@ -302,16 +362,14 @@ public class AgenciaViajes {
         int segundosD= scan.nextInt();
         LocalDateTime hDestino= LocalDateTime.of(anioD, mesD, diaD, horasD, minutosD, segundosD);
         Transporte transporte= new Transporte(tipoTransporte, empresa, calidad, hPartida.toString(), hDestino.toString());
-        config.registrarTransporte(transporte);
-        p.guardarConfig(config);
+        configTransportes.registrar(transporte);
+        persistenceViajes.guardarConfig(configRutas, configTransportes);
     }
 
 
-    public static void registrarCliente() {
+    public static void registrarCliente () {
         Scanner scan = new Scanner(System.in);
-        ConfigUsuarios config = new ConfigUsuarios();
-        PersistenceUsuarios p = new JSONConfigFileUsuarios();
-        p.leerConfig(config);
+        persistenceUsuarios.leerConfig(configAdmins, configClientes);
         String retryAnswer;
         do {
             retryAnswer = "n";
@@ -323,7 +381,7 @@ public class AgenciaViajes {
             String apellidos = scan.next();
             System.out.println("Ingrese una contrasena:");
             String contrasena = scan.next();
-            if (config.confirmarIngresoCliente(correo, contrasena)) {
+            if (configClientes.confirmarIngresoCliente(correo, contrasena)) {
                 System.out.println("El correo ya esta registrado. Desea intentar de nuevo? [S/N]: ");
                 retryAnswer = scan.next();
                 if (retryAnswer.equalsIgnoreCase("n"))
@@ -331,17 +389,15 @@ public class AgenciaViajes {
             }
             else {
                 Cliente cliente = new Cliente(correo, nombres, apellidos, contrasena);
-                config.registrarCliente(cliente);
-                p.guardarConfig(config);
+                configClientes.registrar(cliente);
+                persistenceUsuarios.guardarConfig(configAdmins, configClientes);
             }
         } while (retryAnswer.equalsIgnoreCase("s"));
     }
 
-    public static String ingresarCliente() {
+    public static String ingresarCliente () {
         Scanner scan = new Scanner(System.in);
-        ConfigUsuarios config = new ConfigUsuarios();
-        PersistenceUsuarios p = new JSONConfigFileUsuarios();
-        p.leerConfig(config);
+        persistenceUsuarios.leerConfig(configAdmins, configClientes);
         String copiaUUID = "";
         String retryAnswer = "n";
         int retryTimes = 0;
@@ -350,7 +406,7 @@ public class AgenciaViajes {
             String correoA = scan.next();
             System.out.println("Ingrese su contrasena: ");
             String contrasenaA = scan.next();
-            if (!config.confirmarIngresoCliente(correoA, contrasenaA)) {
+            if (!configClientes.confirmarIngresoCliente(correoA, contrasenaA)) {
                 System.out.println("No se encontró el usuario.\n");
                 System.out.println("Desea intentar de nuevo? [S/N]: ");
                 retryAnswer = scan.next();
@@ -366,7 +422,7 @@ public class AgenciaViajes {
             }
             else {
                 System.out.println("Bienvenido.");
-                copiaUUID = config.copiarUUID(correoA);
+                copiaUUID = configClientes.copiarUUID(correoA);
             }
         } while (retryAnswer.equalsIgnoreCase("s"));
         return copiaUUID;
@@ -384,14 +440,12 @@ public class AgenciaViajes {
 
     public static void reservarHotelCliente(String UUID) {
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles config = new ConfigHoteles();
-        PersistenceHoteles p = new JSONConfigFileHoteles();
-        p.leerConfig(config);
-        config.mostrarHoteles();
+        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+        configHoteles.mostrarHoteles();
         System.out.println("Ingrese el nombre del hotel: ");
         String nHotel = scan.nextLine();
         Cuarto cu = new Cuarto(nHotel, "", 0, 0, 0, false, "", "");
-        config.reservarCuarto(cu, UUID);
-        p.guardarConfig(config);
+        configCuartos.reservar(cu, UUID);
+        persistenceHoteles.guardarConfig(configHoteles, configCuartos);
     }
 }
