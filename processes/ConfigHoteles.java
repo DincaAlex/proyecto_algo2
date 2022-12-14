@@ -3,7 +3,9 @@ package processes;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Scanner;
 
+import entities.Hotel.Cuarto;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -76,5 +78,36 @@ public class ConfigHoteles implements Config<Hotel> {
         }
 
         return new Hotel(nombre, ciudad, estrellas);
+    }
+
+    public void agregarHotel () {
+        Scanner scan = new Scanner(System.in);
+        ConfigHoteles configHoteles = new ConfigHoteles();
+        ConfigCuartos configCuartos = new ConfigCuartos();
+        JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
+        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+        System.out.println("Ingrese el nombre del hotel: ");
+        String nombre = scan.nextLine();
+        System.out.println("Ingrese la ciudad: ");
+        String ciudad = scan.nextLine();
+        System.out.println("Ingrese las estrellas:");
+        int estrellas = Integer.parseInt(scan.next());
+        Hotel hotel = new Hotel(nombre, ciudad, estrellas);
+        configHoteles.registrar(hotel);
+        persistenceHoteles.guardarConfig(configHoteles, configCuartos);
+    }
+
+    public void reservarHotel (String UUID) {
+        Scanner scan = new Scanner(System.in);
+        ConfigHoteles configHoteles = new ConfigHoteles();
+        ConfigCuartos configCuartos = new ConfigCuartos();
+        JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
+        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+        configHoteles.mostrarHoteles();
+        System.out.println("Ingrese el nombre del hotel: ");
+        String nHotel = scan.nextLine();
+        Cuarto cu = new Cuarto(nHotel, "", 0, 0, 0, false, "", "");
+        configCuartos.reservar(cu, UUID);
+        persistenceHoteles.guardarConfig(configHoteles, configCuartos);
     }
 }
