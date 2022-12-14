@@ -45,21 +45,30 @@ public class ConfigHoteles implements Config<Hotel> {
         return hoteles.isEmpty();
     }
 
-    public void mostrarHoteles () {
-        int i = 1;
-        Enumeration<Hotel> enu = Collections.enumeration(this.hoteles.values());
+    public boolean mostrarHoteles () {
         ConfigHoteles configHoteles = new ConfigHoteles();
         ConfigCuartos configCuartos = new ConfigCuartos();
         JSONConfigFileHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(configHoteles, configCuartos);
-        while (enu.hasMoreElements()) {
-            Hotel hotel = enu.nextElement();
-            System.out.println(i + ". Nombre: " + hotel.mostrarNombre());
-            System.out.println(i + ". Ciudad: " + hotel.mostrarCiudad());
-            System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas());
-            System.out.println(i + ". Numero de cuartos: " + configCuartos.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
-            i++;
+        Enumeration<Hotel> enu = Collections.enumeration(this.hoteles.values());
+
+        boolean vacio = false;
+        int i = 1;
+        if (this.hoteles.isEmpty()) {
+            System.out.println("No hay hoteles registrados");
+            vacio = true;
         }
+        else {
+            while (enu.hasMoreElements()) {
+                Hotel hotel = enu.nextElement();
+                System.out.println(i + ". Nombre: " + hotel.mostrarNombre());
+                System.out.println(i + ". Ciudad: " + hotel.mostrarCiudad());
+                System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas());
+                System.out.println(i + ". Numero de cuartos: " + configCuartos.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
+                i++;
+            }
+        }
+        return vacio;
     }
 
     public Hotel recuperarHotel(String nombre) {
@@ -109,5 +118,33 @@ public class ConfigHoteles implements Config<Hotel> {
         Cuarto cu = new Cuarto(nHotel, "", 0, 0, 0, false, "", "");
         configCuartos.reservar(cu, UUID);
         persistenceHoteles.guardarConfig(configHoteles, configCuartos);
+    }
+
+    public void eliminar (String nombreHotel) {
+        Enumeration<Hotel> enumH = Collections.enumeration(this.hoteles.values());
+        while (enumH.hasMoreElements()) {
+            Hotel hotel = enumH.nextElement();
+            if (nombreHotel.equals(hotel.mostrarNombre())) {
+                this.hoteles.remove(hotel.mostrarNombre(), hotel);
+                this.hoteles.remove(hotel.mostrarCiudad(), hotel);
+                this.hoteles.remove(hotel.mostrarEstrellas(), hotel);
+                System.out.println("Hotel eliminado exitosamente.");
+                break;
+            }
+        }
+    }
+
+    public void eliminarHotel () {
+        Scanner scan = new Scanner(System.in);
+        ConfigHoteles configHoteles = new ConfigHoteles();
+        ConfigCuartos configCuartos = new ConfigCuartos();
+        JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
+        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+        if (!configHoteles.mostrarHoteles()) {
+            System.out.println("Ingrese el nombre del hotel: ");
+            String nombreHotel = scan.nextLine();
+            configHoteles.eliminar(nombreHotel);
+            persistenceHoteles.guardarConfig(configHoteles, configCuartos);
+        }
     }
 }
