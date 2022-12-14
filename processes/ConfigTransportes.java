@@ -32,11 +32,13 @@ public class ConfigTransportes implements Config<Transporte> {
         while (enumT.hasMoreElements()) {
             Transporte trans= enumT.nextElement();
             JSONObject obj = new JSONObject();
+            obj.put("ID", trans.mostrarID());
             obj.put("tipo", trans.mostrarTipo());
             obj.put("empresa", trans.mostrarEmpresa());
             obj.put("calidad", trans.mostrarCalidad());
             obj.put("hora-partida", trans.mostrarHoraPartida());
             obj.put("hora-llegada", trans.mostrarHoraDestino());
+            obj.put("cantDisponible", trans.mostrarCantDisponible());
             arrayTransportes.add(obj);
         }
         return arrayTransportes;
@@ -54,6 +56,7 @@ public class ConfigTransportes implements Config<Transporte> {
         String empresa= scan.next();
         System.out.println("Ingrese la calidad del servicio: ");
         String calidad= scan.next();
+        String ID= tipoTransporte+empresa+calidad;
         System.out.println("Ingrese el dia de partida (dd-mm-yyyy): ");
         int diaP= scan.nextInt();
         int mesP= scan.nextInt();
@@ -72,7 +75,9 @@ public class ConfigTransportes implements Config<Transporte> {
         int minutosD= scan.nextInt();
         int segundosD= scan.nextInt();
         LocalDateTime hDestino= LocalDateTime.of(anioD, mesD, diaD, horasD, minutosD, segundosD);
-        Transporte transporte= new Transporte(tipoTransporte, empresa, calidad, hPartida.toString(), hDestino.toString());
+        System.out.println("Ingrese la capacidad del transporte: ");
+        int cantDisponible= scan.nextInt();
+        Transporte transporte= new Transporte(ID, tipoTransporte, empresa, calidad, hPartida.toString(), hDestino.toString(), cantDisponible);
         configTransportes.registrar(transporte);
         persistenceViajes.guardarConfig(configRutas, configTransportes);
     }

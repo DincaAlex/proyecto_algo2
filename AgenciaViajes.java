@@ -1,13 +1,6 @@
 import Persistence.*;
-import entities.Hotel.Cuarto;
-import entities.Hotel.Hotel;
-import entities.Usuario.Admin;
-import entities.Usuario.Cliente;
-import entities.Viajes.Ruta;
-import entities.Viajes.Transporte;
 import processes.*;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -73,7 +66,7 @@ public class AgenciaViajes {
                 String UUID = configClientes.ingresarCliente();
                 while (!salir && !Objects.equals(UUID, "null")) {
                     switch (menuOpcionesCliente()) {
-                        case 1,2,4,5 -> System.out.println("Menu en construcción");
+                        case 1,2,4 -> System.out.println("Menu en construcción");
                         case 3 -> configHoteles.reservarHotel(UUID);
                         default -> salir = true;
                     }
