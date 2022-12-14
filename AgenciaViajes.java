@@ -7,21 +7,19 @@ import java.util.Scanner;
 public class AgenciaViajes {
     static ConfigAdmins configAdmins = new ConfigAdmins();
     static ConfigClientes configClientes = new ConfigClientes();
-    static JSONConfigFileUsuarios persistenceUsuarios = new JSONConfigFileUsuarios();
     static ConfigRutas configRutas = new ConfigRutas();
     static ConfigTransportes configTransportes = new ConfigTransportes();
-    static JSONConfigFileViajes persistenceViajes = new JSONConfigFileViajes();
     static ConfigHoteles configHoteles = new ConfigHoteles();
     static ConfigCuartos configCuartos = new ConfigCuartos();
-    static JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
 
     public static void main (String[] args) {
         Scanner scan = new Scanner(System.in);
         boolean salir = false;
+        
+        while (!salir) {
         System.out.println("Bienvenido al sistema de Agencia de viajes\n");
         System.out.println("Ingrese el tipo de usuario [Administrador/Cliente] [1/2]: ");
         int user = scan.nextInt();
-        while (!salir) {
             if (user == 1)
                 salir = menuAdmin();
             if (user == 2)
@@ -31,7 +29,6 @@ public class AgenciaViajes {
 
     public static boolean menuAdmin() {
         Scanner scan = new Scanner(System.in);
-        persistenceHoteles.leerConfig(configHoteles, configCuartos);
 
         System.out.println("1. Registrar administrador");
         System.out.println("2. Ingresar como administrador");
@@ -44,7 +41,10 @@ public class AgenciaViajes {
         if (opcion==2) {
             boolean entradaExitosa = configAdmins.ingresarAdmin();
             if (entradaExitosa) {
-                menuOpcionesAdmin();
+                boolean exit = false;
+                while (!exit) {
+                    exit = menuOpcionesAdmin();
+                }
             }
         }
         else
@@ -77,7 +77,7 @@ public class AgenciaViajes {
         return salir;
     }
 
-    public static void menuOpcionesAdmin () {
+    public static boolean menuOpcionesAdmin () {
         System.out.println("Elija el menu que desa acceder:");
         System.out.println("1. Rutas");
         System.out.println("2. Transporte");
@@ -87,15 +87,21 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
+        boolean exit = false;
 
-        while (!salir) {
+        while (!exit) {
             switch (opcion) {
-                case 1 -> salir = menuRutasAdmin();
-                case 2 -> salir = menuTransporteAdmin();
-                case 3 -> salir = menuHotelesAdmin();
-                case 4 -> salir = menuCuartosAdmin();
+                case 1 -> exit = menuRutasAdmin();
+                case 2 -> exit = menuTransporteAdmin();
+                case 3 -> exit = menuHotelesAdmin();
+                case 4 -> exit = menuCuartosAdmin();
+                default -> {
+                    salir = true;
+                    exit = true;
+                }
             }
         }
+        return salir;
     }
 
     public static boolean menuRutasAdmin () {
@@ -147,16 +153,7 @@ public class AgenciaViajes {
         boolean salir = false;
 
         switch (opcion) {
-            case 1 -> {
-                if (!configHoteles.mostrarHoteles()){
-                    System.out.println("Presione ENTER para continuar...");
-                    scan.nextLine();
-                    scan.nextLine(); // detiene el programa
-                }
-                // bug para investigar:
-                // si llamas mostrar por si solo no se actualiza la lista si hay algún cambio
-                // funciona en el caso 3 que hace una llamada por separado
-            }
+            case 1 -> configHoteles.mostrarHoteles();
             case 2 -> configHoteles.agregarHotel();
             case 3 -> configHoteles.eliminarHotel();
             default -> salir = true;
@@ -166,20 +163,26 @@ public class AgenciaViajes {
 
     public static boolean menuCuartosAdmin () {
         System.out.println("Menu de los cuartos");
-        System.out.println("1. Mostrar [En construcción]");
+        System.out.println("1. Mostrar ");
         System.out.println("2. Agregar");
         System.out.println("3. Agregar en masse");
-        System.out.println("4. Eliminar [En construcción]");
+        System.out.println("4. Eliminar ");
         System.out.println("5. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
 
         switch (opcion) {
-            case 1, 4 -> {
+            case 1 -> {
+                configHoteles.mostrarHoteles();
+                System.out.println("Elija el nombre del hotel: ");
+                scan.nextLine();
+                String nombreHotel = scan.nextLine();
+                configCuartos.mostrarCuartosHotel(nombreHotel);
             }
             case 2 -> configCuartos.agregarCuarto();
             case 3 -> configCuartos.generarCuartosEnMasse();
+            case 4 -> configCuartos.eliminarCuarto();
             default -> salir = true;
         }
         return salir;
