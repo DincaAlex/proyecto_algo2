@@ -147,7 +147,7 @@ public class AgenciaViajes {
         System.out.println("Menu de los hoteles");
         System.out.println("1. Mostrar");
         System.out.println("2. Agregar");
-        System.out.println("3. Eliminar [En construcción]");
+        System.out.println("3. Eliminar");
         System.out.println("4. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
@@ -155,14 +155,17 @@ public class AgenciaViajes {
 
         switch (opcion) {
             case 1 -> {
-                configHoteles.mostrarHoteles();
-                System.out.println("Presione ENTER para continuar...");
-                scan.nextLine();
-                scan.nextLine();
+                if (!configHoteles.mostrarHoteles()){
+                    System.out.println("Presione ENTER para continuar...");
+                    scan.nextLine();
+                    scan.nextLine(); // detiene el programa
+                }
+                // bug para investigar:
+                // si llamas mostrar por si solo no se actualiza la lista si hay algún cambio
+                // funciona en el caso 3 que hace una llamada por separado
             }
             case 2 -> configHoteles.agregarHotel();
-            case 3 -> {
-            }
+            case 3 -> configHoteles.eliminarHotel();
             default -> salir = true;
         }
         return salir;
