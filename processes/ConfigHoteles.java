@@ -13,23 +13,21 @@ import Persistence.JSONConfigFileHoteles;
 import entities.Hotel.Hotel;
 
 public class ConfigHoteles implements Config<Hotel> {
-    private HashMap<String, Hotel> hoteles;
+    private static HashMap<String, Hotel> hoteles;
+    private static final ConfigHoteles configHoteles = new ConfigHoteles();
+    private static final ConfigCuartos configCuartos = new ConfigCuartos();
 
     public ConfigHoteles(){
-        this.hoteles = new HashMap<String, Hotel>();
+        hoteles = new HashMap<String, Hotel>();
     }
 
-    public void registrar(Hotel args) {
-        if(this.hoteles.containsKey((Object)args.mostrarNombre())){
-            System.out.println("El hotel ya esta registrado.");
-            return;
-        }
-        this.hoteles.put(args.mostrarNombre(), args);
+    public void registrar (Hotel args) {
+        hoteles.put(args.mostrarNombre(), args);
     }
 
-    public JSONArray ToJSON() {
+    public JSONArray ToJSON () {
         JSONArray arrayHoteles = new JSONArray();
-        Enumeration<Hotel> enumH = Collections.enumeration(this.hoteles.values());
+        Enumeration<Hotel> enumH = Collections.enumeration(hoteles.values());
         while (enumH.hasMoreElements()) {
             Hotel h = enumH.nextElement();
             JSONObject obj = new JSONObject();
@@ -41,20 +39,35 @@ public class ConfigHoteles implements Config<Hotel> {
         return arrayHoteles;
     }
 
+    private void actualizar () {
+        JSONConfigFileHoteles p = new JSONConfigFileHoteles();
+        p.leerConfig(configHoteles, configCuartos);
+    }
+
+    private void guardar () {
+        JSONConfigFileHoteles p = new JSONConfigFileHoteles();
+        p.guardarConfig(configHoteles, configCuartos);
+    }
+    
+    private void agregar (Hotel hotel) {
+        if(hoteles.containsKey(hotel.mostrarNombre())){
+            System.out.println("El hotel ya esta registrado.");
+            return;
+        }
+        hoteles.put(hotel.mostrarNombre(), hotel);
+    }
+    
     public boolean noHayHoteles () {
         return hoteles.isEmpty();
     }
 
     public boolean mostrarHoteles () {
-        ConfigHoteles configHoteles = new ConfigHoteles();
-        ConfigCuartos configCuartos = new ConfigCuartos();
-        JSONConfigFileHoteles p = new JSONConfigFileHoteles();
-        p.leerConfig(configHoteles, configCuartos);
-        Enumeration<Hotel> enu = Collections.enumeration(this.hoteles.values());
+        actualizar();
+        Enumeration<Hotel> enu = Collections.enumeration(hoteles.values());
 
         boolean vacio = false;
         int i = 1;
-        if (this.hoteles.isEmpty()) {
+        if (hoteles.isEmpty()) {
             System.out.println("No hay hoteles registrados");
             vacio = true;
         }
@@ -71,8 +84,10 @@ public class ConfigHoteles implements Config<Hotel> {
         return vacio;
     }
 
-    public Hotel recuperarHotel(String nombre) {
-        Enumeration<Hotel> enumH = Collections.enumeration(this.hoteles.values());
+    public Hotel recuperarHotel (String nombre) {
+        actualizar();
+        Enumeration<Hotel> enumH = Collections.enumeration(hoteles.values());
+
         String ciudad = "";
         int estrellas = -1; // error en caso de no encontrar el hotel
         while (enumH.hasMoreElements()) {
@@ -85,16 +100,13 @@ public class ConfigHoteles implements Config<Hotel> {
                 System.out.println("No se encontró el hotel.");
             }
         }
-
         return new Hotel(nombre, ciudad, estrellas);
     }
 
     public void agregarHotel () {
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles configHoteles = new ConfigHoteles();
-        ConfigCuartos configCuartos = new ConfigCuartos();
-        JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
-        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+        actualizar();
+
         System.out.println("Ingrese el nombre del hotel: ");
         String nombre = scan.nextLine();
         System.out.println("Ingrese la ciudad: ");
@@ -102,33 +114,33 @@ public class ConfigHoteles implements Config<Hotel> {
         System.out.println("Ingrese las estrellas:");
         int estrellas = Integer.parseInt(scan.next());
         Hotel hotel = new Hotel(nombre, ciudad, estrellas);
-        configHoteles.registrar(hotel);
-        persistenceHoteles.guardarConfig(configHoteles, configCuartos);
+        agregar(hotel);
+        guardar();
     }
 
     public void reservarHotel (String UUID) {
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles configHoteles = new ConfigHoteles();
-        ConfigCuartos configCuartos = new ConfigCuartos();
-        JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
-        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+        actualizar();
+
         configHoteles.mostrarHoteles();
         System.out.println("Ingrese el nombre del hotel: ");
         String nHotel = scan.nextLine();
         Cuarto cu = new Cuarto(nHotel, "", 0, 0, 0, false, "", "");
         configCuartos.reservar(cu, UUID);
-        persistenceHoteles.guardarConfig(configHoteles, configCuartos);
+        guardar();
     }
 
     public void eliminar (String nombreHotel) {
-        Enumeration<Hotel> enumH = Collections.enumeration(this.hoteles.values());
+        actualizar();
+        Enumeration<Hotel> enumH = Collections.enumeration(hoteles.values());
+
         while (enumH.hasMoreElements()) {
             Hotel hotel = enumH.nextElement();
             if (nombreHotel.equals(hotel.mostrarNombre())) {
-                this.hoteles.remove(hotel.mostrarNombre(), hotel);
-                this.hoteles.remove(hotel.mostrarCiudad(), hotel);
-                this.hoteles.remove(hotel.mostrarEstrellas(), hotel);
-                System.out.println("Hotel eliminado exitosamente.");
+                hoteles.remove(hotel.mostrarNombre(), hotel);
+                hoteles.remove(hotel.mostrarCiudad(), hotel);
+                hoteles.remove(hotel.mostrarEstrellas(), hotel);
+                System.out.println("Hotel eliminado exitosamente");
                 break;
             }
         }
@@ -136,15 +148,13 @@ public class ConfigHoteles implements Config<Hotel> {
 
     public void eliminarHotel () {
         Scanner scan = new Scanner(System.in);
-        ConfigHoteles configHoteles = new ConfigHoteles();
-        ConfigCuartos configCuartos = new ConfigCuartos();
-        JSONConfigFileHoteles persistenceHoteles = new JSONConfigFileHoteles();
-        persistenceHoteles.leerConfig(configHoteles, configCuartos);
+        actualizar();
+
         if (!configHoteles.mostrarHoteles()) {
             System.out.println("Ingrese el nombre del hotel: ");
             String nombreHotel = scan.nextLine();
-            configHoteles.eliminar(nombreHotel);
-            persistenceHoteles.guardarConfig(configHoteles, configCuartos);
+            eliminar(nombreHotel);
+            guardar();
         }
     }
 }
