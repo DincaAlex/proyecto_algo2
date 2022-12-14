@@ -5,7 +5,7 @@ public class Cuarto extends Hotel {
     private int piso;
     private boolean ocupado;
     private String cReserva;
-    private String id;
+    private String ID;
 
     public Cuarto (String nombre, String ciudad, int estrellas, int numero, int piso, boolean ocupado, String cReserva, String id) {
         super(nombre, ciudad, estrellas);
@@ -13,7 +13,7 @@ public class Cuarto extends Hotel {
         this.piso = piso;
         this.ocupado = ocupado;
         this.cReserva= cReserva;
-        this.id= id;
+        this.ID= id;
     }
 
     public int mostrarNumero () {
@@ -40,7 +40,7 @@ public class Cuarto extends Hotel {
         cReserva=a;
     }
 
-    public String getID(){
-        return this.id;
+    public String mostrarID(){
+        return this.ID;
     }
 }
