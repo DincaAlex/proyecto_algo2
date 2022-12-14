@@ -46,13 +46,11 @@ public class ConfigRutas implements Config<Ruta> {
         ConfigTransportes configTransportes = new ConfigTransportes();
         JSONConfigFileViajes persistenceViajes = new JSONConfigFileViajes();
         persistenceViajes.leerConfig(configRutas, configTransportes);
-
-        System.out.println("Ingrese el ID de la ruta: ");
-        String ID = scan.next();
         System.out.println("Ingrese la ciudad de partida: ");
         String ciudadPartida = scan.next();
         System.out.println("Ingrese la ciudad de destino:");
         String ciudadDestino = scan.next();
+        String ID = ciudadPartida+ciudadDestino;
         System.out.println("Ingrese el tipo de transporte:");
         String transporte = scan.next();
         Ruta ruta = new Ruta(ID, ciudadPartida, ciudadDestino, transporte);
