@@ -1,5 +1,6 @@
 package processes;
 
+import Persistence.JSONConfigFileUsuarios;
 import entities.Usuario.Cliente;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -7,16 +8,17 @@ import org.json.simple.JSONObject;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class ConfigClientes implements Config<Cliente> {
-    private HashMap<String, Cliente> clientes;
+    private final HashMap<String, Cliente> clientes;
 
     public ConfigClientes() {
         this.clientes = new HashMap<String, Cliente>();
     }
 
     public void registrar (Cliente args) {
-        if(this.clientes.containsKey((Object)args.mostrarCorreo())){
+        if(this.clientes.containsKey(args.mostrarCorreo())){
             System.out.println("Correo en uso actualmente, no se ha creado una nueva cuenta.");
             return;
         }
@@ -62,5 +64,72 @@ public class ConfigClientes implements Config<Cliente> {
             }
         }
         return uuidCopia;
+    }
+
+    public void registrarCliente () {
+        Scanner scan = new Scanner(System.in);
+        ConfigAdmins configAdmins = new ConfigAdmins();
+        ConfigClientes configClientes = new ConfigClientes();
+        JSONConfigFileUsuarios persistenceUsuarios = new JSONConfigFileUsuarios();
+        persistenceUsuarios.leerConfig(configAdmins, configClientes);
+        String retryAnswer;
+        do {
+            retryAnswer = "n";
+            System.out.println("Ingrese el correo con el que se registrara: ");
+            String correo = scan.next();
+            System.out.println("Ingrese su nombre: ");
+            String nombres = scan.next();
+            System.out.println("Ingrese su apellido:");
+            String apellidos = scan.next();
+            System.out.println("Ingrese una contrasena:");
+            String contrasena = scan.next();
+            if (configClientes.confirmarIngresoCliente(correo, contrasena)) {
+                System.out.println("El correo ya esta registrado. Desea intentar de nuevo? [S/N]: ");
+                retryAnswer = scan.next();
+                if (retryAnswer.equalsIgnoreCase("n"))
+                    break;
+            }
+            else {
+                Cliente cliente = new Cliente(correo, nombres, apellidos, contrasena);
+                configClientes.registrar(cliente);
+                persistenceUsuarios.guardarConfig(configAdmins, configClientes);
+            }
+        } while (retryAnswer.equalsIgnoreCase("s"));
+    }
+
+    public String ingresarCliente () {
+        Scanner scan = new Scanner(System.in);
+        ConfigAdmins configAdmins = new ConfigAdmins();
+        ConfigClientes configClientes = new ConfigClientes();
+        JSONConfigFileUsuarios persistenceUsuarios = new JSONConfigFileUsuarios();
+        persistenceUsuarios.leerConfig(configAdmins, configClientes);
+        String copiaUUID = "";
+        String retryAnswer = "n";
+        int retryTimes = 0;
+        do {
+            System.out.println("Ingrese su correo:");
+            String correoA = scan.next();
+            System.out.println("Ingrese su contrasena: ");
+            String contrasenaA = scan.next();
+            if (!configClientes.confirmarIngresoCliente(correoA, contrasenaA)) {
+                System.out.println("No se encontró el usuario.\n");
+                System.out.println("Desea intentar de nuevo? [S/N]: ");
+                retryAnswer = scan.next();
+                if (retryAnswer.equalsIgnoreCase("n"))
+                    break;
+                if (retryTimes>=3) {
+                    System.out.println("Excedió el número máximo de intentos.");
+                    retryAnswer = "n";
+                    break;
+                }
+                if (retryAnswer.equalsIgnoreCase("s"))
+                    retryTimes++;
+            }
+            else {
+                System.out.println("Bienvenido.");
+                copiaUUID = configClientes.copiarUUID(correoA);
+            }
+        } while (retryAnswer.equalsIgnoreCase("s"));
+        return copiaUUID;
     }
 }
