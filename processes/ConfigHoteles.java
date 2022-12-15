@@ -65,6 +65,7 @@ public class ConfigHoteles implements Config<Hotel> {
         while (enumH.hasMoreElements()) {
             Hotel hotel = enumH.nextElement();
             if (nombreHotel.equals(hotel.mostrarNombre())) {
+                hoteles.remove(hotel.mostrarIDHotel(), hotel);
                 hoteles.remove(hotel.mostrarNombre(), hotel);
                 hoteles.remove(hotel.mostrarCiudad(), hotel);
                 hoteles.remove(hotel.mostrarEstrellas(), hotel);
@@ -91,10 +92,11 @@ public class ConfigHoteles implements Config<Hotel> {
         else {
             while (enu.hasMoreElements()) {
                 Hotel hotel = enu.nextElement();
-                System.out.println(i + ". Nombre: " + hotel.mostrarNombre());
-                System.out.println(i + ". Ciudad: " + hotel.mostrarCiudad());
-                System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas());
-                System.out.println(i + ". Numero de cuartos: " + configCuartos.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
+                System.out.println("ID: " + hotel.mostrarIDHotel());
+                System.out.println("Nombre: " + hotel.mostrarNombre());
+                System.out.println("Ciudad: " + hotel.mostrarCiudad());
+                System.out.println("Estrellas: " + hotel.mostrarEstrellas());
+                System.out.println("Numero de cuartos: " + configCuartos.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
                 i++;
             }
         }
@@ -129,7 +131,7 @@ public class ConfigHoteles implements Config<Hotel> {
         String nombre = scan.nextLine();
         System.out.println("Ingrese la ciudad: ");
         String ciudad = scan.nextLine();
-        String IDHotel= nombre+ciudad;
+        String IDHotel= (nombre+ciudad).replaceAll("\\s+","");
         System.out.println("Ingrese las estrellas:");
         int estrellas = Integer.parseInt(scan.next());
         Hotel hotel = new Hotel(IDHotel, nombre, ciudad, estrellas);
@@ -141,12 +143,13 @@ public class ConfigHoteles implements Config<Hotel> {
         Scanner scan = new Scanner(System.in);
         actualizar();
         
-        configHoteles.mostrarHoteles();
-        System.out.println("Ingrese el nombre del hotel: ");
-        String nHotel = scan.nextLine();
-        Cuarto cu = new Cuarto("", nHotel, "", 0, 0, 0, false, "");
-        configCuartos.reservar(cu, UUID);
-        guardar();
+        if (!configHoteles.mostrarHoteles()) {
+            System.out.println("Ingrese el nombre del hotel: ");
+            String nHotel = scan.nextLine();
+            Cuarto cu = new Cuarto("", nHotel, "", 0, 0, 0, false, "");
+            configCuartos.reservar(cu, UUID);
+            guardar();
+        }
     }
 
     public void eliminarHotel () {
