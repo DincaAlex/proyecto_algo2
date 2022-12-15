@@ -75,7 +75,7 @@ public class ConfigClientes implements Config<Cliente> {
         }
     }
 
-    public boolean confirmarIngresoCliente (String correo,String contrasena) {
+    public boolean confirmarIngresoCliente (String correo, String contrasena) {
         Enumeration<Cliente> enumC = Collections.enumeration(clientes.values());
         while (enumC.hasMoreElements()) {
             Cliente cl = enumC.nextElement();
@@ -171,7 +171,7 @@ public class ConfigClientes implements Config<Cliente> {
             Cliente cliente = enu.nextElement();
             System.out.println(i + ". Correo: " + cliente.mostrarCorreo());
             System.out.println(i + ". Nombres: " + cliente.mostrarNombres());
-            System.out.println(i + ". Apellidos: " + cliente.mostrarApellidos());
+            System.out.println(i + ". Apellidos: " + cliente.mostrarApellidos() + "\n");
             i++;
         }
     }
@@ -185,5 +185,27 @@ public class ConfigClientes implements Config<Cliente> {
         String correo = scan.nextLine();
         eliminar(correo);
         guardar();
+    }
+
+    public void borrarCliente (String UUID) {
+        actualizar();
+        Scanner scan = new Scanner(System.in);
+        Enumeration<Cliente> enu = Collections.enumeration(clientes.values());
+
+        System.out.println("Escriba su correo: ");
+        String correo = scan.nextLine();
+        System.out.println("Escriba su contraseña: ");
+        String password = scan.nextLine();
+        System.out.println("Esta seguro que desea borrar su cuenta? [S/N]: ");
+        String confirmacion = scan.nextLine();
+        if (confirmacion.equals("s")) {
+            while (enu.hasMoreElements()) {
+                Cliente cliente = enu.nextElement();
+                if (correo.equals(cliente.mostrarCorreo()) && password.equals(cliente.mostrarContrasena())) {
+                    eliminar(correo);
+                    guardar();
+                }
+            }
+        }
     }
 }
