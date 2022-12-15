@@ -1,7 +1,6 @@
 package processes;
 
 import Persistence.JSONConfigFileUsuarios;
-import entities.Usuario.Admin;
 import entities.Usuario.Cliente;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

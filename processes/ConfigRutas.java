@@ -1,7 +1,6 @@
 package processes;
 
 import Persistence.JSONConfigFileViajes;
-import entities.Hotel.Hotel;
 import entities.Viajes.Ruta;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
