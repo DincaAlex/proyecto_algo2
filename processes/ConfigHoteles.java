@@ -150,7 +150,7 @@ public class ConfigHoteles implements Config<Hotel> {
         Scanner scan = new Scanner(System.in);
         actualizar();
 
-        if (!configHoteles.mostrarHoteles()) {
+        if (!mostrarHoteles()) {
             System.out.println("Ingrese el nombre del hotel: ");
             String nombreHotel = scan.nextLine();
             eliminar(nombreHotel);
