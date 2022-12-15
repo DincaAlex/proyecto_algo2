@@ -51,7 +51,7 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
     public void reservarHotel(String UUID, String IDHotel, String IDCuarto){
         actualizar();
         ReservaHotel reservaH= new ReservaHotel(UUID, IDHotel, IDCuarto);
-        reservasHotel.put(reservaH.mostrarIDCliente(), reservaH);
+        reservasHotel.put(reservaH.mostrarIDReserva(), reservaH);
         guardar();
     }
 }

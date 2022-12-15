@@ -65,7 +65,8 @@ public class AgenciaViajes {
                 String UUID = configClientes.ingresarCliente();
                 while (!salir && !Objects.equals(UUID, "null")) {
                     switch (menuOpcionesCliente()) {
-                        case 1,2,4 -> System.out.println("Menu en construcción");
+                        case 1 -> configTransportes.reservarTransporte(UUID);
+                        case 2,4 -> System.out.println("Menu en construcción");
                         case 3 -> configHoteles.reservarHotel(UUID);
                         default -> salir = true;
                     }
@@ -230,7 +231,7 @@ public class AgenciaViajes {
     }
 
     public static int menuOpcionesCliente() {
-        System.out.println("1. Realizar reserva de transporte (en proceso)");
+        System.out.println("1. Realizar reserva de transporte:");
         System.out.println("2. Cancelar reserva de transporte (en proceso)");
         System.out.println("3. Realizar reserva de hotel");
         System.out.println("4. Cancelar reserva de hotel (en proceso)");

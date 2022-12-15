@@ -1,6 +1,7 @@
 package processes;
 
 import Persistence.JSONConfigFileViajes;
+import entities.Viajes.Ruta;
 import entities.Viajes.Transporte;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,7 +22,7 @@ public class ConfigTransportes implements Config<Transporte> {
     }
 
     public void registrar (Transporte args) {
-        transportes.put(args.mostrarTipo(), args);
+        transportes.put(args.mostrarID(), args);
     }
 
     public JSONArray ToJSON() {
@@ -31,7 +32,7 @@ public class ConfigTransportes implements Config<Transporte> {
             Transporte trans= enumT.nextElement();
             JSONObject obj = new JSONObject();
             obj.put("ID", trans.mostrarID());
-            obj.put("tipo", trans.mostrarTipo());
+            obj.put("tipoTransporte", trans.mostrarTipoTransporte());
             obj.put("empresa", trans.mostrarEmpresa());
             obj.put("calidad", trans.mostrarCalidad());
             obj.put("hora-partida", trans.mostrarHoraPartida());
@@ -53,11 +54,11 @@ public class ConfigTransportes implements Config<Transporte> {
     }
 
     public void agregar (Transporte transporte) {
-        if(transportes.containsKey(transporte.mostrarTipo())) {
+        if(transportes.containsKey(transporte.mostrarID())) {
             System.out.println("El transporte ya existe.");
             return;
         }
-        transportes.put(transporte.mostrarTipo(), transporte);
+        transportes.put(transporte.mostrarID(), transporte);
     }
 
     private void eliminar (String ID) {
@@ -68,7 +69,7 @@ public class ConfigTransportes implements Config<Transporte> {
             Transporte transporte = enu.nextElement();
             if (ID.equals(transporte.mostrarID())) {
                 transportes.remove(transporte.mostrarID(), transporte);
-                transportes.remove(transporte.mostrarTipo(), transporte);
+                transportes.remove(transporte.mostrarTipoTransporte(), transporte);
                 transportes.remove(transporte.mostrarEmpresa(), transporte);
                 transportes.remove(transporte.mostrarHoraPartida(), transporte);
                 transportes.remove(transporte.mostrarHoraDestino(), transporte);
@@ -82,11 +83,15 @@ public class ConfigTransportes implements Config<Transporte> {
     public void agregarTransporte () {
         actualizar();
         Scanner scan= new Scanner(System.in);
-
-        System.out.println("Ingrese el tipo de transporte: ");
-        String tipoTransporte = scan.next();
+        configRutas.mostrarRutas();
+        System.out.println("Ingrese el ID de la ruta: ");
+        String IDRuta= scan.nextLine();
+        Ruta ruta= configRutas.conseguirInfoRuta(IDRuta);
+        String ciudadPartida= ruta.mostrarCiudadPartida();
+        String ciudadDestino= ruta.mostrarCiudadDestino();
+        String tipoTransporte= ruta.mostrarTipoTransporte();
         System.out.println("Ingrese la empresa:");
-        String empresa = scan.next();
+        String empresa = scan.nextLine();
         System.out.println("Ingrese la calidad del servicio: ");
         String calidad = scan.next();
         String ID = tipoTransporte+empresa+calidad;
@@ -110,7 +115,7 @@ public class ConfigTransportes implements Config<Transporte> {
         LocalDateTime hDestino = LocalDateTime.of(anioD, mesD, diaD, horasD, minutosD, segundosD);
         System.out.println("Ingrese la capacidad del transporte: ");
         int cantDisponible = scan.nextInt();
-        Transporte transporte = new Transporte(ID, tipoTransporte, empresa, calidad, hPartida.toString(), hDestino.toString(), cantDisponible);
+        Transporte transporte = new Transporte(IDRuta, ciudadPartida, ciudadDestino,tipoTransporte, ID, empresa, calidad, hPartida.toString(), hDestino.toString(), cantDisponible);
         agregar(transporte);
         guardar();
     }
@@ -122,8 +127,9 @@ public class ConfigTransportes implements Config<Transporte> {
         int i = 1;
         while (enu.hasMoreElements()) {
             Transporte transporte = enu.nextElement();
+            System.out.println(i+". ID de la Ruta: "+transporte.mostrarIDRuta());
             System.out.println(i + ". ID: " + transporte.mostrarID());
-            System.out.println(i + ". Tipo: " + transporte.mostrarTipo());
+            System.out.println(i + ". Tipo: " + transporte.mostrarTipoTransporte());
             System.out.println(i + ". Empresa: " + transporte.mostrarEmpresa());
             System.out.println(i + ". Calidad: " + transporte.mostrarCalidad());
             System.out.println(i + ". Hora de partida: " + transporte.mostrarHoraPartida());
@@ -142,5 +148,10 @@ public class ConfigTransportes implements Config<Transporte> {
         String ID = scan.nextLine();
         eliminar(ID);
         guardar();
+    }
+    public void reservarTransporte(String UUID){
+        Scanner scan= new Scanner(System.in);
+        actualizar();
+        configRutas.mostrarRutas();
     }
 }

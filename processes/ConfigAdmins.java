@@ -120,7 +120,6 @@ public class ConfigAdmins implements Config<Admin> {
     public boolean ingresarAdmin() {
         actualizar();
         Scanner scan = new Scanner(System.in);
-
         String retryAnswer;
         int retryTimes = 0;
         boolean entradaExitosa = false;

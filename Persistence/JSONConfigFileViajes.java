@@ -55,10 +55,10 @@ public class JSONConfigFileViajes implements Persistence<ConfigRutas, ConfigTran
             return;
         for (Object o : rutasJSONArray) {
             JSONObject ruta = (JSONObject) o;
-            String ID = (String) ruta.get("ID");
+            String ID = (String) ruta.get("IDRuta");
             String ciudadPartida = (String) ruta.get("ciudad-partida");
             String ciudadDestino = (String) ruta.get("ciudad-destino");
-            String transporte = (String) ruta.get("transporte");
+            String transporte = (String) ruta.get("tipoTransporte");
             Ruta rut = new Ruta(ID, ciudadPartida, ciudadDestino, transporte);
             config.registrar(rut);
         }
@@ -71,14 +71,17 @@ public class JSONConfigFileViajes implements Persistence<ConfigRutas, ConfigTran
             return;
         for (Object o : transportesJSONArray) {
             JSONObject transporte = (JSONObject) o;
+            String IDRuta= (String) transporte.get("IDRuta");
+            String ciudadPartida= (String) transporte.get("ciudadPartida");
+            String ciudadDestino= (String) transporte.get("ciudadDestino");
+            String tipoTransporte = (String) transporte.get("tipoTransporte");
             String ID= (String) transporte.get("ID");
-            String tipo = (String) transporte.get("tipo");
             String empresa = (String) transporte.get("empresa");
             String calidad = (String) transporte.get("calidad");
             String horaPartida = (String) transporte.get("hora-partida");
             String horaDestino = (String) transporte.get("hora-llegada");
             int cantDisponible = (int) transporte.get("cantDisponible");
-            Transporte trans = new Transporte(ID, tipo, empresa, calidad, horaPartida, horaDestino, cantDisponible);
+            Transporte trans = new Transporte(IDRuta, ciudadPartida, ciudadDestino, tipoTransporte, ID, empresa, calidad, horaPartida, horaDestino, cantDisponible);
             config.registrar(trans);
         }
     }

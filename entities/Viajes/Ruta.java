@@ -3,20 +3,20 @@ package entities.Viajes;
 import java.util.Scanner;
 
 public class Ruta {
-    public String ID;
-    public String ciudadPartida;
-    public String ciudadDestino;
-    public String transporte;
+    private String IDRuta;
+    private String ciudadPartida;
+    private String ciudadDestino;
+    private String tipoTransporte;
 
-    public Ruta(String ID, String ciudadPartida, String ciudadDestino, String transporte){
-        this.ID= ID;
+    public Ruta(String IDRuta, String ciudadPartida, String ciudadDestino, String tipoTransporte){
+        this.IDRuta= IDRuta;
         this.ciudadPartida = ciudadPartida;
         this.ciudadDestino = ciudadDestino;
-        this.transporte = transporte;
+        this.tipoTransporte = tipoTransporte;
     }
 
-    public String mostrarID() {
-        return ID;
+    public String mostrarIDRuta() {
+        return IDRuta;
     }
 
     public String mostrarCiudadPartida() {
@@ -27,20 +27,7 @@ public class Ruta {
         return ciudadDestino;
     }
 
-    public String mostrarTransporte() {
-        return transporte;
-    }
-
-    public void menuReserva(){
-        System.out.println("Bienvenido a la reserva de viajes");
-        System.out.println("Seleccione una opción: ");
-        System.out.println("1. Reservar hotel\t 2. Reservar transporte\t 3. Salir");
-        Scanner s= new Scanner(System.in);
-        int opc= s.nextInt();
-        switch(opc){
-            case 1:; break;
-            case 2:; break;
-            case 3:; break;
-        }
+    public String mostrarTipoTransporte() {
+        return tipoTransporte;
     }
 }

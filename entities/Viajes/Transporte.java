@@ -1,17 +1,16 @@
 package entities.Viajes;
 
-public class Transporte {
+public class Transporte extends Ruta {
     private String ID;
-    private String tipo;
     private String empresa;
     private String calidad;
     private String horaPartida;
     private String horaDestino;
     private int cantDisponible;
 
-    public Transporte(String ID, String tipo, String empresa, String calidad, String horaPartida, String horaDestino, int cantDisponible){
+    public Transporte(String IDRuta, String ciudadPartida, String ciudadDestino, String tipoTransporte, String ID, String empresa, String calidad, String horaPartida, String horaDestino, int cantDisponible){
+        super(IDRuta, ciudadPartida, ciudadDestino, tipoTransporte);
         this.ID= ID;
-        this.tipo = tipo;
         this.empresa = empresa;
         this.calidad = calidad;
         this.horaPartida = horaPartida;
@@ -21,10 +20,6 @@ public class Transporte {
 
     public String mostrarID(){
         return ID;
-    }
-
-    public String mostrarTipo() {
-        return tipo;
     }
 
     public String mostrarEmpresa() {

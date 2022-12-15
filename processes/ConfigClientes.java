@@ -132,7 +132,6 @@ public class ConfigClientes implements Config<Cliente> {
     public String ingresarCliente () {
         actualizar();
         Scanner scan = new Scanner(System.in);
-
         String copiaUUID = "";
         String retryAnswer = "n";
         int retryTimes = 0;

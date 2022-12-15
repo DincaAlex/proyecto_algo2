@@ -20,7 +20,7 @@ public class ConfigRutas implements Config<Ruta> {
     }
 
     public void registrar (Ruta args) {
-        rutas.put(args.mostrarID(), args);
+        rutas.put(args.mostrarIDRuta(), args);
     }
 
     public JSONArray ToJSON () {
@@ -29,10 +29,10 @@ public class ConfigRutas implements Config<Ruta> {
         while (enumR.hasMoreElements()) {
             Ruta ruta = enumR.nextElement();
             JSONObject obj = new JSONObject();
-            obj.put("ID", ruta.mostrarID());
+            obj.put("IDRuta", ruta.mostrarIDRuta());
             obj.put("ciudad-partida", ruta.mostrarCiudadPartida());
             obj.put("ciudad-destino", ruta.mostrarCiudadDestino());
-            obj.put("transporte", ruta.mostrarTransporte());
+            obj.put("tipoTransporte", ruta.mostrarTipoTransporte());
             arrayRutas.add(obj);
         }
         return arrayRutas;
@@ -49,11 +49,11 @@ public class ConfigRutas implements Config<Ruta> {
     }
 
     private void agregar (Ruta ruta) {
-        if(rutas.containsKey(ruta.mostrarID())) {
+        if(rutas.containsKey(ruta.mostrarIDRuta())) {
             System.out.println("La ruta ya esta registrada.");
             return;
         }
-        rutas.put(ruta.mostrarID(), ruta);
+        rutas.put(ruta.mostrarIDRuta(), ruta);
     }
 
     private void eliminar (String ID) {
@@ -62,11 +62,11 @@ public class ConfigRutas implements Config<Ruta> {
 
         while (enu.hasMoreElements()) {
             Ruta ruta = enu.nextElement();
-            if (ID.equals(ruta.mostrarID())) {
-                rutas.remove(ruta.mostrarID(), ruta);
+            if (ID.equals(ruta.mostrarIDRuta())) {
+                rutas.remove(ruta.mostrarIDRuta(), ruta);
                 rutas.remove(ruta.mostrarCiudadPartida(), ruta);
                 rutas.remove(ruta.mostrarCiudadDestino(), ruta);
-                rutas.remove(ruta.mostrarTransporte(), ruta);
+                rutas.remove(ruta.mostrarTipoTransporte(), ruta);
                 System.out.println("Hotel eliminado exitosamente");
                 break;
             }
@@ -81,9 +81,9 @@ public class ConfigRutas implements Config<Ruta> {
         String ciudadPartida = scan.next();
         System.out.println("Ingrese la ciudad de destino:");
         String ciudadDestino = scan.next();
-        String ID = ciudadPartida+ciudadDestino;
         System.out.println("Ingrese el tipo de transporte:");
         String transporte = scan.next();
+        String ID = ciudadPartida+ciudadDestino+transporte;
         Ruta ruta = new Ruta(ID, ciudadPartida, ciudadDestino, transporte);
         agregar(ruta);
         guardar();
@@ -92,24 +92,44 @@ public class ConfigRutas implements Config<Ruta> {
     public boolean mostrarRutas () {
         actualizar();
         Enumeration<Ruta> enu = Collections.enumeration(rutas.values());
-
         boolean vacio = false;
         int i = 1;
         if (rutas.isEmpty()) {
-            System.out.println("No hay hoteles registrados");
+            System.out.println("No hay rutas registradas");
             vacio = true;
         }
         else {
             while (enu.hasMoreElements()) {
                 Ruta ruta = enu.nextElement();
-                System.out.println(i + ". ID: " + ruta.mostrarID());
+                System.out.println(i + ". ID: " + ruta.mostrarIDRuta());
                 System.out.println(i + ". Ciudad de partida: " + ruta.mostrarCiudadPartida());
                 System.out.println(i + ". Ciudad de llegada: " + ruta.mostrarCiudadDestino());
-                System.out.println(i + ". Transporte: " + ruta.mostrarTransporte());
+                System.out.println(i + ". Transporte: " + ruta.mostrarTipoTransporte());
                 i++;
             }
         }
         return vacio;
+    }
+
+    public Ruta conseguirInfoRuta(String IDRuta){
+        actualizar();
+        Enumeration<Ruta> enumR= Collections.enumeration(rutas.values());
+        String ciudadPartida= "";
+        String ciudadDestino= "";
+        String tipoTransporte= "";
+        while(enumR.hasMoreElements()){
+            Ruta ruta= enumR.nextElement();
+            if(IDRuta.equals(ruta.mostrarIDRuta())){
+                ciudadPartida= ruta.mostrarCiudadPartida();
+                ciudadDestino= ruta.mostrarCiudadDestino();
+                tipoTransporte= ruta.mostrarTipoTransporte();
+            }
+            else{
+                System.out.println("No se ha encontrado la ruta.");
+                break;
+            }
+        }
+        return new Ruta(IDRuta, ciudadPartida, ciudadDestino, tipoTransporte);
     }
 
     public void eliminarRuta () {
