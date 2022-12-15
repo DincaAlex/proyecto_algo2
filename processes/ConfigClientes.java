@@ -132,7 +132,7 @@ public class ConfigClientes implements Config<Cliente> {
     public String ingresarCliente () {
         actualizar();
         Scanner scan = new Scanner(System.in);
-        String copiaUUID = "";
+        String copiaUUID = "error"; // en caso de fallar el login
         String retryAnswer = "n";
         int retryTimes = 0;
         do {
