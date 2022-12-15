@@ -20,12 +20,17 @@ public class AgenciaViajes {
             int user = scan.nextInt();
             scan.nextLine();
             if (user == 1) {
-                System.out.println("Ingrese el código de seguridad para ingresar como administrador: ");
-                String cod = scan.nextLine();
-                if (cod.equals("12345")) // soy exporto en cyber seguridad, no te preocupes xd
-                    salir = menuAdmin();
+                while (!salir) {
+                    System.out.println("Ingrese el código de seguridad para ingresar como administrador: ");
+                    String cod = scan.nextLine();
+                    if (cod.equals("12345"))
+                        salir = menuAdmin();
+                    else{
+                        System.out.println("Código invalido");
+                        salir = true;
+                    }
+                }
             }
-
             if (user == 2)
                 salir = menuCliente();
         }
@@ -239,16 +244,21 @@ public class AgenciaViajes {
         System.out.println("2. Cancelar reserva de transporte [Menu en construcción]");
         System.out.println("3. Realizar reserva de hotel");
         System.out.println("4. Cancelar reserva de hotel [Menu en construcción]");
-        System.out.println("5. Ver reservas realizadas");
-        System.out.println("6. Salir");
+        System.out.println("5. Ver reservas realizadas [Menu en construcción]");
+        System.out.println("6. Borrar cuenta");
+        System.out.println("7. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
 
         switch (opcion) {
             case 1 -> configTransportes.reservarTransporte(UUID);
-            case 2, 4 -> System.out.println("Menu en construcción");
+            case 2, 4, 5 -> System.out.println("Menu en construcción");
             case 3 -> configHoteles.reservarHotel(UUID);
+            case 6 -> {
+                configClientes.borrarCliente(UUID);
+                salir = true;
+            }
             default -> salir = true;
         }
         return salir;
