@@ -38,7 +38,6 @@ public class ConfigCuartos implements Config<Cuarto> {
             obj.put("numero", c.mostrarNumero());
             obj.put("piso", c.mostrarPiso());
             obj.put("ocupado", c.mostrarOcupado());
-            obj.put("cReserva", c.mostrarClienteReserva());
             arrayCuartos.add(obj);
         }
         return arrayCuartos;
@@ -76,7 +75,6 @@ public class ConfigCuartos implements Config<Cuarto> {
                 cuartos.remove(cuarto.mostrarNumero(), cuarto);
                 cuartos.remove(cuarto.mostrarPiso(), cuarto);
                 cuartos.remove(cuarto.mostrarOcupado(), cuarto);
-                cuartos.remove(cuarto.mostrarClienteReserva(), cuarto);
                 System.out.println("Cuarto" +cuarto.mostrarID() + "eliminado exitosamente");
                 break;
             }
@@ -91,7 +89,6 @@ public class ConfigCuartos implements Config<Cuarto> {
                 if(!c.mostrarOcupado()){
                     System.out.println("ID de la habitación: "+c.mostrarID());
                     c.ocupar();
-                    c.clienteReservar(uuid);
                     cuarto=c;
                     cuartos.remove(c.mostrarID(), c);
                     cuartos.put(cuarto.mostrarID(), cuarto);
@@ -115,7 +112,7 @@ public class ConfigCuartos implements Config<Cuarto> {
                 String id = String.valueOf(idNum);
                 String IDHotel= nombre+ciudad;
                 id= id+IDHotel;
-                Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, j, i, ocupado, "", id);
+                Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, j, i, ocupado, id);
                 cuartos.put(cuarto.mostrarID(), cuarto);
                 agregar(cuarto);
             }
@@ -160,7 +157,7 @@ public class ConfigCuartos implements Config<Cuarto> {
             int idNum = piso*100+numero;
             String id = String.valueOf(idNum);
             id= id+IDHotel;
-            Cuarto cuarto = new Cuarto(IDHotel, nombreH, ciudad, estrellas, numero, piso, ocupado, "", id);
+            Cuarto cuarto = new Cuarto(IDHotel, nombreH, ciudad, estrellas, numero, piso, ocupado, id);
             agregar(cuarto);
             guardar();
         }
@@ -214,8 +211,6 @@ public class ConfigCuartos implements Config<Cuarto> {
                 System.out.println(cuarto.mostrarID() + ". Numero: " + cuarto.mostrarNumero());
                 System.out.println(cuarto.mostrarID() + ". Piso: " + cuarto.mostrarPiso());
                 System.out.println(cuarto.mostrarID() + ". Ocupado: " + cuarto.mostrarOcupado());
-                if (cuarto.mostrarOcupado())
-                    System.out.println(cuarto.mostrarID() + ". Cliente: " + cuarto.mostrarClienteReserva());
             }
         }
     }

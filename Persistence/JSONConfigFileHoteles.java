@@ -78,8 +78,7 @@ public class JSONConfigFileHoteles implements Persistence<ConfigHoteles, ConfigC
             int numero = (int)(long) cuartos.get("numero");
             int piso = (int)(long) cuartos.get("piso");
             boolean ocupado = (boolean) cuartos.get("ocupado");
-            String cReserva= (String) cuartos.get("cReserva");
-            Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, numero, piso, ocupado, cReserva, ID);
+            Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, numero, piso, ocupado, ID);
             config.registrar(cuarto);
         }
     }

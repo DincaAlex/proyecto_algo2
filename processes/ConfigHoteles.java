@@ -144,7 +144,7 @@ public class ConfigHoteles implements Config<Hotel> {
         configHoteles.mostrarHoteles();
         System.out.println("Ingrese el nombre del hotel: ");
         String nHotel = scan.nextLine();
-        Cuarto cu = new Cuarto("", nHotel, "", 0, 0, 0, false, "", "");
+        Cuarto cu = new Cuarto("", nHotel, "", 0, 0, 0, false, "");
         configCuartos.reservar(cu, UUID);
         guardar();
     }
