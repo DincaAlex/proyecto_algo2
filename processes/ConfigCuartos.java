@@ -109,7 +109,8 @@ public class ConfigCuartos implements Config<Cuarto> {
             for (int j=1; j<= numCuartos; j++){
                 int idNum = i*100+j; // genera el ID
                 String id = String.valueOf(idNum);
-                Cuarto cuarto = new Cuarto(nombre, ciudad, estrellas, j, i, ocupado, "", id);
+                String IDHotel= nombre+ciudad;
+                Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, j, i, ocupado, "", id);
                 cuartos.put(cuarto.mostrarID(), cuarto);
                 agregar(cuarto);
             }
@@ -144,6 +145,7 @@ public class ConfigCuartos implements Config<Cuarto> {
             Hotel hotel = configHoteles.recuperarHotel(nombreH);
             String ciudad = hotel.mostrarCiudad();
             int estrellas = hotel.mostrarEstrellas();
+            String IDHotel= nombreH+hotel.mostrarCiudad();
             System.out.println("Ingrese el numero del cuarto: ");
             int numero = Integer.parseInt(scan.next());
             System.out.println("Ingrese el piso del cuarto: ");
@@ -152,7 +154,7 @@ public class ConfigCuartos implements Config<Cuarto> {
             boolean ocupado = Boolean.parseBoolean(scan.next());
             int idNum = piso*100+numero;
             String id = String.valueOf(idNum);
-            Cuarto cuarto = new Cuarto(nombreH, ciudad, estrellas, numero, piso, ocupado, "", id);
+            Cuarto cuarto = new Cuarto(IDHotel, nombreH, ciudad, estrellas, numero, piso, ocupado, "", id);
             agregar(cuarto);
             guardar();
         }

@@ -31,6 +31,7 @@ public class ConfigHoteles implements Config<Hotel> {
         while (enumH.hasMoreElements()) {
             Hotel h = enumH.nextElement();
             JSONObject obj = new JSONObject();
+            obj.put("IDHotel", h.mostrarIDHotel());
             obj.put("nombre", h.mostrarNombre());
             obj.put("ciudad", h.mostrarCiudad());
             obj.put("estrellas", h.mostrarEstrellas());
@@ -103,12 +104,13 @@ public class ConfigHoteles implements Config<Hotel> {
     public Hotel recuperarHotel (String nombre) {
         actualizar();
         Enumeration<Hotel> enumH = Collections.enumeration(hoteles.values());
-
+        String IDHotel= "";
         String ciudad = "";
         int estrellas = -1; // error en caso de no encontrar el hotel
         while (enumH.hasMoreElements()) {
             Hotel hotel = enumH.nextElement();
             if (nombre.equals(hotel.mostrarNombre())) {
+                IDHotel= hotel.mostrarIDHotel();
                 ciudad = hotel.mostrarCiudad();
                 estrellas = Integer.parseInt(String.valueOf(hotel.mostrarEstrellas()));
             }
@@ -116,7 +118,7 @@ public class ConfigHoteles implements Config<Hotel> {
                 System.out.println("No se encontró el hotel.");
             }
         }
-        return new Hotel(nombre, ciudad, estrellas);
+        return new Hotel(IDHotel, nombre, ciudad, estrellas);
     }
 
     public void agregarHotel () {
@@ -127,9 +129,10 @@ public class ConfigHoteles implements Config<Hotel> {
         String nombre = scan.nextLine();
         System.out.println("Ingrese la ciudad: ");
         String ciudad = scan.nextLine();
+        String IDHotel= nombre+ciudad;
         System.out.println("Ingrese las estrellas:");
         int estrellas = Integer.parseInt(scan.next());
-        Hotel hotel = new Hotel(nombre, ciudad, estrellas);
+        Hotel hotel = new Hotel(IDHotel, nombre, ciudad, estrellas);
         agregar(hotel);
         guardar();
     }
@@ -141,7 +144,7 @@ public class ConfigHoteles implements Config<Hotel> {
         configHoteles.mostrarHoteles();
         System.out.println("Ingrese el nombre del hotel: ");
         String nHotel = scan.nextLine();
-        Cuarto cu = new Cuarto(nHotel, "", 0, 0, 0, false, "", "");
+        Cuarto cu = new Cuarto("", nHotel, "", 0, 0, 0, false, "", "");
         configCuartos.reservar(cu, UUID);
         guardar();
     }
