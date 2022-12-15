@@ -53,4 +53,7 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
         guardar();
     }
 
+    public void reservaTransporte() {
+    }
+
 }
