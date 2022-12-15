@@ -97,6 +97,7 @@ public class ConfigCuartos implements Config<Cuarto> {
                     System.out.println("Reserva realizada");
                     return;
                 }
+                c= enumC.nextElement();
             }
         }
     }
@@ -110,6 +111,7 @@ public class ConfigCuartos implements Config<Cuarto> {
                 int idNum = i*100+j; // genera el ID
                 String id = String.valueOf(idNum);
                 String IDHotel= nombre+ciudad;
+                id= id+IDHotel;
                 Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, j, i, ocupado, "", id);
                 cuartos.put(cuarto.mostrarID(), cuarto);
                 agregar(cuarto);
@@ -154,6 +156,7 @@ public class ConfigCuartos implements Config<Cuarto> {
             boolean ocupado = Boolean.parseBoolean(scan.next());
             int idNum = piso*100+numero;
             String id = String.valueOf(idNum);
+            id= id+IDHotel;
             Cuarto cuarto = new Cuarto(IDHotel, nombreH, ciudad, estrellas, numero, piso, ocupado, "", id);
             agregar(cuarto);
             guardar();
