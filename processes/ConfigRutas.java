@@ -67,7 +67,7 @@ public class ConfigRutas implements Config<Ruta> {
                 rutas.remove(ruta.mostrarCiudadPartida(), ruta);
                 rutas.remove(ruta.mostrarCiudadDestino(), ruta);
                 rutas.remove(ruta.mostrarTipoTransporte(), ruta);
-                System.out.println("Hotel eliminado exitosamente");
+                System.out.println("Ruta eliminada exitosamente");
                 break;
             }
         }

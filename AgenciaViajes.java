@@ -169,7 +169,7 @@ public class AgenciaViajes {
         System.out.println("Menu de los cuartos");
         System.out.println("1. Mostrar ");
         System.out.println("2. Agregar");
-        System.out.println("3. Agregar en masse");
+        System.out.println("3. Agregar en masa");
         System.out.println("4. Eliminar ");
         System.out.println("5. Salir");
         Scanner scan = new Scanner(System.in);
@@ -231,7 +231,7 @@ public class AgenciaViajes {
     }
 
     public static int menuOpcionesCliente() {
-        System.out.println("1. Realizar reserva de transporte:");
+        System.out.println("1. Realizar reserva de transporte (en proceso)");
         System.out.println("2. Cancelar reserva de transporte (en proceso)");
         System.out.println("3. Realizar reserva de hotel");
         System.out.println("4. Cancelar reserva de hotel (en proceso)");
