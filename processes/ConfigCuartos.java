@@ -15,6 +15,7 @@ public class ConfigCuartos implements Config<Cuarto> {
     private static HashMap<String, Cuarto> cuartos;
     private static final ConfigHoteles configHoteles = new ConfigHoteles();
     private static final ConfigCuartos configCuartos = new ConfigCuartos();
+    private static final ConfigReservaHotel configReservaHotel = new ConfigReservaHotel();
 
     public ConfigCuartos(){
         cuartos = new HashMap<String, Cuarto>();
@@ -94,6 +95,8 @@ public class ConfigCuartos implements Config<Cuarto> {
                     cuarto=c;
                     cuartos.remove(c.mostrarID(), c);
                     cuartos.put(cuarto.mostrarID(), cuarto);
+                    String IDHotel= cuarto.mostrarNombre()+cuarto.mostrarCiudad();
+                    configReservaHotel.reservarHotel(uuid, IDHotel, cuarto.mostrarID());
                     System.out.println("Reserva realizada");
                     return;
                 }

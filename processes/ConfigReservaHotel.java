@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import Persistence.JSONConfigFileReservas;
 import entities.Reservas.ReservaHotel;
 
-public class ConfigReservaHotel {
+public class ConfigReservaHotel implements Config<ReservaHotel> {
     private static HashMap<String, ReservaHotel> reservasHotel;
     private static final ConfigReservaHotel configReservaHotel= new ConfigReservaHotel();
     private static final ConfigReservaTransporte configReservaTransporte= new ConfigReservaTransporte();
@@ -20,7 +20,7 @@ public class ConfigReservaHotel {
     }
 
     public void registrar(ReservaHotel args){
-        reservasHotel.put(args.mostrarIDCliente(), args);
+        reservasHotel.put(args.mostrarIDReserva(), args);
     }
 
     public JSONArray ToJSON () {
@@ -29,6 +29,7 @@ public class ConfigReservaHotel {
         while(rh.hasMoreElements()) {
             ReservaHotel rHot = rh.nextElement();
             JSONObject obj = new JSONObject();
+            obj.put("IDReserva", rHot.mostrarIDReserva());
             obj.put("IDCliente", rHot.mostrarIDCliente());
             obj.put("IDHotel", rHot.mostrarIDHotel());
             obj.put("IDCuarto", rHot.mostrarIDCuarto());
@@ -48,9 +49,9 @@ public class ConfigReservaHotel {
     }
 
     public void reservarHotel(String UUID, String IDHotel, String IDCuarto){
+        actualizar();
         ReservaHotel reservaH= new ReservaHotel(UUID, IDHotel, IDCuarto);
         reservasHotel.put(reservaH.mostrarIDCliente(), reservaH);
         guardar();
     }
-
 }

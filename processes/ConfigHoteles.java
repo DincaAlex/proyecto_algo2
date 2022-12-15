@@ -140,7 +140,7 @@ public class ConfigHoteles implements Config<Hotel> {
     public void reservarHotel (String UUID) {
         Scanner scan = new Scanner(System.in);
         actualizar();
-
+        
         configHoteles.mostrarHoteles();
         System.out.println("Ingrese el nombre del hotel: ");
         String nHotel = scan.nextLine();

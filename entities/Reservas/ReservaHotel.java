@@ -1,28 +1,30 @@
 package entities.Reservas;
 
+import java.util.UUID;
+
 public class ReservaHotel {
+    private UUID IDReserva;
     private String IDCliente;
-    private String nombreHotel;
-    private String ciudadHotel;
+    private String IDHotel;
     private String IDCuarto;
 
-    public ReservaHotel(String IDCliente, String nombreHotel, String ciudadHotel, String IDCuarto){
+    public ReservaHotel(String IDCliente, String IDHotel, String IDCuarto){
+        this.IDReserva= UUID.randomUUID();
         this.IDCliente= IDCliente;
-        this.nombreHotel= nombreHotel;
-        this.ciudadHotel= ciudadHotel;
+        this.IDHotel= IDHotel;
         this.IDCuarto= IDCuarto;
+    }
+
+    public String mostrarIDReserva(){
+        return IDReserva.toString();
     }
 
     public String mostrarIDCliente(){
         return IDCliente;
     }
 
-    public String mostrarnombreHotel(){
-        return nombreHotel;
-    }
-
-    public String mostrarCiudadHotel(){
-        return ciudadHotel;
+    public String mostrarIDHotel(){
+        return IDHotel;
     }
 
     public String mostrarIDCuarto(){

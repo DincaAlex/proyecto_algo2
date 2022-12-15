@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import Persistence.JSONConfigFileReservas;
 import entities.Reservas.ReservaTransporte;
 
-public class ConfigReservaTransporte {
+public class ConfigReservaTransporte implements Config<ReservaTransporte>{
     private static HashMap<String, ReservaTransporte> reservasTransporte;
     private static final ConfigReservaHotel configReservaHotel= new ConfigReservaHotel();
     private static final ConfigReservaTransporte configReservaTransporte= new ConfigReservaTransporte();
