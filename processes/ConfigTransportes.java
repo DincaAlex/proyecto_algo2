@@ -1,6 +1,7 @@
 package processes;
 
 import Persistence.JSONConfigFileViajes;
+import entities.Reservas.ReservaTransporte;
 import entities.Viajes.Ruta;
 import entities.Viajes.Transporte;
 import org.json.simple.JSONArray;
@@ -16,6 +17,7 @@ public class ConfigTransportes implements Config<Transporte> {
     private static HashMap<String, Transporte> transportes;
     private static final ConfigRutas configRutas = new ConfigRutas();
     private static final ConfigTransportes configTransportes = new ConfigTransportes();
+    private static final ConfigReservaTransporte configReservaTransporte= new ConfigReservaTransporte();
 
     public ConfigTransportes(){
         transportes = new HashMap<String, Transporte>();
@@ -123,19 +125,23 @@ public class ConfigTransportes implements Config<Transporte> {
     public void mostrarTransportes () {
         actualizar();
         Enumeration<Transporte> enu = Collections.enumeration(transportes.values());
-
         int i = 1;
-        while (enu.hasMoreElements()) {
-            Transporte transporte = enu.nextElement();
-            System.out.println(i+". ID de la Ruta: "+transporte.mostrarIDRuta());
-            System.out.println(i + ". ID: " + transporte.mostrarID());
-            System.out.println(i + ". Tipo: " + transporte.mostrarTipoTransporte());
-            System.out.println(i + ". Empresa: " + transporte.mostrarEmpresa());
-            System.out.println(i + ". Calidad: " + transporte.mostrarCalidad());
-            System.out.println(i + ". Hora de partida: " + transporte.mostrarHoraPartida());
-            System.out.println(i + ". Hora de llegada: " + transporte.mostrarHoraDestino());
-            System.out.println(i + ". Cantidad disponible: " + transporte.mostrarCantDisponible());
-            i++;
+        if(transportes.isEmpty()){
+            System.out.println("No hay transportes registrados");
+        }
+        else{
+            while (enu.hasMoreElements()) {
+                Transporte transporte = enu.nextElement();
+                System.out.println(i+". ID de la Ruta: "+transporte.mostrarIDRuta());
+                System.out.println(i + ". ID: " + transporte.mostrarID());
+                System.out.println(i + ". Tipo: " + transporte.mostrarTipoTransporte());
+                System.out.println(i + ". Empresa: " + transporte.mostrarEmpresa());
+                System.out.println(i + ". Calidad: " + transporte.mostrarCalidad());
+                System.out.println(i + ". Hora de partida: " + transporte.mostrarHoraPartida());
+                System.out.println(i + ". Hora de llegada: " + transporte.mostrarHoraDestino());
+                System.out.println(i + ". Cantidad disponible: " + transporte.mostrarCantDisponible());
+                i++;
+            }
         }
     }
 
@@ -153,5 +159,32 @@ public class ConfigTransportes implements Config<Transporte> {
         Scanner scan= new Scanner(System.in);
         actualizar();
         configRutas.mostrarRutas();
+        mostrarTransportes();
+        System.out.println("Ingrese el ID del transporte a elegir: ");
+        String IDTransporte= scan.nextLine();
+        Transporte trans= new Transporte("", "", "", "", IDTransporte, "", "", "", "", 0);
+        reservar(trans, UUID);
+        guardar();
     }
+
+    public void reservar(Transporte trans, String UUID){
+        Enumeration<Transporte> enumT= Collections.enumeration(transportes.values());
+        while(enumT.hasMoreElements()){
+            Transporte t= enumT.nextElement();
+            while(trans.mostrarID().equals(t.mostrarID())){
+                if(t.mostrarCantDisponible()>0){
+                    t.ocuparLugar();
+                    trans=t;
+                    transportes.remove(t.mostrarID(), t);
+                    transportes.put(trans.mostrarID(), trans);
+                    configReservaTransporte.reservaTransporte();
+                    System.out.println("Reserva realizada");
+                    return;
+                }
+                else   
+                    System.out.println("Transporte lleno. Seleccione otro.");
+            }
+        }
+    }
+
 }

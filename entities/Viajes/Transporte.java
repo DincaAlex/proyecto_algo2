@@ -41,4 +41,9 @@ public class Transporte extends Ruta {
     public int mostrarCantDisponible(){
         return cantDisponible;
     }
+
+    public int ocuparLugar(){
+        cantDisponible--;
+        return cantDisponible;
+    }
 }
