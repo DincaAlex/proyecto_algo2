@@ -92,7 +92,8 @@ public class ConfigCuartos implements Config<Cuarto> {
                     cuarto=c;
                     cuartos.remove(c.mostrarID(), c);
                     cuartos.put(cuarto.mostrarID(), cuarto);
-                    String IDHotel= cuarto.mostrarNombre()+cuarto.mostrarCiudad();
+                    String IDHotel= (cuarto.mostrarNombre()+cuarto.mostrarCiudad()).replaceAll("\\s+","");
+                    // ^borra todos los espacio en blanco para mejorar el formato
                     configReservaHotel.reservarHotel(uuid, IDHotel, cuarto.mostrarID());
                     System.out.println("Reserva realizada");
                     return;
