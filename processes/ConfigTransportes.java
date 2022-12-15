@@ -1,6 +1,7 @@
 package processes;
 
 import Persistence.JSONConfigFileViajes;
+import entities.Viajes.Ruta;
 import entities.Viajes.Transporte;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,23 +13,21 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class ConfigTransportes implements Config<Transporte> {
-    private HashMap<String, Transporte> transportes;
+    private static HashMap<String, Transporte> transportes;
+    private static final ConfigRutas configRutas = new ConfigRutas();
+    private static final ConfigTransportes configTransportes = new ConfigTransportes();
 
     public ConfigTransportes(){
-        this.transportes = new HashMap<String, Transporte>();
+        transportes = new HashMap<String, Transporte>();
     }
 
-    public void registrar(Transporte args) {
-        if(this.transportes.containsKey((Object)args.mostrarTipo())) {
-            System.out.println("El transporte ya existe.");
-            return;
-        }
-        this.transportes.put(args.mostrarTipo(), args);
+    public void registrar (Transporte args) {
+        transportes.put(args.mostrarTipo(), args);
     }
 
     public JSONArray ToJSON() {
         JSONArray arrayTransportes = new JSONArray();
-        Enumeration<Transporte> enumT = Collections.enumeration(this.transportes.values());
+        Enumeration<Transporte> enumT = Collections.enumeration(transportes.values());
         while (enumT.hasMoreElements()) {
             Transporte trans= enumT.nextElement();
             JSONObject obj = new JSONObject();
@@ -44,41 +43,105 @@ public class ConfigTransportes implements Config<Transporte> {
         return arrayTransportes;
     }
 
+    private void actualizar () {
+        JSONConfigFileViajes p = new JSONConfigFileViajes();
+        p.leerConfig(configRutas, configTransportes);
+    }
+
+    private void guardar () {
+        JSONConfigFileViajes p = new JSONConfigFileViajes();
+        p.guardarConfig(configRutas, configTransportes);
+    }
+
+    public void agregar (Transporte transporte) {
+        if(transportes.containsKey(transporte.mostrarTipo())) {
+            System.out.println("El transporte ya existe.");
+            return;
+        }
+        transportes.put(transporte.mostrarTipo(), transporte);
+    }
+
+    private void eliminar (String ID) {
+        actualizar();
+        Enumeration<Transporte> enu = Collections.enumeration(transportes.values());
+
+        while (enu.hasMoreElements()) {
+            Transporte transporte = enu.nextElement();
+            if (ID.equals(transporte.mostrarID())) {
+                transportes.remove(transporte.mostrarID(), transporte);
+                transportes.remove(transporte.mostrarTipo(), transporte);
+                transportes.remove(transporte.mostrarEmpresa(), transporte);
+                transportes.remove(transporte.mostrarHoraPartida(), transporte);
+                transportes.remove(transporte.mostrarHoraDestino(), transporte);
+                transportes.remove(transporte.mostrarCantDisponible(), transporte);
+                System.out.println("Transporte eliminado exitosamente");
+                break;
+            }
+        }
+    }
+
     public void agregarTransporte () {
+        actualizar();
         Scanner scan= new Scanner(System.in);
-        ConfigRutas configRutas = new ConfigRutas();
-        ConfigTransportes configTransportes = new ConfigTransportes();
-        JSONConfigFileViajes persistenceViajes = new JSONConfigFileViajes();
-        persistenceViajes.leerConfig(configRutas, configTransportes);
+
         System.out.println("Ingrese el tipo de transporte: ");
-        String tipoTransporte= scan.next();
+        String tipoTransporte = scan.next();
         System.out.println("Ingrese la empresa:");
-        String empresa= scan.next();
+        String empresa = scan.next();
         System.out.println("Ingrese la calidad del servicio: ");
-        String calidad= scan.next();
-        String ID= tipoTransporte+empresa+calidad;
+        String calidad = scan.next();
+        String ID = tipoTransporte+empresa+calidad;
         System.out.println("Ingrese el dia de partida (dd-mm-yyyy): ");
-        int diaP= scan.nextInt();
-        int mesP= scan.nextInt();
-        int anioP= scan.nextInt();
+        int diaP = scan.nextInt();
+        int mesP = scan.nextInt();
+        int anioP = scan.nextInt();
         System.out.println("Ingrese la hora de partida (hh-mm-ss): ");
-        int horasP= scan.nextInt();
-        int minutosP= scan.nextInt();
-        int segundosP= scan.nextInt();
-        LocalDateTime hPartida= LocalDateTime.of(anioP, mesP, diaP, horasP, minutosP, segundosP);
+        int horasP = scan.nextInt();
+        int minutosP = scan.nextInt();
+        int segundosP = scan.nextInt();
+        LocalDateTime hPartida = LocalDateTime.of(anioP, mesP, diaP, horasP, minutosP, segundosP);
         System.out.println("Ingrese el dia de destino (dd-mm-yyyy): ");
-        int diaD= scan.nextInt();
-        int mesD= scan.nextInt();
-        int anioD= scan.nextInt();
+        int diaD = scan.nextInt();
+        int mesD = scan.nextInt();
+        int anioD = scan.nextInt();
         System.out.println("Ingrese la hora de destino (hh-mm-ss): ");
-        int horasD= scan.nextInt();
-        int minutosD= scan.nextInt();
-        int segundosD= scan.nextInt();
-        LocalDateTime hDestino= LocalDateTime.of(anioD, mesD, diaD, horasD, minutosD, segundosD);
+        int horasD = scan.nextInt();
+        int minutosD = scan.nextInt();
+        int segundosD = scan.nextInt();
+        LocalDateTime hDestino = LocalDateTime.of(anioD, mesD, diaD, horasD, minutosD, segundosD);
         System.out.println("Ingrese la capacidad del transporte: ");
-        int cantDisponible= scan.nextInt();
-        Transporte transporte= new Transporte(ID, tipoTransporte, empresa, calidad, hPartida.toString(), hDestino.toString(), cantDisponible);
-        configTransportes.registrar(transporte);
-        persistenceViajes.guardarConfig(configRutas, configTransportes);
+        int cantDisponible = scan.nextInt();
+        Transporte transporte = new Transporte(ID, tipoTransporte, empresa, calidad, hPartida.toString(), hDestino.toString(), cantDisponible);
+        agregar(transporte);
+        guardar();
+    }
+
+    public void mostrarTransportes () {
+        actualizar();
+        Enumeration<Transporte> enu = Collections.enumeration(transportes.values());
+
+        int i = 1;
+        while (enu.hasMoreElements()) {
+            Transporte transporte = enu.nextElement();
+            System.out.println(i + ". ID: " + transporte.mostrarID());
+            System.out.println(i + ". Tipo: " + transporte.mostrarTipo());
+            System.out.println(i + ". Empresa: " + transporte.mostrarEmpresa());
+            System.out.println(i + ". Calidad: " + transporte.mostrarCalidad());
+            System.out.println(i + ". Hora de partida: " + transporte.mostrarHoraPartida());
+            System.out.println(i + ". Hora de llegada: " + transporte.mostrarHoraDestino());
+            System.out.println(i + ". Cantidad disponible: " + transporte.mostrarCantDisponible());
+            i++;
+        }
+    }
+
+    public void eliminarRuta () {
+        Scanner scan = new Scanner(System.in);
+        actualizar();
+
+        mostrarTransportes();
+        System.out.println("Ingrese el ID del transporte: ");
+        String ID = scan.nextLine();
+        eliminar(ID);
+        guardar();
     }
 }

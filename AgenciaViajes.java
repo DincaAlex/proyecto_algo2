@@ -97,7 +97,7 @@ public class AgenciaViajes {
                 case 2 -> exit = menuTransporteAdmin();
                 case 3 -> exit = menuHotelesAdmin();
                 case 4 -> exit = menuCuartosAdmin();
-                case 5 -> exit = menuAdminAdmin();
+                case 5 -> exit = menuAdminsAdmin();
                 case 6 -> exit = menuClientesAdmin();
                 default -> {
                     salir = true;
@@ -110,18 +110,18 @@ public class AgenciaViajes {
 
     public static boolean menuRutasAdmin () {
         System.out.println("Menu de las rutas");
-        System.out.println("1. Mostrar [En construcción]");
+        System.out.println("1. Mostrar");
         System.out.println("2. Agregar");
-        System.out.println("3. Eliminar [En construcción]");
+        System.out.println("3. Eliminar");
         System.out.println("4. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
 
         switch (opcion) {
-            case 1, 3 -> {
-            }
+            case 1 -> configRutas.mostrarRutas();
             case 2 -> configRutas.agregarRuta();
+            case 3 -> configRutas.eliminarRuta();
             default -> salir = true;
         }
         return salir;
@@ -129,18 +129,18 @@ public class AgenciaViajes {
 
     public static boolean menuTransporteAdmin () {
         System.out.println("Menu de los transportes");
-        System.out.println("1. Mostrar [En construcción]");
+        System.out.println("1. Mostrar");
         System.out.println("2. Agregar");
-        System.out.println("3. Eliminar [En construcción]");
+        System.out.println("3. Eliminar");
         System.out.println("4. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
 
         switch (opcion) {
-            case 1, 3 -> {
-            }
+            case 1 -> configTransportes.mostrarTransportes();
             case 2 -> configTransportes.agregarTransporte();
+            case 3 -> configTransportes.eliminarRuta();
             default -> salir = true;
         }
         return salir;
@@ -192,7 +192,7 @@ public class AgenciaViajes {
         return salir;
     }
 
-    public static boolean menuAdminAdmin () {
+    public static boolean menuAdminsAdmin () {
         System.out.println("Menu de los administradores");
         System.out.println("1. Mostrar ");
         System.out.println("2. Agregar");
