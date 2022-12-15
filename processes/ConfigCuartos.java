@@ -206,12 +206,14 @@ public class ConfigCuartos implements Config<Cuarto> {
         actualizar();
         Enumeration<Cuarto> enumeration = Collections.enumeration(cuartos.values());
 
+        int i = 1;
         while (enumeration.hasMoreElements()) {
             Cuarto cuarto = enumeration.nextElement();
             if (nombreHotel.equals(cuarto.mostrarNombre())) {
-                System.out.println(cuarto.mostrarID() + ". Numero: " + cuarto.mostrarNumero());
-                System.out.println(cuarto.mostrarID() + ". Piso: " + cuarto.mostrarPiso());
-                System.out.println(cuarto.mostrarID() + ". Ocupado: " + cuarto.mostrarOcupado());
+                System.out.println(i + ". ID: " + cuarto.mostrarID());
+                System.out.println(i + ". Numero: " + cuarto.mostrarNumero());
+                System.out.println(i + ". Piso: " + cuarto.mostrarPiso());
+                System.out.println(i + ". Ocupado: " + cuarto.mostrarOcupado() + "\n");
             }
         }
     }

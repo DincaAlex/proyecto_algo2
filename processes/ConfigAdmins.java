@@ -159,7 +159,7 @@ public class ConfigAdmins implements Config<Admin> {
             Admin admin = enu.nextElement();
             System.out.println(i + ". Correo: " + admin.mostrarCorreo());
             System.out.println(i + ". Nombres: " + admin.mostrarNombres());
-            System.out.println(i + ". Apellidos: " + admin.mostrarApellidos());
+            System.out.println(i + ". Apellidos: " + admin.mostrarApellidos() + "\n");
             i++;
         }
     }

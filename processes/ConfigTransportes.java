@@ -127,14 +127,14 @@ public class ConfigTransportes implements Config<Transporte> {
         int i = 1;
         while (enu.hasMoreElements()) {
             Transporte transporte = enu.nextElement();
-            System.out.println(i+". ID de la Ruta: "+transporte.mostrarIDRuta());
+            System.out.println(i+". ID de la Ruta: " + transporte.mostrarIDRuta());
             System.out.println(i + ". ID: " + transporte.mostrarID());
             System.out.println(i + ". Tipo: " + transporte.mostrarTipoTransporte());
             System.out.println(i + ". Empresa: " + transporte.mostrarEmpresa());
             System.out.println(i + ". Calidad: " + transporte.mostrarCalidad());
             System.out.println(i + ". Hora de partida: " + transporte.mostrarHoraPartida());
             System.out.println(i + ". Hora de llegada: " + transporte.mostrarHoraDestino());
-            System.out.println(i + ". Cantidad disponible: " + transporte.mostrarCantDisponible());
+            System.out.println(i + ". Cantidad disponible: " + transporte.mostrarCantDisponible() + "\n");
             i++;
         }
     }

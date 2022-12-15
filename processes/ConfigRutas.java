@@ -104,7 +104,7 @@ public class ConfigRutas implements Config<Ruta> {
                 System.out.println(i + ". ID: " + ruta.mostrarIDRuta());
                 System.out.println(i + ". Ciudad de partida: " + ruta.mostrarCiudadPartida());
                 System.out.println(i + ". Ciudad de llegada: " + ruta.mostrarCiudadDestino());
-                System.out.println(i + ". Transporte: " + ruta.mostrarTipoTransporte());
+                System.out.println(i + ". Transporte: " + ruta.mostrarTipoTransporte() + "\n");
                 i++;
             }
         }
