@@ -1,6 +1,5 @@
 import processes.*;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 public class AgenciaViajes {
@@ -11,16 +10,22 @@ public class AgenciaViajes {
     static ConfigHoteles configHoteles = new ConfigHoteles();
     static ConfigCuartos configCuartos = new ConfigCuartos();
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         boolean salir = false;
-        
+
         while (!salir) {
-        System.out.println("Bienvenido al sistema de Agencia de viajes\n");
-        System.out.println("Ingrese el tipo de usuario [Administrador/Cliente] [1/2]: ");
-        int user = scan.nextInt();
-            if (user == 1)
-                salir = menuAdmin();
+            System.out.println("Bienvenido al sistema de Agencia de viajes\n");
+            System.out.println("Ingrese el tipo de usuario [Administrador/Cliente] [1/2]: ");
+            int user = scan.nextInt();
+            scan.nextLine();
+            if (user == 1) {
+                System.out.println("Ingrese el código de seguridad para ingresar como administrador: ");
+                String cod = scan.nextLine();
+                if (cod.equals("12345")) // soy exporto en cyber seguridad, no te preocupes xd
+                    salir = menuAdmin();
+            }
+
             if (user == 2)
                 salir = menuCliente();
         }
@@ -35,9 +40,9 @@ public class AgenciaViajes {
         int opcion = scan.nextInt();
         boolean salir = false;
 
-        if (opcion==1)
+        if (opcion == 1)
             configAdmins.registrarAdmin();
-        if (opcion==2) {
+        if (opcion == 2) {
             boolean entradaExitosa = configAdmins.ingresarAdmin();
             if (entradaExitosa) {
                 boolean exit = false;
@@ -45,8 +50,7 @@ public class AgenciaViajes {
                     exit = menuOpcionesAdmin();
                 }
             }
-        }
-        else
+        } else
             salir = true;
 
         return salir;
@@ -59,25 +63,25 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
-        switch (opcion) {
-            case 1 -> configClientes.registrarCliente();
-            case 2 -> {
-                String UUID = configClientes.ingresarCliente();
-                while (!salir && !Objects.equals(UUID, "null")) {
-                    switch (menuOpcionesCliente()) {
-                        case 1 -> configTransportes.reservarTransporte(UUID);
-                        case 2,4 -> System.out.println("Menu en construcción");
-                        case 3 -> configHoteles.reservarHotel(UUID);
-                        default -> salir = true;
-                    }
+
+
+        if (opcion == 1)
+            configClientes.registrarCliente();
+        if (opcion == 2) {
+            String UUID = configClientes.ingresarCliente();
+            if (!UUID.equals("null")) {
+                boolean exit = false;
+                while (!exit) {
+                    exit = menuOpcionesCliente(UUID);
                 }
             }
-            default -> salir = true;
-        }
+        } else
+            salir = true;
+
         return salir;
     }
 
-    public static boolean menuOpcionesAdmin () {
+    public static boolean menuOpcionesAdmin() {
         System.out.println("Elija el menu que desa acceder:");
         System.out.println("1. Rutas");
         System.out.println("2. Transporte");
@@ -108,7 +112,7 @@ public class AgenciaViajes {
         return salir;
     }
 
-    public static boolean menuRutasAdmin () {
+    public static boolean menuRutasAdmin() {
         System.out.println("Menu de las rutas");
         System.out.println("1. Mostrar");
         System.out.println("2. Agregar");
@@ -127,7 +131,7 @@ public class AgenciaViajes {
         return salir;
     }
 
-    public static boolean menuTransporteAdmin () {
+    public static boolean menuTransporteAdmin() {
         System.out.println("Menu de los transportes");
         System.out.println("1. Mostrar");
         System.out.println("2. Agregar");
@@ -146,7 +150,7 @@ public class AgenciaViajes {
         return salir;
     }
 
-    public static boolean menuHotelesAdmin () {
+    public static boolean menuHotelesAdmin() {
         System.out.println("Menu de los hoteles");
         System.out.println("1. Mostrar");
         System.out.println("2. Agregar");
@@ -165,7 +169,7 @@ public class AgenciaViajes {
         return salir;
     }
 
-    public static boolean menuCuartosAdmin () {
+    public static boolean menuCuartosAdmin() {
         System.out.println("Menu de los cuartos");
         System.out.println("1. Mostrar ");
         System.out.println("2. Agregar");
@@ -192,7 +196,7 @@ public class AgenciaViajes {
         return salir;
     }
 
-    public static boolean menuAdminsAdmin () {
+    public static boolean menuAdminsAdmin() {
         System.out.println("Menu de los administradores");
         System.out.println("1. Mostrar ");
         System.out.println("2. Agregar");
@@ -211,7 +215,7 @@ public class AgenciaViajes {
         return salir;
     }
 
-    public static boolean menuClientesAdmin () {
+    public static boolean menuClientesAdmin() {
         System.out.println("Menu de los clientes");
         System.out.println("1. Mostrar");
         System.out.println("2. Agregar");
@@ -230,13 +234,23 @@ public class AgenciaViajes {
         return salir;
     }
 
-    public static int menuOpcionesCliente() {
-        System.out.println("1. Realizar reserva de transporte (en proceso)");
-        System.out.println("2. Cancelar reserva de transporte (en proceso)");
+    public static boolean menuOpcionesCliente(String UUID) {
+        System.out.println("1. Realizar reserva de transporte");
+        System.out.println("2. Cancelar reserva de transporte [Menu en construcción]");
         System.out.println("3. Realizar reserva de hotel");
-        System.out.println("4. Cancelar reserva de hotel (en proceso)");
-        System.out.println("5. Salir");
+        System.out.println("4. Cancelar reserva de hotel [Menu en construcción]");
+        System.out.println("5. Ver reservas realizadas");
+        System.out.println("6. Salir");
         Scanner scan = new Scanner(System.in);
-        return scan.nextInt();
+        int opcion = scan.nextInt();
+        boolean salir = false;
+
+        switch (opcion) {
+            case 1 -> configTransportes.reservarTransporte(UUID);
+            case 2, 4 -> System.out.println("Menu en construcción");
+            case 3 -> configHoteles.reservarHotel(UUID);
+            default -> salir = true;
+        }
+        return salir;
     }
 }
