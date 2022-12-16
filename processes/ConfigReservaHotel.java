@@ -63,7 +63,7 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
         while (enumH.hasMoreElements()) {
             ReservaHotel reservaHotel = enumH.nextElement();
             if (ID.equals(reservaHotel.mostrarIDReserva())) {
-                reservasHotel.remove(reservaHotel.mostrarIDHotel(), reservaHotel);
+                reservasHotel.remove(reservaHotel.mostrarIDReserva(), reservaHotel);
                 reservasHotel.remove(reservaHotel.mostrarIDCliente(), reservaHotel);
                 reservasHotel.remove(reservaHotel.mostrarIDHotel(), reservaHotel);
                 reservasHotel.remove(reservaHotel.mostrarIDCuarto(), reservaHotel);
