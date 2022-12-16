@@ -139,7 +139,7 @@ public class ConfigTransportes implements Config<Transporte> {
                 System.out.println(i + ". Calidad: " + transporte.mostrarCalidad());
                 System.out.println(i + ". Hora de partida: " + transporte.mostrarHoraPartida());
                 System.out.println(i + ". Hora de llegada: " + transporte.mostrarHoraDestino());
-                System.out.println(i + ". Cantidad disponible: " + transporte.mostrarCantDisponible());
+                System.out.println(i + ". Cantidad disponible: " + transporte.mostrarCantDisponible() + "\n");
                 i++;
             }
         }
