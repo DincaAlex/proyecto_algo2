@@ -81,16 +81,17 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
         boolean vacio = false;
         int i = 1;
         if (reservasHotel.isEmpty()) {
-            System.out.println("No hay hoteles registrados");
+            System.out.println("No hay reservas de hotel");
             vacio = true;
         }
         else {
+            System.out.println("Reservas de hotel: ");
             while (enu.hasMoreElements()) {
                 ReservaHotel reservaHotel = enu.nextElement();
-                System.out.println(i + ". ID: " + reservaHotel.mostrarIDReserva());
-                System.out.println(i + ". Cliente: " + reservaHotel.mostrarIDCliente());
-                System.out.println(i + ". Hotel: " + reservaHotel.mostrarIDHotel());
-                System.out.println(i + ". Cuarto: " + reservaHotel.mostrarIDCuarto() + "\n");
+                System.out.println(i + ". ID reserva: " + reservaHotel.mostrarIDReserva());
+                System.out.println(i + ". ID cliente: " + reservaHotel.mostrarIDCliente());
+                System.out.println(i + ". ID hotel: " + reservaHotel.mostrarIDHotel());
+                System.out.println(i + ". ID cuarto: " + reservaHotel.mostrarIDCuarto() + "\n");
                 i++;
             }
         }
@@ -108,13 +109,13 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
             vacio = true;
         }
         else {
+            System.out.println("Reservas de hotel: ");
             while (enu.hasMoreElements()) {
                 ReservaHotel reservaHotel = enu.nextElement();
                 if (UUID.equals(reservaHotel.mostrarIDCliente())) {
-                    System.out.println(i + ". ID: " + reservaHotel.mostrarIDReserva());
-                    System.out.println(i + ". Cliente: " + reservaHotel.mostrarIDCliente());
-                    System.out.println(i + ". Hotel: " + reservaHotel.mostrarIDHotel());
-                    System.out.println(i + ". Cuarto: " + reservaHotel.mostrarIDCuarto() + "\n");
+                    System.out.println(i + ". ID reserva: " + reservaHotel.mostrarIDReserva());
+                    System.out.println(i + ". ID hotel: " + reservaHotel.mostrarIDHotel());
+                    System.out.println(i + ". ID cuarto: " + reservaHotel.mostrarIDCuarto() + "\n");
                 }
                 i++;
             }

@@ -87,13 +87,13 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
             vacio = true;
         }
         else {
+            System.out.println("Reservas de transporte: ");
             while (enu.hasMoreElements()) {
                 ReservaTransporte reservaTransporte = enu.nextElement();
                 if (UUID.equals(reservaTransporte.mostrarIDCliente())) {
-                    System.out.println(i + ". ID: " + reservaTransporte.mostrarIDReserva());
-                    System.out.println(i + ". Cliente: " + reservaTransporte.mostrarIDCliente());
-                    System.out.println(i + ". Ruta: " + reservaTransporte.mostrarIDRuta());
-                    System.out.println(i + ". Transporte: " + reservaTransporte.mostrarIDTransporte() + "\n");
+                    System.out.println(i + ". ID reserva: " + reservaTransporte.mostrarIDReserva());
+                    System.out.println(i + ". ID ruta: " + reservaTransporte.mostrarIDRuta());
+                    System.out.println(i + ". ID transporte: " + reservaTransporte.mostrarIDTransporte() + "\n");
                 }
                 i++;
             }
@@ -112,12 +112,13 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
             vacio = true;
         }
         else {
+            System.out.println("Reservas de transporte: ");
             while (enu.hasMoreElements()) {
                 ReservaTransporte reservaTransporte = enu.nextElement();
-                System.out.println(i + ". ID: " + reservaTransporte.mostrarIDReserva());
-                System.out.println(i + ". Cliente: " + reservaTransporte.mostrarIDCliente());
-                System.out.println(i + ". Ruta: " + reservaTransporte.mostrarIDRuta());
-                System.out.println(i + ". Transporte: " + reservaTransporte.mostrarIDTransporte() + "\n");
+                System.out.println(i + ". ID reserva: " + reservaTransporte.mostrarIDReserva());
+                System.out.println(i + ". ID cliente: " + reservaTransporte.mostrarIDCliente());
+                System.out.println(i + ". ID ruta: " + reservaTransporte.mostrarIDRuta());
+                System.out.println(i + ". ID transporte: " + reservaTransporte.mostrarIDTransporte() + "\n");
                 }
                 i++;
             }
