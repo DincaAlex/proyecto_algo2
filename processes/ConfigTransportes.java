@@ -181,7 +181,7 @@ public class ConfigTransportes implements Config<Transporte> {
                     trans=t;
                     transportes.remove(t.mostrarID(), t);
                     transportes.put(trans.mostrarID(), trans);
-                    configReservaTransporte.reservaTransporte();
+                    configReservaTransporte.reservarTransporte(UUID, trans.mostrarIDRuta(), trans.mostrarID());
                     System.out.println("Reserva realizada");
                     return;
                 }

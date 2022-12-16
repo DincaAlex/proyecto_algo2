@@ -32,6 +32,7 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
             obj.put("IDCliente", rTrans.mostrarIDCliente());
             obj.put("IDRuta", rTrans.mostrarIDRuta());
             obj.put("IDTransporte", rTrans.mostrarIDTransporte());
+            obj.put("IDReserva", rTrans.mostrarIDReserva());
             arrayReservaTransporte.add(obj);
         }
         return arrayReservaTransporte;
@@ -46,14 +47,11 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
         p.guardarConfig(configReservaHotel, configReservaTransporte);
     }
     
-    public void reservarTransporte (String UUID, String IDCliente, String IDRuta, String IDTransporte) {
+    public void reservarTransporte (String IDCliente, String IDRuta, String IDTransporte) {
         actualizar();
-        ReservaTransporte reservaT = new ReservaTransporte(UUID, IDRuta, IDTransporte);
+        ReservaTransporte reservaT = new ReservaTransporte(IDCliente, IDRuta, IDTransporte);
         reservasTransporte.put(reservaT.mostrarIDReserva(), reservaT);
         guardar();
-    }
-
-    public void reservaTransporte() {
     }
 
     public boolean mostrarReservasHotelCliente (String UUID) {
