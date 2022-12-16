@@ -243,9 +243,9 @@ public class AgenciaViajes {
 
     public static boolean menuOpcionesCliente(String UUID) {
         System.out.println("1. Realizar reserva de transporte");
-        System.out.println("2. Cancelar reserva de transporte [Menu en construcción]");
+        System.out.println("2. Cancelar reserva de transporte");
         System.out.println("3. Realizar reserva de hotel");
-        System.out.println("4. Cancelar reserva de hotel [Menu en construcción]");
+        System.out.println("4. Cancelar reserva de hotel");
         System.out.println("5. Ver reservas realizadas");
         System.out.println("6. Borrar cuenta");
         System.out.println("7. Salir");
@@ -255,9 +255,9 @@ public class AgenciaViajes {
 
         switch (opcion) {
             case 1 -> configTransportes.reservarTransporte(UUID);
-            case 2 -> configReservaHotel.eliminarReservaHotelCliente(UUID);
+            case 2 -> configReservaTransporte.eliminarReservaTransporteCliente(UUID);
             case 3 -> configHoteles.reservarHotel(UUID);
-            case 4 -> configReservaTransporte.eliminarReservaTransporteCliente(UUID);
+            case 4 -> configReservaHotel.eliminarReservaHotelCliente(UUID);
             case 5 -> {
                 configReservaHotel.mostrarReservasHotelCliente(UUID);
                 configReservaTransporte.mostrarReservasTransporteCliente(UUID);
