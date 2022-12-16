@@ -65,7 +65,7 @@ public class JSONConfigFileViajes implements Persistence<ConfigRutas, ConfigTran
     }
 
     private void LeerTransporte (JSONObject jsonObject, ConfigTransportes config){
-        JSONArray transportesJSONArray = (JSONArray) jsonObject.get("transporte");
+        JSONArray transportesJSONArray = (JSONArray) jsonObject.get("transportes");
 
         if (transportesJSONArray==null)
             return;
@@ -80,7 +80,7 @@ public class JSONConfigFileViajes implements Persistence<ConfigRutas, ConfigTran
             String calidad = (String) transporte.get("calidad");
             String horaPartida = (String) transporte.get("hora-partida");
             String horaDestino = (String) transporte.get("hora-llegada");
-            int cantDisponible = (int) transporte.get("cantDisponible");
+            int cantDisponible = (int)(long) transporte.get("cantDisponible");
             Transporte trans = new Transporte(IDRuta, ciudadPartida, ciudadDestino, tipoTransporte, ID, empresa, calidad, horaPartida, horaDestino, cantDisponible);
             config.registrar(trans);
         }
