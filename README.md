@@ -16,3 +16,19 @@ Grupo 4:
 4. Al ingresar como cliente se tiene las siguientes opciones:
    1. Realizar reserva en hotel: busca un cuarto no ocupado y lo reserva
 5. Los administradores, clientes, hoteles y cuartos son guardados en archivos .json
+
+**Funcionalidades añadidas:**
+
+1. Función agregarTransporte
+   1. La función lee el JSONConfigFileViajes cada que se utilice la función para evitar fallos por el uso de una versión anterior.
+   2. Se crea un scanner para su posterior uso.
+   3. Se llama a la función mostrar que mostrará todas las rutas registradas.
+   4. El usuario digita el ID de la ruta de su interés de la lista mostrada.
+   5. Se llama a la función conseguirInfoRuta que clonará la información de la ruta con el ID colocado si coincide con una ya registrada, caso contrario colocará como      valores a ciudadPartida y ciudadLlegada "error"
+   6. Si las variables mencionadas tienen el valor "error", se saltará todo el proceso siguiente, caso contrario se copiarán sus valores a variables String.
+   7. El usuario digita la información del transporte necesaria, salvo el ID del transporte, que se generará juntando los datos de las variables TipoTransporte, empresa
+   y calidad.
+   8. Se crea una variable Transporte con la información necesaria para el constructor.
+   9. Se llama a la función agregar la cual, si ya hay un transporte con el mismo ID, mostrará un mensaje de aviso y retornará, caso contrario se guardará en el HashMap
+      de transportes.
+3. Función 
