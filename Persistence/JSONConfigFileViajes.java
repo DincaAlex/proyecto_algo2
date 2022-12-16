@@ -58,8 +58,7 @@ public class JSONConfigFileViajes implements Persistence<ConfigRutas, ConfigTran
             String ID = (String) ruta.get("IDRuta");
             String ciudadPartida = (String) ruta.get("ciudad-partida");
             String ciudadDestino = (String) ruta.get("ciudad-destino");
-            String transporte = (String) ruta.get("tipoTransporte");
-            Ruta rut = new Ruta(ID, ciudadPartida, ciudadDestino, transporte);
+            Ruta rut = new Ruta(ID, ciudadPartida, ciudadDestino);
             config.registrar(rut);
         }
     }
