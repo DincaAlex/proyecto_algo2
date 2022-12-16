@@ -3,6 +3,7 @@ package processes;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -55,6 +56,23 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
         guardar();
     }
 
+    private void eliminar (String ID) {
+        actualizar();
+        Enumeration<ReservaHotel> enumH = Collections.enumeration(reservasHotel.values());
+
+        while (enumH.hasMoreElements()) {
+            ReservaHotel reservaHotel = enumH.nextElement();
+            if (ID.equals(reservaHotel.mostrarIDReserva())) {
+                reservasHotel.remove(reservaHotel.mostrarIDHotel(), reservaHotel);
+                reservasHotel.remove(reservaHotel.mostrarIDCliente(), reservaHotel);
+                reservasHotel.remove(reservaHotel.mostrarIDHotel(), reservaHotel);
+                reservasHotel.remove(reservaHotel.mostrarIDCuarto(), reservaHotel);
+                System.out.println("Reserva de hotel eliminada exitosamente");
+                break;
+            }
+        }
+    }
+
     public boolean mostrarReservasHotel () {
         actualizar();
         Enumeration<ReservaHotel> enu = Collections.enumeration(reservasHotel.values());
@@ -101,5 +119,29 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
             }
         }
         return vacio;
+    }
+
+    public void eliminarReservaHotel () {
+        Scanner scan = new Scanner(System.in);
+        actualizar();
+
+        if (!mostrarReservasHotel()) {
+            System.out.println("Ingrese el ID de la reserva: ");
+            String ID = scan.nextLine();
+            eliminar(ID);
+            guardar();
+        }
+    }
+
+    public void eliminarReservaHotelCliente (String UUID) {
+        Scanner scan = new Scanner(System.in);
+        actualizar();
+
+        if (!mostrarReservasHotelCliente(UUID)) {
+            System.out.println("Ingrese el ID de la reserva: ");
+            String ID = scan.nextLine();
+            eliminar(ID);
+            guardar();
+        }
     }
 }
