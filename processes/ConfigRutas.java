@@ -116,13 +116,11 @@ public class ConfigRutas implements Config<Ruta> {
             if(IDRuta.equals(ruta.mostrarIDRuta())){
                 ciudadPartida= ruta.mostrarCiudadPartida();
                 ciudadDestino= ruta.mostrarCiudadDestino();
-                System.out.println("CuzcoLima");
-            }
-            else{
-                System.out.println("No se ha encontrado la ruta.");
-
             }
         }
+            if(ciudadPartida=="error" || ciudadDestino=="error"){
+                System.out.println("No se ha encontrado la ruta.");
+            }
         return new Ruta(IDRuta, ciudadPartida, ciudadDestino);
     }
 
