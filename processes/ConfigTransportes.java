@@ -149,7 +149,7 @@ public class ConfigTransportes implements Config<Transporte> {
         }
     }
 
-    public void eliminarRuta () {
+    public void eliminarTransporte () {
         Scanner scan = new Scanner(System.in);
         actualizar();
 
@@ -190,5 +190,4 @@ public class ConfigTransportes implements Config<Transporte> {
             }
         }
     }
-
 }
