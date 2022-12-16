@@ -15,7 +15,8 @@ public class ReservaHotel {
         this.IDCuarto= IDCuarto;
     }
 
-    public ReservaHotel(String UUID, String IDCliente, String IDHotel, String IDCuarto){
+    public ReservaHotel(String IDReserva, String IDCliente, String IDHotel, String IDCuarto){
+        this.IDReserva=UUID.fromString(IDReserva);
         this.IDCliente= IDCliente;
         this.IDHotel= IDHotel;
         this.IDCuarto= IDCuarto;

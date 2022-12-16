@@ -16,6 +16,7 @@ public class ReservaTransporte {
     }
 
     public ReservaTransporte(String IDReserva, String IDCliente, String IDRuta, String IDTransporte){
+        this.IDReserva= UUID.fromString(IDReserva);
         this.IDCliente= IDCliente;
         this.IDRuta= IDRuta;
         this.IDTransporte= IDTransporte;
