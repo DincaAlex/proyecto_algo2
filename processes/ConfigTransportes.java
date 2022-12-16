@@ -33,6 +33,7 @@ public class ConfigTransportes implements Config<Transporte> {
         while (enumT.hasMoreElements()) {
             Transporte trans= enumT.nextElement();
             JSONObject obj = new JSONObject();
+            obj.put("IDRuta", trans.mostrarIDRuta());
             obj.put("ID", trans.mostrarID());
             obj.put("tipoTransporte", trans.mostrarTipoTransporte());
             obj.put("empresa", trans.mostrarEmpresa());
