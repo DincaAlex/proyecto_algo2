@@ -73,6 +73,7 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
                 break;
             }
         }
+        guardar();
     }
 
     public boolean mostrarReservasTransporteCliente (String UUID) {

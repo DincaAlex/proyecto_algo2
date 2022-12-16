@@ -71,6 +71,7 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
                 break;
             }
         }
+        guardar();
     }
 
     public boolean mostrarReservasHotel () {
