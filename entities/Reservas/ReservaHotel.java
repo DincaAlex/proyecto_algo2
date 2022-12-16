@@ -15,6 +15,12 @@ public class ReservaHotel {
         this.IDCuarto= IDCuarto;
     }
 
+    public ReservaHotel(String UUID, String IDCliente, String IDHotel, String IDCuarto){
+        this.IDCliente= IDCliente;
+        this.IDHotel= IDHotel;
+        this.IDCuarto= IDCuarto;
+    }
+
     public String mostrarIDReserva(){
         return IDReserva.toString();
     }

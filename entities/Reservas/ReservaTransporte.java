@@ -15,6 +15,12 @@ public class ReservaTransporte {
         this.IDTransporte= IDTransporte;
     }
 
+    public ReservaTransporte(String IDReserva, String IDCliente, String IDRuta, String IDTransporte){
+        this.IDCliente= IDCliente;
+        this.IDRuta= IDRuta;
+        this.IDTransporte= IDTransporte;
+    }
+
     public String mostrarIDReserva(){
         return IDReserva.toString();
     }

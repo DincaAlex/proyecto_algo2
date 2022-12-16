@@ -58,7 +58,8 @@ public class JSONConfigFileReservas implements Persistence<ConfigReservaHotel, C
             String IDCliente = (String) reservaHotel.get("IDCliente");
             String IDHotel = (String) reservaHotel.get("IDHotel");
             String IDCuarto = (String) reservaHotel.get("IDCuarto");
-            ReservaHotel resHot = new ReservaHotel(IDCliente, IDHotel, IDCuarto);
+            String uuid=(String) reservaHotel.get("IDReserva");
+            ReservaHotel resHot = new ReservaHotel(uuid, IDCliente, IDHotel, IDCuarto);
             config.registrar(resHot);
         }
     }
@@ -73,7 +74,8 @@ public class JSONConfigFileReservas implements Persistence<ConfigReservaHotel, C
             String IDCliente = (String) reservasTransporte.get("IDCliente");
             String IDRuta = (String) reservasTransporte.get("IDRuta");
             String IDTransporte = (String) reservasTransporte.get("IDTransporte");
-            ReservaTransporte reservaTransporte = new ReservaTransporte(IDCliente, IDRuta, IDTransporte);
+            String uuid=(String) reservasTransporte.get("IDReserva");
+            ReservaTransporte reservaTransporte = new ReservaTransporte(uuid, IDCliente, IDRuta, IDTransporte);
             config.registrar(reservaTransporte);
         }
     }
