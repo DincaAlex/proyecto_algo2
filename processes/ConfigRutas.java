@@ -114,9 +114,9 @@ public class ConfigRutas implements Config<Ruta> {
     public Ruta conseguirInfoRuta(String IDRuta){
         actualizar();
         Enumeration<Ruta> enumR= Collections.enumeration(rutas.values());
-        String ciudadPartida= "";
-        String ciudadDestino= "";
-        String tipoTransporte= "";
+        String ciudadPartida= "error";
+        String ciudadDestino= "error";
+        String tipoTransporte= "error";
         while(enumR.hasMoreElements()){
             Ruta ruta= enumR.nextElement();
             if(IDRuta.equals(ruta.mostrarIDRuta())){
