@@ -6,16 +6,10 @@ Grupo 4:
 - Ortega Moran Kenneth 
 - Velarde Huancahuari Bryan Anthony
 
-**Como usar:**
-1. Entrar como administrador o cliente
-2. Ambos tienen la opcion de registrar e ingresar
-3. Al ingresar como administrador se tiene las siguientes opciones:
-   1. Agregar hotel: crea un hotel
-   2. Agregar cuarto: acrea un cuarto al hotel especificado
-   3. Autogenerar cuarto: crea varios cuartos al hotel especificado segun los parametros especificados
-4. Al ingresar como cliente se tiene las siguientes opciones:
-   1. Realizar reserva en hotel: busca un cuarto no ocupado y lo reserva
-5. Los administradores, clientes, hoteles y cuartos son guardados en archivos .json
+**Instrucciones de ejecución**
+1. Se requiere la librería json-simple-1.1.1 y utilizar jdk18 o mayor.
+2. Al ejecutar el programa, elegir entre cliente y administrador (si se elige este último se pedirá una contraseña antes de entrar a los menús, la cual es 12345)
+3. 
 
 **Funcionalidades añadidas:**
 
@@ -32,3 +26,15 @@ Grupo 4:
    9. Se llama a la función agregar la cual, si ya hay un transporte con el mismo ID, mostrará un mensaje de aviso y retornará, caso contrario se guardará en el HashMap
       de transportes.
 3. Función 
+
+**Como usar:**
+1. Entrar como administrador o cliente
+2. Ambos tienen la opcion de registrar e ingresar
+3. Al ingresar como administrador se tiene las siguientes opciones:
+   1. Agregar hotel: crea un hotel
+   2. Agregar cuarto: acrea un cuarto al hotel especificado
+   3. Autogenerar cuarto: crea varios cuartos al hotel especificado segun los parametros especificados
+4. Al ingresar como cliente se tiene las siguientes opciones:
+   1. Realizar reserva en hotel: busca un cuarto no ocupado y lo reserva
+5. Los administradores, clientes, hoteles y cuartos son guardados en archivos .json
+
