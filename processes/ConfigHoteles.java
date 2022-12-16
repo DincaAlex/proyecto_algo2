@@ -93,12 +93,12 @@ public class ConfigHoteles implements Config<Hotel> {
         else {
             while (enu.hasMoreElements()) {
                 Hotel hotel = enu.nextElement();
-                System.out.println("ID: " + hotel.mostrarIDHotel());
-                System.out.println("Nombre: " + hotel.mostrarNombre());
-                System.out.println("Ciudad: " + hotel.mostrarCiudad());
-                System.out.println("Estrellas: " + hotel.mostrarEstrellas());
-                System.out.println("Precio por cuarto: " + hotel.mostrarPrecio());
-                System.out.println("Numero de cuartos: " + configCuartos.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
+                System.out.println(i + ". ID: " + hotel.mostrarIDHotel());
+                System.out.println(i + ". Nombre: " + hotel.mostrarNombre());
+                System.out.println(i + ". Ciudad: " + hotel.mostrarCiudad());
+                System.out.println(i + ". Estrellas: " + hotel.mostrarEstrellas());
+                System.out.println(i + ". Precio por cuarto: " + hotel.mostrarPrecio());
+                System.out.println(i + ". Numero de cuartos: " + configCuartos.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
                 i++;
             }
         }
