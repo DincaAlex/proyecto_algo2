@@ -151,7 +151,7 @@ public class AgenciaViajes {
         switch (opcion) {
             case 1 -> configTransportes.mostrarTransportes();
             case 2 -> configTransportes.agregarTransporte();
-            case 3 -> configTransportes.eliminarRuta();
+            case 3 -> configTransportes.eliminarTransporte();
             default -> salir = true;
         }
         return salir;
@@ -246,7 +246,7 @@ public class AgenciaViajes {
         System.out.println("2. Cancelar reserva de transporte [Menu en construcción]");
         System.out.println("3. Realizar reserva de hotel");
         System.out.println("4. Cancelar reserva de hotel [Menu en construcción]");
-        System.out.println("5. Ver reservas realizadas [Menu en construcción]");
+        System.out.println("5. Ver reservas realizadas");
         System.out.println("6. Borrar cuenta");
         System.out.println("7. Salir");
         Scanner scan = new Scanner(System.in);
@@ -255,15 +255,22 @@ public class AgenciaViajes {
 
         switch (opcion) {
             case 1 -> configTransportes.reservarTransporte(UUID);
-            case 2, 4 -> System.out.println("Menu en construcción");
+            case 2 -> configReservaHotel.eliminarReservaHotelCliente(UUID);
             case 3 -> configHoteles.reservarHotel(UUID);
+            case 4 -> configReservaTransporte.eliminarReservaTransporteCliente(UUID);
             case 5 -> {
                 configReservaHotel.mostrarReservasHotelCliente(UUID);
-                configReservaTransporte.mostrarReservasHotelCliente(UUID);
+                configReservaTransporte.mostrarReservasTransporteCliente(UUID);
             }
             case 6 -> {
-                configClientes.borrarCliente(UUID); // falta hacer cheque de si el cliente tiene reservas
-                salir = true;
+                if (!configReservaHotel.mostrarReservasHotelCliente(UUID) && configReservaTransporte.mostrarReservasTransporteCliente(UUID)) {
+                    configClientes.borrarCliente(UUID);
+                    salir = true;
+                }
+                else {
+                    System.out.println("No se puede borrar la cuanta si existen reservas realizadas\n");
+                    System.out.println("Cancela la reserva o espere hasta después de la compleción de la reserva");
+                }
             }
             default -> salir = true;
         }
