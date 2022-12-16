@@ -35,6 +35,7 @@ public class ConfigCuartos implements Config<Cuarto> {
             obj.put("nombre", c.mostrarNombre());
             obj.put("ciudad", c.mostrarCiudad());
             obj.put("estrellas", c.mostrarEstrellas());
+            obj.put("precio", c.mostrarPrecio());
             obj.put("numero", c.mostrarNumero());
             obj.put("piso", c.mostrarPiso());
             obj.put("ocupado", c.mostrarOcupado());
@@ -54,8 +55,8 @@ public class ConfigCuartos implements Config<Cuarto> {
     }
 
     private void agregar (Cuarto cuarto) {
-        if(cuartos.containsKey(cuarto.mostrarID())){
-            System.out.println("El cuarto" + cuarto.mostrarID() + "ya existe.");
+        if(cuartos.containsKey(cuarto.mostrarID())) {
+            System.out.println("El cuarto " + cuarto.mostrarID() + " ya existe.");
             return;
         }
         cuartos.put(cuarto.mostrarID(), cuarto);
@@ -92,7 +93,7 @@ public class ConfigCuartos implements Config<Cuarto> {
                     cuarto=c;
                     cuartos.remove(c.mostrarID(), c);
                     cuartos.put(cuarto.mostrarID(), cuarto);
-                    String IDHotel= (cuarto.mostrarNombre()+cuarto.mostrarCiudad()).replaceAll("\\s+","");
+                    String IDHotel = (cuarto.mostrarNombre()+cuarto.mostrarCiudad()).replaceAll("\\s+","");
                     // ^borra todos los espacio en blanco para mejorar el formato
                     configReservaHotel.reservarHotel(uuid, IDHotel, cuarto.mostrarID());
                     System.out.println("Reserva realizada");
@@ -103,7 +104,7 @@ public class ConfigCuartos implements Config<Cuarto> {
         }
     }
 
-    public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, int numCuartos, int pisos) {
+    public void autoGenerarCuartos (String nombre, String ciudad, int estrellas, float precio, int numCuartos, int pisos) {
         actualizar();
 
         boolean ocupado = false;
@@ -111,10 +112,9 @@ public class ConfigCuartos implements Config<Cuarto> {
             for (int j=1; j<= numCuartos; j++){
                 int idNum = i*100+j; // genera el ID
                 String id = String.valueOf(idNum);
-                String IDHotel= nombre+ciudad;
-                id= id+IDHotel;
-                Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, j, i, ocupado, id);
-                cuartos.put(cuarto.mostrarID(), cuarto);
+                String IDHotel = (nombre+ciudad).replaceAll("\\s+","");
+                id = (id+IDHotel);
+                Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, precio, j, i, ocupado, id);
                 agregar(cuarto);
             }
         }
@@ -148,7 +148,8 @@ public class ConfigCuartos implements Config<Cuarto> {
             Hotel hotel = configHoteles.recuperarHotel(nombreH);
             String ciudad = hotel.mostrarCiudad();
             int estrellas = hotel.mostrarEstrellas();
-            String IDHotel= nombreH+hotel.mostrarCiudad();
+            String IDHotel= (nombreH+hotel.mostrarCiudad()).replaceAll("\\s+","");
+            float precio = hotel.mostrarPrecio();
             System.out.println("Ingrese el numero del cuarto: ");
             int numero = Integer.parseInt(scan.next());
             System.out.println("Ingrese el piso del cuarto: ");
@@ -158,45 +159,45 @@ public class ConfigCuartos implements Config<Cuarto> {
             int idNum = piso*100+numero;
             String id = String.valueOf(idNum);
             id= id+IDHotel;
-            Cuarto cuarto = new Cuarto(IDHotel, nombreH, ciudad, estrellas, numero, piso, ocupado, id);
+            Cuarto cuarto = new Cuarto(IDHotel, nombreH, ciudad, estrellas, precio, numero, piso, ocupado, id);
             agregar(cuarto);
             guardar();
         }
     }
 
     public void generarCuartosEnMasse () {
+        actualizar();
         Scanner scan = new Scanner(System.in);
 
         if (configHoteles.noHayHoteles()) {
             System.out.println("No hay hoteles registrados.");
         }
         else {
-            String ciudad;
-            int estrellas;
-            String nombreHotel;
             String retry;
             do {
                 retry = "N";
                 System.out.println("Lista de hoteles registrados:");
-                configHoteles.mostrarHoteles();
-                System.out.println("Elige el nombre del hotel: ");
-                nombreHotel = scan.nextLine();
-                Hotel hotel = configHoteles.recuperarHotel(nombreHotel);
-                ciudad = hotel.mostrarCiudad();
-                estrellas = hotel.mostrarEstrellas();
+                if (!configHoteles.mostrarHoteles()) {
+                    System.out.println("Elige el nombre del hotel: ");
+                    String nombreHotel = scan.nextLine();
+                    Hotel hotel = configHoteles.recuperarHotel(nombreHotel);
+                    String ciudad = hotel.mostrarCiudad();
+                    int estrellas = hotel.mostrarEstrellas();
+                    float precio = hotel.mostrarPrecio();
 
-                if (estrellas==-1) { // error para el caso en que lo ingresado no se encuentra
-                    System.out.println("Desea intentar de nuevo? [S/N]: ");
-                    retry = scan.next();
-                    if (retry.equalsIgnoreCase("n"))
-                        break;
-                }
-                else {
-                    System.out.println("Numero de pisos: ");
-                    int numP = scan.nextInt();
-                    System.out.println("Numero de cuartos por piso: ");
-                    int numC = scan.nextInt();
-                    autoGenerarCuartos(nombreHotel, ciudad, estrellas, numC, numP);
+                    if (estrellas==-1) { // error para el caso en que lo ingresado no se encuentra
+                        System.out.println("Desea intentar de nuevo? [S/N]: ");
+                        retry = scan.next();
+                        if (retry.equalsIgnoreCase("n"))
+                            break;
+                    }
+                    else {
+                        System.out.println("Numero de pisos: ");
+                        int numP = scan.nextInt();
+                        System.out.println("Numero de cuartos por piso: ");
+                        int numC = scan.nextInt();
+                        autoGenerarCuartos(nombreHotel, ciudad, estrellas, precio, numC, numP);
+                    }
                 }
             } while (retry.equalsIgnoreCase("s"));
         }
@@ -213,8 +214,10 @@ public class ConfigCuartos implements Config<Cuarto> {
                 System.out.println(i + ". ID: " + cuarto.mostrarID());
                 System.out.println(i + ". Numero: " + cuarto.mostrarNumero());
                 System.out.println(i + ". Piso: " + cuarto.mostrarPiso());
-                System.out.println(i + ". Ocupado: " + cuarto.mostrarOcupado() + "\n");
+                System.out.println(i + ". Ocupado: " + cuarto.mostrarOcupado());
+                System.out.println(i + ". Precio: " + cuarto.mostrarPrecio() + "\n");
             }
+            i++;
         }
     }
 

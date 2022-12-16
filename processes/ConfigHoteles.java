@@ -35,6 +35,7 @@ public class ConfigHoteles implements Config<Hotel> {
             obj.put("nombre", h.mostrarNombre());
             obj.put("ciudad", h.mostrarCiudad());
             obj.put("estrellas", h.mostrarEstrellas());
+            obj.put("precio", h.mostrarPrecio());
             arrayHoteles.add(obj);
         }
         return arrayHoteles;
@@ -96,6 +97,7 @@ public class ConfigHoteles implements Config<Hotel> {
                 System.out.println("Nombre: " + hotel.mostrarNombre());
                 System.out.println("Ciudad: " + hotel.mostrarCiudad());
                 System.out.println("Estrellas: " + hotel.mostrarEstrellas());
+                System.out.println("Precio por cuarto: " + hotel.mostrarPrecio());
                 System.out.println("Numero de cuartos: " + configCuartos.contarCuartosHotel(hotel.mostrarNombre()) + "\n");
                 i++;
             }
@@ -109,18 +111,23 @@ public class ConfigHoteles implements Config<Hotel> {
         String IDHotel= "";
         String ciudad = "";
         int estrellas = -1; // error en caso de no encontrar el hotel
+        float precio = -1; // error en caso de no encontrar el hotel
+        boolean encontrado = false;
         while (enumH.hasMoreElements()) {
             Hotel hotel = enumH.nextElement();
             if (nombre.equals(hotel.mostrarNombre())) {
-                IDHotel= hotel.mostrarIDHotel();
+                IDHotel = hotel.mostrarIDHotel();
                 ciudad = hotel.mostrarCiudad();
                 estrellas = Integer.parseInt(String.valueOf(hotel.mostrarEstrellas()));
-            }
-            else {
-                System.out.println("No se encontró el hotel.");
+                precio = Float.parseFloat(String.valueOf(hotel.mostrarPrecio()));
+                encontrado = true;
+                break;
             }
         }
-        return new Hotel(IDHotel, nombre, ciudad, estrellas);
+        if (!encontrado) {
+            System.out.println("No se encontró el hotel");
+        }
+        return new Hotel(IDHotel, nombre, ciudad, estrellas, precio);
     }
 
     public void agregarHotel () {
@@ -134,7 +141,9 @@ public class ConfigHoteles implements Config<Hotel> {
         String IDHotel= (nombre+ciudad).replaceAll("\\s+","");
         System.out.println("Ingrese las estrellas:");
         int estrellas = Integer.parseInt(scan.next());
-        Hotel hotel = new Hotel(IDHotel, nombre, ciudad, estrellas);
+        System.out.println("Ingrese el precio por cuarto:");
+        float precio = Float.parseFloat(scan.next());
+        Hotel hotel = new Hotel(IDHotel, nombre, ciudad, estrellas, precio);
         agregar(hotel);
         guardar();
     }
@@ -146,7 +155,7 @@ public class ConfigHoteles implements Config<Hotel> {
         if (!configHoteles.mostrarHoteles()) {
             System.out.println("Ingrese el nombre del hotel: ");
             String nHotel = scan.nextLine();
-            Cuarto cu = new Cuarto("", nHotel, "", 0, 0, 0, false, "");
+            Cuarto cu = new Cuarto("", nHotel, "", 0, 0, 0,0, false,"");
             configCuartos.reservar(cu, UUID);
             guardar();
         }

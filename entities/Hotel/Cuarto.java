@@ -6,12 +6,12 @@ public class Cuarto extends Hotel {
     private boolean ocupado;
     private String ID;
 
-    public Cuarto (String IDHotel, String nombre, String ciudad, int estrellas, int numero, int piso, boolean ocupado, String ID) {
-        super(IDHotel, nombre, ciudad, estrellas);
+    public Cuarto (String IDHotel, String nombre, String ciudad, int estrellas, float precio, int numero, int piso, boolean ocupado, String ID) {
+        super(IDHotel, nombre, ciudad, estrellas, precio);
         this.numero = numero;
         this.piso = piso;
         this.ocupado = ocupado;
-        this.ID= ID;
+        this.ID = ID;
     }
 
     public int mostrarNumero () {

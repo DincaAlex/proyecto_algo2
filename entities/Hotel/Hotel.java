@@ -5,12 +5,14 @@ public class Hotel {
     private String nombre;
     private String ciudad;
     private int estrellas;
+    private float precio;
 
-    public Hotel (String IDHotel, String nombre, String ciudad, int estrellas) {
-        this.IDHotel= IDHotel;
+    public Hotel (String IDHotel, String nombre, String ciudad, int estrellas, float precio) {
+        this.IDHotel = IDHotel;
         this.nombre = nombre;
         this.ciudad = ciudad;
         this.estrellas = estrellas;
+        this.precio = precio;
     }
 
     public String mostrarIDHotel (){
@@ -27,5 +29,9 @@ public class Hotel {
 
     public int mostrarEstrellas () {
         return estrellas;
+    }
+
+    public float mostrarPrecio () {
+        return precio;
     }
 }

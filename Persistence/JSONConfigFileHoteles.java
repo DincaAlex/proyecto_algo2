@@ -54,11 +54,12 @@ public class JSONConfigFileHoteles implements Persistence<ConfigHoteles, ConfigC
             return;
         for (Object o : hotelesJSONArray) {
             JSONObject hoteles = (JSONObject) o;
-            String IDHotel= (String) hoteles.get("IDHotel");
+            String IDHotel = (String) hoteles.get("IDHotel");
             String nombre = (String) hoteles.get("nombre");
             String ciudad = (String) hoteles.get("ciudad");
             int estrellas = (int)(long) hoteles.get("estrellas");
-            Hotel hot = new Hotel(IDHotel, nombre, ciudad, estrellas);
+            float precio = (float)(double) hoteles.get("precio");
+            Hotel hot = new Hotel(IDHotel, nombre, ciudad, estrellas, precio);
             config.registrar(hot);
         }
     }
@@ -75,10 +76,11 @@ public class JSONConfigFileHoteles implements Persistence<ConfigHoteles, ConfigC
             String nombre = (String) cuartos.get("nombre");
             String ciudad = (String) cuartos.get("ciudad");
             int estrellas = (int)(long) cuartos.get("estrellas");
+            float precio = (float)(double) cuartos.get("precio");
             int numero = (int)(long) cuartos.get("numero");
             int piso = (int)(long) cuartos.get("piso");
             boolean ocupado = (boolean) cuartos.get("ocupado");
-            Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, numero, piso, ocupado, ID);
+            Cuarto cuarto = new Cuarto(IDHotel, nombre, ciudad, estrellas, precio, numero, piso, ocupado, ID);
             config.registrar(cuarto);
         }
     }
