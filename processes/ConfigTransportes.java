@@ -93,7 +93,8 @@ public class ConfigTransportes implements Config<Transporte> {
         if (!ruta.mostrarCiudadPartida().equals("error") && !ruta.mostrarCiudadDestino().equals("error")) {
             String ciudadPartida = ruta.mostrarCiudadPartida();
             String ciudadDestino = ruta.mostrarCiudadDestino();
-            String tipoTransporte = ruta.mostrarTipoTransporte();
+            System.out.println("Ingrese el tipo de transporte: ");
+            String tipoTransporte = scan.nextLine();
             System.out.println("Ingrese la empresa:");
             String empresa = scan.nextLine();
             System.out.println("Ingrese la calidad del servicio: ");
