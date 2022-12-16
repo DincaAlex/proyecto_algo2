@@ -9,6 +9,7 @@ Grupo 4:
 **Instrucciones de ejecución**
 1. Se requiere la librería json-simple-1.1.1 y utilizar jdk18 o mayor.
 2. Al ejecutar el programa, elegir entre cliente y administrador (si se elige este último se pedirá una contraseña antes de entrar a los menús, la cual es 12345)
+3. Al pedirse en la creación de cuartos escribir si está ocupado o no, completar con true o false (es booleano).
 
 **Funcionalidades añadidas:**
 
