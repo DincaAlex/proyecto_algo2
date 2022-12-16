@@ -9,6 +9,8 @@ public class AgenciaViajes {
     static ConfigTransportes configTransportes = new ConfigTransportes();
     static ConfigHoteles configHoteles = new ConfigHoteles();
     static ConfigCuartos configCuartos = new ConfigCuartos();
+    static  ConfigReservaHotel configReservaHotel= new ConfigReservaHotel();
+    static ConfigReservaTransporte configReservaTransporte= new ConfigReservaTransporte();
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -253,10 +255,14 @@ public class AgenciaViajes {
 
         switch (opcion) {
             case 1 -> configTransportes.reservarTransporte(UUID);
-            case 2, 4, 5 -> System.out.println("Menu en construcción");
+            case 2, 4 -> System.out.println("Menu en construcción");
             case 3 -> configHoteles.reservarHotel(UUID);
+            case 5 -> {
+                configReservaHotel.mostrarReservasHotelCliente(UUID);
+                configReservaTransporte.mostrarReservasHotelCliente(UUID);
+            }
             case 6 -> {
-                configClientes.borrarCliente(UUID);
+                configClientes.borrarCliente(UUID); // falta hacer cheque de si el cliente tiene reservas
                 salir = true;
             }
             default -> salir = true;

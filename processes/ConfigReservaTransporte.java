@@ -56,4 +56,28 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
     public void reservaTransporte() {
     }
 
+    public boolean mostrarReservasHotelCliente (String UUID) {
+        actualizar();
+        Enumeration<ReservaTransporte> enu = Collections.enumeration(reservasTransporte.values());
+
+        boolean vacio = false;
+        int i = 1;
+        if (reservasTransporte.isEmpty()) {
+            System.out.println("No hay reservas de transportes");
+            vacio = true;
+        }
+        else {
+            while (enu.hasMoreElements()) {
+                ReservaTransporte reservaTransporte = enu.nextElement();
+                if (UUID.equals(reservaTransporte.mostrarIDCliente())) {
+                    System.out.println(i + ". ID: " + reservaTransporte.mostrarIDReserva());
+                    System.out.println(i + ". Cliente: " + reservaTransporte.mostrarIDCliente());
+                    System.out.println(i + ". Ruta: " + reservaTransporte.mostrarIDRuta());
+                    System.out.println(i + ". Transporte: " + reservaTransporte.mostrarIDTransporte() + "\n");
+                }
+                i++;
+            }
+        }
+        return vacio;
+    }
 }

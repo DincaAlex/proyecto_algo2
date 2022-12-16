@@ -54,4 +54,52 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
         reservasHotel.put(reservaH.mostrarIDReserva(), reservaH);
         guardar();
     }
+
+    public boolean mostrarReservasHotel () {
+        actualizar();
+        Enumeration<ReservaHotel> enu = Collections.enumeration(reservasHotel.values());
+
+        boolean vacio = false;
+        int i = 1;
+        if (reservasHotel.isEmpty()) {
+            System.out.println("No hay hoteles registrados");
+            vacio = true;
+        }
+        else {
+            while (enu.hasMoreElements()) {
+                ReservaHotel reservaHotel = enu.nextElement();
+                System.out.println(i + ". ID: " + reservaHotel.mostrarIDReserva());
+                System.out.println(i + ". Cliente: " + reservaHotel.mostrarIDCliente());
+                System.out.println(i + ". Hotel: " + reservaHotel.mostrarIDHotel());
+                System.out.println(i + ". Cuarto: " + reservaHotel.mostrarIDCuarto() + "\n");
+                i++;
+            }
+        }
+        return vacio;
+    }
+
+    public boolean mostrarReservasHotelCliente (String UUID) {
+        actualizar();
+        Enumeration<ReservaHotel> enu = Collections.enumeration(reservasHotel.values());
+
+        boolean vacio = false;
+        int i = 1;
+        if (reservasHotel.isEmpty()) {
+            System.out.println("No hay reservas de hoteles");
+            vacio = true;
+        }
+        else {
+            while (enu.hasMoreElements()) {
+                ReservaHotel reservaHotel = enu.nextElement();
+                if (UUID.equals(reservaHotel.mostrarIDCliente())) {
+                    System.out.println(i + ". ID: " + reservaHotel.mostrarIDReserva());
+                    System.out.println(i + ". Cliente: " + reservaHotel.mostrarIDCliente());
+                    System.out.println(i + ". Hotel: " + reservaHotel.mostrarIDHotel());
+                    System.out.println(i + ". Cuarto: " + reservaHotel.mostrarIDCuarto() + "\n");
+                }
+                i++;
+            }
+        }
+        return vacio;
+    }
 }
