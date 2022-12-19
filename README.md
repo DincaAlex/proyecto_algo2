@@ -11,6 +11,11 @@ Grupo 4:
 2. Al ejecutar el programa, elegir entre cliente y administrador (si se elige este último se pedirá una contraseña antes de entrar a los menús, la cual es 12345)
 3. Al pedirse en la creación de cuartos escribir si está ocupado o no, completar con true o false (es booleano).
 
+**Funcionalidades por añadir:**
+1. Precios: Añadir una opción para modificar el precio como administrador, asímismo, que el cliente tenga un monedero virtual con el que reservar de acuerdo a la habitación que se desee (los precios serían por pisos para no modificar demasiado el código actual).
+2. Limitar las reservas por cliente: Utilizando el UUID del cliente, limitar la cantidad de reservas a 1 en cada caso (Hotel y transporte pueden compartir UUID, pero dentro de cada uno limitarlo; en el caso de Transporte a 2, para poder utilizar una reserva de ida y vuelta).
+3. Imprimir el ticket de reserva: Utilizando los datos que se guardan en Reserva, buscar e imprimir los datos pertinentes para el cliente o administrador que los solicite (en el caso del cliente, únicamente las reservas hechas por él).
+
 **Funcionalidades añadidas:**
 
 1. Función agregarTransporte
