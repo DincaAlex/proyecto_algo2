@@ -35,7 +35,7 @@ public class ConfigClientes implements Config<Cliente> {
         while (enumH.hasMoreElements()) {
             Cliente cliente = enumH.nextElement();
             if (UUID.equals(cliente.mostrarUUID())) {
-                System.out.println("DATOS DE CLIENTE");
+                System.out.println("DATOS DE CLIENTE: --------");
                 nombreCliente = cliente.mostrarNombres();
                 apellidoCliente = cliente.mostrarApellidos();
                 System.out.println("NOMBRE: " + nombreCliente + "\nAPELLIDO :" + apellidoCliente);
@@ -233,6 +233,6 @@ public class ConfigClientes implements Config<Cliente> {
                     guardar();
                 }
             }
-        }
-    }
+        }
+    }
 }

@@ -145,8 +145,8 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
             while (enu.hasMoreElements()) {
                 ReservaTransporte reservaTransporte = enu.nextElement();
                 if(UUID.equals(reservaTransporte.mostrarIDCliente())){
-                System.out.println(i + ". ID transporte: " + reservaTransporte.mostrarIDTransporte());
-                System.out.println(i + ". ID ruta: " + reservaTransporte.mostrarIDRuta());
+                System.out.println("NOMBRE DEL DEL ID TRANSPORTE: " + reservaTransporte.mostrarIDTransporte());
+                System.out.println("NOMBRE DEL DEL ID DE LA RUTA : " + reservaTransporte.mostrarIDRuta());
                 configclientes.recuperarCliente(UUID);
                 }
                 
@@ -177,6 +177,6 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
             String ID = scan.nextLine();
             eliminar(ID);
             guardar();
-        }
-    }
+        }
+    }
 }

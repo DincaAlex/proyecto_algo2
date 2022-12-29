@@ -16,6 +16,7 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
     private static HashMap<String, ReservaHotel> reservasHotel;
     private static final ConfigReservaHotel configReservaHotel= new ConfigReservaHotel();
     private static final ConfigReservaTransporte configReservaTransporte= new ConfigReservaTransporte();
+    //private static final ConfigReservaHotel configreservahotel = new ConfigReservaHotel();
 
     public ConfigReservaHotel() {
         reservasHotel = new HashMap<String, ReservaHotel>();
@@ -114,15 +115,46 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
             while (enu.hasMoreElements()) {
                 ReservaHotel reservaHotel = enu.nextElement();
                 if(UUID.equals(reservaHotel.mostrarIDCliente())){
-                System.out.println(i + ". ID hotel: " + reservaHotel.mostrarIDHotel());
-                System.out.println(i + ". ID cuarto: " + reservaHotel.mostrarIDCuarto() + "\n");
+                //System.out.println(i + ". ID hotel: " + reservaHotel.mostrarIDHotel());
+                //System.out.println(i + ". ID cuarto: " + reservaHotel.mostrarIDCuarto() + "\n");
+                configReservaHotel.recuperarClienteHotel(UUID);
                 i++;
                 }
             }
-        }
-        
+        }      
     }
+//EMPIEZO CÓDIGO DE PRUEBA
 
+public void recuperarClienteHotel (String UUID) {
+    actualizar();
+    Enumeration<ReservaHotel> enumH = Collections.enumeration(reservasHotel.values());
+    
+    String nombreCliente="";
+    String apellidoCliente="";
+    
+    boolean encontrado = false;
+    while (enumH.hasMoreElements()) {
+        ReservaHotel clienteHotel = enumH.nextElement();
+        if (UUID.equals(clienteHotel.mostrarIDCliente())) {
+            System.out.println("DATOS DE CLIENTE RESPECTO AL HOTEL:--------");
+            nombreCliente = clienteHotel.mostrarIDCuarto();
+            apellidoCliente = clienteHotel.mostrarIDHotel();
+            System.out.println("NOMBRE DEL ID DEL CUARTO: " + nombreCliente + "\nNOMBRE DEL ID DEL HOTEL :" + apellidoCliente);
+            encontrado = true;
+            break;  
+        }
+    }
+    if (!encontrado) {
+        System.out.println("No se encontró datos personales del cliente");
+    }   
+}
+
+
+
+
+
+    
+//TERMINO DE PRUEBA DE CÓDIGO   
     public boolean mostrarReservasHotelCliente (String UUID) {
         actualizar();
         Enumeration<ReservaHotel> enu = Collections.enumeration(reservasHotel.values());
@@ -169,6 +201,6 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
             String ID = scan.nextLine();
             eliminar(ID);
             guardar();
-        }
-    }
+        }
+    }
 }

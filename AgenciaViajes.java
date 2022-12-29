@@ -98,7 +98,7 @@ public class AgenciaViajes {
         System.out.println("4. Cuartos");
         System.out.println("5. Administradores");
         System.out.println("6. Clientes");
-        System.out.println("7. Imprimir ticket")
+        System.out.println("7. Imprimir ticket");
         System.out.println("8. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
