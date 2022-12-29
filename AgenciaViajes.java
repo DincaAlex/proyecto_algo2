@@ -2,6 +2,8 @@ import processes.*;
 
 import java.util.Scanner;
 
+import entities.Reservas.ReservaTransporte;
+
 public class AgenciaViajes {
     static ConfigAdmins configAdmins = new ConfigAdmins();
     static ConfigClientes configClientes = new ConfigClientes();
@@ -96,7 +98,8 @@ public class AgenciaViajes {
         System.out.println("4. Cuartos");
         System.out.println("5. Administradores");
         System.out.println("6. Clientes");
-        System.out.println("7. Salir");
+        System.out.println("7. Imprimir ticket")
+        System.out.println("8. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
@@ -227,7 +230,8 @@ public class AgenciaViajes {
         System.out.println("1. Mostrar");
         System.out.println("2. Agregar");
         System.out.println("3. Eliminar");
-        System.out.println("4. Salir");
+        System.out.println("4. Imprimir ticket");
+        System.out.println("5. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
@@ -236,6 +240,7 @@ public class AgenciaViajes {
             case 1 -> configClientes.mostrarClientes();
             case 2 -> configClientes.registrarCliente();
             case 3 -> configClientes.eliminarCliente();
+
             default -> salir = true;
         }
         return salir;
@@ -248,7 +253,8 @@ public class AgenciaViajes {
         System.out.println("4. Cancelar reserva de hotel");
         System.out.println("5. Ver reservas realizadas");
         System.out.println("6. Borrar cuenta");
-        System.out.println("7. Salir");
+        System.out.println("7. Imprimir ticket");
+        System.out.println("8. Salir");
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
@@ -271,6 +277,18 @@ public class AgenciaViajes {
                     System.out.println("No se puede borrar la cuanta si existen reservas realizadas\n");
                     System.out.println("Cancela la reserva o espere hasta después de la compleción de la reserva");
                 }
+            }
+
+
+            case 7 -> {
+                System.out.println("TICKET DEL CLIENTE : " + UUID + "\n");
+                System.out.println("Reserva en el HOTEL: ");
+                configReservaHotel.mostrarReservasHotelTicket(UUID);
+                System.out.println("Reserva en el TRANSPORTE: ");
+                configReservaTransporte.mostrarReservaTransporteTicket(UUID);
+                System.out.println("Pulse enter para continuar");
+                scan.nextLine();
+                scan.nextLine();
             }
             default -> salir = true;
         }

@@ -47,4 +47,7 @@ public abstract class Usuario {
     public String mostrarUUID() {
         return uuid.toString();
     }
+
+    
+
 }

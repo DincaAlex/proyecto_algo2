@@ -23,6 +23,33 @@ public class ConfigClientes implements Config<Cliente> {
         clientes.put(args.mostrarCorreo(), args);
     }
 
+    //CREAMOS UNA FUNCION QUE RECUPERE LOS DATOS PERSONALES DEL CLIENTE
+    public void recuperarCliente (String UUID) {
+        actualizar();
+        Enumeration<Cliente> enumH = Collections.enumeration(clientes.values());
+        
+        String nombreCliente="";
+        String apellidoCliente="";
+        
+        boolean encontrado = false;
+        while (enumH.hasMoreElements()) {
+            Cliente cliente = enumH.nextElement();
+            if (UUID.equals(cliente.mostrarUUID())) {
+                System.out.println("DATOS DE CLIENTE");
+                nombreCliente = cliente.mostrarNombres();
+                apellidoCliente = cliente.mostrarApellidos();
+                System.out.println("NOMBRE: " + nombreCliente + "\nAPELLIDO :" + apellidoCliente);
+                encontrado = true;
+                break;
+            }
+        }
+        if (!encontrado) {
+            System.out.println("No se encontró datos personales del cliente");
+        }
+        
+    }
+
+
     public JSONArray ToJSON () {
         JSONArray arrayCliente = new JSONArray();
         Enumeration<Cliente> cl = Collections.enumeration(clientes.values());

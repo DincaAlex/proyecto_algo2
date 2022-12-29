@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.UUID;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -96,6 +97,30 @@ public class ConfigReservaHotel implements Config<ReservaHotel> {
             }
         }
         return vacio;
+    }
+
+    //IMPRESIÓN DE LOS DATOS DEL HOTEL EN EL TICKET
+    public void mostrarReservasHotelTicket (String UUID) {
+        actualizar();
+        Enumeration<ReservaHotel> enu = Collections.enumeration(reservasHotel.values());
+
+        boolean vacio = false;
+        int i = 1;
+        if (reservasHotel.isEmpty()) {
+            System.out.println("No hay reservas de hotel");
+            vacio = true;
+        }
+        else {
+            while (enu.hasMoreElements()) {
+                ReservaHotel reservaHotel = enu.nextElement();
+                if(UUID.equals(reservaHotel.mostrarIDCliente())){
+                System.out.println(i + ". ID hotel: " + reservaHotel.mostrarIDHotel());
+                System.out.println(i + ". ID cuarto: " + reservaHotel.mostrarIDCuarto() + "\n");
+                i++;
+                }
+            }
+        }
+        
     }
 
     public boolean mostrarReservasHotelCliente (String UUID) {

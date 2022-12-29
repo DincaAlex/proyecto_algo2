@@ -15,6 +15,10 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
     private static HashMap<String, ReservaTransporte> reservasTransporte;
     private static final ConfigReservaHotel configReservaHotel= new ConfigReservaHotel();
     private static final ConfigReservaTransporte configReservaTransporte= new ConfigReservaTransporte();
+    private static final ConfigClientes configclientes = new ConfigClientes();
+
+
+    
 
     public ConfigReservaTransporte () {
         reservasTransporte = new HashMap<String, ReservaTransporte>();
@@ -124,6 +128,33 @@ public class ConfigReservaTransporte implements Config<ReservaTransporte>{
             }
         return vacio;
     }
+
+    //IMPRESIÓN DE LOS DATOS DEL TRANSPORTE EN EL TICKET
+    public void mostrarReservaTransporteTicket(String UUID){
+        actualizar();
+        Enumeration<ReservaTransporte> enu = Collections.enumeration(reservasTransporte.values());
+
+        boolean vacio = false;
+        int i = 1;
+        if (reservasTransporte.isEmpty()) {
+            System.out.println("No hay reservas de transportes");
+            vacio = true;
+        }
+        else {
+            
+            while (enu.hasMoreElements()) {
+                ReservaTransporte reservaTransporte = enu.nextElement();
+                if(UUID.equals(reservaTransporte.mostrarIDCliente())){
+                System.out.println(i + ". ID transporte: " + reservaTransporte.mostrarIDTransporte());
+                System.out.println(i + ". ID ruta: " + reservaTransporte.mostrarIDRuta());
+                configclientes.recuperarCliente(UUID);
+                }
+                
+            }
+                i++;
+            }
+    }
+
 
     public void eliminarReservaTransporte () {
         Scanner scan = new Scanner(System.in);
