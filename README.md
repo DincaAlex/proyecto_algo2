@@ -3,7 +3,7 @@
 Grupo 4:
 - Callán Pérez Sergio
 - Dincă Alexandru-Andrei
-- Ortega Moran Kenneth 
+- Ortega Moran Kenneth Evander
 - Velarde Huancahuari Bryan Anthony
 
 **Instrucciones de ejecución**
