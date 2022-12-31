@@ -49,6 +49,20 @@ public class ConfigClientes implements Config<Cliente> {
         
     }
 
+    public String mostrarSaldoCliente(String UUID) {
+        actualizar();
+        Enumeration<Cliente> enumH = Collections.enumeration(clientes.values()); 
+        String saldoCliente = "";
+        while (enumH.hasMoreElements()) {
+            Cliente cliente = enumH.nextElement();
+            if (UUID.equals(cliente.mostrarUUID())) {
+                saldoCliente= cliente.mostrarSaldo();
+                System.out.println(saldoCliente);
+                break;
+            }
+        }
+        return saldoCliente;
+    }
 
     public JSONArray ToJSON () {
         JSONArray arrayCliente = new JSONArray();
@@ -61,6 +75,7 @@ public class ConfigClientes implements Config<Cliente> {
             obj.put("apellidos", c.mostrarApellidos());
             obj.put("contrasena", c.mostrarContrasena());
             obj.put("uuid", c.mostrarUUID());
+            obj.put("saldo", c.mostrarSaldo());
             arrayCliente.add(obj);
         }
         return arrayCliente;
@@ -97,6 +112,21 @@ public class ConfigClientes implements Config<Cliente> {
                 clientes.remove(cliente.mostrarContrasena(), cliente);
                 clientes.remove(cliente.mostrarUUID(), cliente);
                 System.out.println("Cuenta de cliente eliminada exitosamente");
+                break;
+            }
+        }
+    }
+
+    private void modificarsaldoautomatico(String correo, String nuevoSaldoA) {
+        actualizar();
+        Enumeration<Cliente> enumH = Collections.enumeration(clientes.values());
+        while (enumH.hasMoreElements()) {
+            Cliente cliente = enumH.nextElement();
+            if (correo.equals(cliente.mostrarCorreo())) {
+                Cliente clienteN = new Cliente(cliente.mostrarCorreo(),cliente.mostrarNombres(),cliente.mostrarApellidos(), cliente.mostrarContrasena(), nuevoSaldoA);
+                clientes.remove(cliente.mostrarCorreo(), cliente);
+                agregar(clienteN);
+                guardar();
                 break;
             }
         }
@@ -149,7 +179,9 @@ public class ConfigClientes implements Config<Cliente> {
                     break;
             }
             else {
-                Cliente cliente = new Cliente(correo, nombres, apellidos, contrasena);
+                System.out.println("Ingrese el saldo que tiene:");
+                String saldo = scan.next();
+                Cliente cliente = new Cliente(correo, nombres, apellidos, contrasena, saldo);
                 agregar(cliente);
                 guardar();
             }
@@ -233,6 +265,19 @@ public class ConfigClientes implements Config<Cliente> {
                     guardar();
                 }
             }
-        }
-    }
+        }
+    }
+
+    public void modificarSaldoAutomatico(String UUID, String nuevoSaldoA) {
+        actualizar();
+        Scanner scan = new Scanner(System.in);
+        Enumeration<Cliente> enu = Collections.enumeration(clientes.values());
+        System.out.println("Confirme su correo: ");
+        String correo = scan.nextLine();
+        if (enu.hasMoreElements()) {
+            modificarsaldoautomatico(correo,nuevoSaldoA);
+            guardar();   
+        }
+    }
+
 }

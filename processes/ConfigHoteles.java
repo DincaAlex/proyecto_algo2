@@ -17,15 +17,15 @@ public class ConfigHoteles implements Config<Hotel> {
     private static final ConfigHoteles configHoteles = new ConfigHoteles();
     private static final ConfigCuartos configCuartos = new ConfigCuartos();
 
-    public ConfigHoteles() {
+    public ConfigHoteles(){
         hoteles = new HashMap<String, Hotel>();
     }
 
-    public void registrar(Hotel args) {
+    public void registrar (Hotel args) {
         hoteles.put(args.mostrarNombre(), args);
     }
 
-    public JSONArray ToJSON() {
+    public JSONArray ToJSON () {
         JSONArray arrayHoteles = new JSONArray();
         Enumeration<Hotel> enumH = Collections.enumeration(hoteles.values());
         while (enumH.hasMoreElements()) {
@@ -41,25 +41,25 @@ public class ConfigHoteles implements Config<Hotel> {
         return arrayHoteles;
     }
 
-    private void actualizar() {
+    private void actualizar () {
         JSONConfigFileHoteles p = new JSONConfigFileHoteles();
         p.leerConfig(configHoteles, configCuartos);
     }
 
-    private void guardar() {
+    private void guardar () {
         JSONConfigFileHoteles p = new JSONConfigFileHoteles();
         p.guardarConfig(configHoteles, configCuartos);
     }
-
-    private void agregar(Hotel hotel) {
-        if (hoteles.containsKey(hotel.mostrarNombre())) {
+    
+    private void agregar (Hotel hotel) {
+        if(hoteles.containsKey(hotel.mostrarNombre())){
             System.out.println("El hotel ya esta registrado.");
             return;
         }
         hoteles.put(hotel.mostrarNombre(), hotel);
     }
 
-    private void eliminar(String nombreHotel) {
+    private void eliminar (String nombreHotel) {
         actualizar();
         Enumeration<Hotel> enumH = Collections.enumeration(hoteles.values());
 
@@ -98,12 +98,12 @@ public class ConfigHoteles implements Config<Hotel> {
             }
         }
     }
-
-    public boolean noHayHoteles() {
+    
+    public boolean noHayHoteles () {
         return hoteles.isEmpty();
     }
 
-    public boolean mostrarHoteles() {
+    public boolean mostrarHoteles () {
         actualizar();
         Enumeration<Hotel> enu = Collections.enumeration(hoteles.values());
 
@@ -112,7 +112,8 @@ public class ConfigHoteles implements Config<Hotel> {
         if (hoteles.isEmpty()) {
             System.out.println("No hay hoteles registrados");
             vacio = true;
-        } else {
+        }
+        else {
             while (enu.hasMoreElements()) {
                 Hotel hotel = enu.nextElement();
                 System.out.println(i + ". ID: " + hotel.mostrarIDHotel());
@@ -127,7 +128,7 @@ public class ConfigHoteles implements Config<Hotel> {
         return vacio;
     }
 
-    public float mostrarPrecioHoteles(String nombreHotel) {
+    public float mostrarPrecioHoteles (String nombreHotel) {
         actualizar();
         Enumeration<Hotel> enu = Collections.enumeration(hoteles.values());
         Hotel hotel = enu.nextElement();
@@ -137,10 +138,10 @@ public class ConfigHoteles implements Config<Hotel> {
         return hotel.mostrarPrecio();
     }
 
-    public Hotel recuperarHotel(String nombre) {
+    public Hotel recuperarHotel (String nombre) {
         actualizar();
         Enumeration<Hotel> enumH = Collections.enumeration(hoteles.values());
-        String IDHotel = "";
+        String IDHotel= "";
         String ciudad = "";
         int estrellas = -1; // error en caso de no encontrar el hotel
         float precio = -1; // error en caso de no encontrar el hotel
@@ -162,7 +163,7 @@ public class ConfigHoteles implements Config<Hotel> {
         return new Hotel(IDHotel, nombre, ciudad, estrellas, precio);
     }
 
-    public void agregarHotel() {
+    public void agregarHotel () {
         Scanner scan = new Scanner(System.in);
         actualizar();
 
@@ -170,7 +171,7 @@ public class ConfigHoteles implements Config<Hotel> {
         String nombre = scan.nextLine();
         System.out.println("Ingrese la ciudad: ");
         String ciudad = scan.nextLine();
-        String IDHotel = (nombre + ciudad).replaceAll("\\s+", "");
+        String IDHotel= (nombre+ciudad).replaceAll("\\s+","");
         System.out.println("Ingrese las estrellas:");
         int estrellas = Integer.parseInt(scan.next());
         System.out.println("Ingrese el precio por cuarto:");
@@ -179,20 +180,24 @@ public class ConfigHoteles implements Config<Hotel> {
         agregar(hotel);
         guardar();
     }
-    public void reservarHotel(String UUID) {
+
+    public void reservarHotel (String UUID) {
         Scanner scan = new Scanner(System.in);
         actualizar();
+        
         if (!configHoteles.mostrarHoteles()) {
             System.out.println("Ingrese el nombre del hotel: ");
             String nHotel = scan.nextLine();
-            Cuarto cu = new Cuarto("", nHotel, "", 0, 0, 0, 0, false, "");
+            Cuarto cu = new Cuarto("", nHotel, "", 0, 0, 0,0, false,"");
             configCuartos.reservar(cu, UUID);
             guardar();
         }
     }
-    public void eliminarHotel() {
+
+    public void eliminarHotel () {
         Scanner scan = new Scanner(System.in);
         actualizar();
+
         if (!mostrarHoteles()) {
             System.out.println("Ingrese el nombre del hotel: ");
             String nombreHotel = scan.nextLine();
@@ -200,6 +205,7 @@ public class ConfigHoteles implements Config<Hotel> {
             guardar();
         }
     }
+
     public void modificarPrecioHotel() {
         Scanner scan = new Scanner(System.in);
         actualizar();
@@ -209,12 +215,14 @@ public class ConfigHoteles implements Config<Hotel> {
             modificar(nombreHotel);
             guardar();
         }
-
+        
     }
+
     public void mostrarPrecioHotel(String nombreHotel) {
         actualizar();
         if (!mostrarHoteles()) {
             mostrarPrecioHoteles(nombreHotel);
         }
+        
     }
 }

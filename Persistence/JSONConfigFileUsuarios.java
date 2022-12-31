@@ -77,7 +77,8 @@ public class JSONConfigFileUsuarios implements Persistence<ConfigAdmins, ConfigC
             String apellidos = (String) cliente.get("apellidos");
             String contrasena = (String) cliente.get("contrasena");
             String uuid=(String) cliente.get("uuid");
-            Cliente cli = new Cliente(correo, nombres, apellidos, contrasena, uuid);
+            String saldo = (String) cliente.get("saldo");
+            Cliente cli = new Cliente(correo, nombres, apellidos, contrasena, saldo, uuid);
             config.registrar(cli);
         }
     }

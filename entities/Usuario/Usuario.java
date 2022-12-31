@@ -9,23 +9,26 @@ public abstract class Usuario {
     private String contrasena;
     private UUID uuid;
     protected String tipoUsuario;
+    private String saldo;
 
-    public Usuario(String correo, String nombres, String apellidos, String contrasena)
+    public Usuario(String correo, String nombres, String apellidos, String contrasena, String saldo)
     {
         this.correo= correo;
         this.nombres= nombres;
         this.apellidos= apellidos;
         this.contrasena= contrasena;
+        this.saldo = saldo;
         this.uuid= UUID.randomUUID();
     }
 
-    public Usuario(String correo, String nombres, String apellidos, String contrasena, String uuid)
+    public Usuario(String correo, String nombres, String apellidos, String contrasena,String saldo, String uuid)
     {
         this.correo= correo;
         this.nombres= nombres;
         this.apellidos= apellidos;
         this.contrasena= contrasena;
         this.uuid= UUID.fromString(uuid);
+        this.saldo = saldo;
     }
 
     public String mostrarTipoUsuario() {
@@ -47,7 +50,9 @@ public abstract class Usuario {
     public String mostrarUUID() {
         return uuid.toString();
     }
-
+    public String mostrarSaldo(){
+        return saldo;
+    }
     
 
 }

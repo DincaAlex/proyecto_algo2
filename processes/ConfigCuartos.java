@@ -82,6 +82,30 @@ public class ConfigCuartos implements Config<Cuarto> {
         }
     }
 
+    public void modificar(String nombreHotel, String ID) {
+        actualizar();
+        Enumeration<Cuarto> enumH = Collections.enumeration(cuartos.values());
+        while (enumH.hasMoreElements()) {
+            Cuarto cuarto = enumH.nextElement();
+            if (nombreHotel.equals(cuarto.mostrarNombre()) && ID.equals(cuarto.mostrarID())) {
+                Scanner scan = new Scanner(System.in);
+                System.out.println("Ingrese el nuevo precio: ");
+                float precioNuevo = Float.parseFloat(scan.next());
+                Cuarto cuartoRee = new Cuarto(cuarto.mostrarIDHotel(), cuarto.mostrarNombre(), cuarto.mostrarCiudad(), cuarto.mostrarEstrellas(), precioNuevo, cuarto.mostrarNumero(), cuarto.mostrarPiso(), cuarto.mostrarOcupado(), cuarto.mostrarID());
+                cuartos.remove(cuarto.mostrarID(), cuarto);
+                cuartos.remove(cuarto.mostrarNombre(), cuarto);
+                cuartos.remove(cuarto.mostrarCiudad(), cuarto);
+                cuartos.remove(cuarto.mostrarEstrellas(), cuarto);
+                cuartos.remove(cuarto.mostrarNumero(), cuarto);
+                cuartos.remove(cuarto.mostrarPiso(), cuarto);
+                cuartos.remove(cuarto.mostrarOcupado(), cuarto);
+                agregar(cuartoRee);
+                guardar();
+                break;
+            }
+        }
+    }
+
     public void reservar (Cuarto cuarto, String uuid) {
         Enumeration<Cuarto> enumC = Collections.enumeration(cuartos.values());
         while(enumC.hasMoreElements()){
@@ -239,4 +263,23 @@ public class ConfigCuartos implements Config<Cuarto> {
             guardar();
         }
     }
+
+    public void modificarPrecioCuarto() {
+        Scanner scan = new Scanner(System.in);
+        actualizar();
+        if (!configHoteles.mostrarHoteles()) {
+            System.out.println("Ingrese el nombre del hotel: ");
+            String nombreHotel = scan.nextLine();
+            if (contarCuartosHotel(nombreHotel)>0) {
+                mostrarCuartosHotel(nombreHotel);
+                System.out.println("Ingrese el ID del cuarto: ");
+                String ID = scan.nextLine();
+                modificar(nombreHotel, ID);
+            }
+            else
+                System.out.println("No hay cuartos en el hotel.");
+            guardar();
+        }
+    }
+
 }

@@ -149,11 +149,19 @@ public void recuperarClienteHotel (String UUID) {
     }   
 }
 
-
-
-
-
-    
+public String recuperarIDHotel (String UUID) {
+    actualizar();
+    Enumeration<ReservaHotel> enumH = Collections.enumeration(reservasHotel.values());
+    String apellidoCliente="";
+    while (enumH.hasMoreElements()) {
+        ReservaHotel clienteHotel = enumH.nextElement();
+        if (UUID.equals(clienteHotel.mostrarIDCliente())) {
+            apellidoCliente = clienteHotel.mostrarIDHotel();
+            System.out.println(apellidoCliente);  
+        }
+    }
+    return apellidoCliente;
+}
 //TERMINO DE PRUEBA DE CÓDIGO   
     public boolean mostrarReservasHotelCliente (String UUID) {
         actualizar();
@@ -195,12 +203,11 @@ public void recuperarClienteHotel (String UUID) {
     public void eliminarReservaHotelCliente (String UUID) {
         Scanner scan = new Scanner(System.in);
         actualizar();
-
         if (!mostrarReservasHotelCliente(UUID)) {
             System.out.println("Ingrese el ID de la reserva: ");
             String ID = scan.nextLine();
             eliminar(ID);
             guardar();
-        }
-    }
+        }
+    }
 }

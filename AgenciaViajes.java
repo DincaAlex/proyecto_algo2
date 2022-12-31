@@ -13,9 +13,11 @@ public class AgenciaViajes {
     static ConfigCuartos configCuartos = new ConfigCuartos();
     static  ConfigReservaHotel configReservaHotel= new ConfigReservaHotel();
     static ConfigReservaTransporte configReservaTransporte= new ConfigReservaTransporte();
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         boolean salir = false;
+
         while (!salir) {
             System.out.println("Bienvenido al sistema de Agencia de viajes\n");
             System.out.println("Ingrese el tipo de usuario [Administrador/Cliente] [1/2]: ");
@@ -37,13 +39,16 @@ public class AgenciaViajes {
                 salir = menuCliente();
         }
     }
+
     public static boolean menuAdmin() {
         Scanner scan = new Scanner(System.in);
+
         System.out.println("1. Registrar administrador");
         System.out.println("2. Ingresar como administrador");
         System.out.println("3. Salir");
         int opcion = scan.nextInt();
         boolean salir = false;
+
         if (opcion == 1)
             configAdmins.registrarAdmin();
         if (opcion == 2) {
@@ -56,8 +61,10 @@ public class AgenciaViajes {
             }
         } else
             salir = true;
+
         return salir;
     }
+
     public static boolean menuCliente() {
         System.out.println("1. Registrar cliente");
         System.out.println("2. Ingresar como cliente");
@@ -65,6 +72,8 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
+
+
         if (opcion == 1)
             configClientes.registrarCliente();
         if (opcion == 2) {
@@ -77,8 +86,10 @@ public class AgenciaViajes {
             }
         } else
             salir = true;
+
         return salir;
     }
+
     public static boolean menuOpcionesAdmin() {
         System.out.println("Elija el menu que desa acceder:");
         System.out.println("1. Rutas");
@@ -93,6 +104,7 @@ public class AgenciaViajes {
         int opcion = scan.nextInt();
         boolean salir = false;
         boolean exit = false;
+
         while (!exit) {
             switch (opcion) {
                 case 1 -> exit = menuRutasAdmin();
@@ -109,6 +121,7 @@ public class AgenciaViajes {
         }
         return salir;
     }
+
     public static boolean menuRutasAdmin() {
         System.out.println("Menu de las rutas");
         System.out.println("1. Mostrar");
@@ -118,6 +131,7 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
+
         switch (opcion) {
             case 1 -> configRutas.mostrarRutas();
             case 2 -> configRutas.agregarRuta();
@@ -126,6 +140,7 @@ public class AgenciaViajes {
         }
         return salir;
     }
+
     public static boolean menuTransporteAdmin() {
         System.out.println("Menu de los transportes");
         System.out.println("1. Mostrar");
@@ -135,6 +150,7 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
+
         switch (opcion) {
             case 1 -> configTransportes.mostrarTransportes();
             case 2 -> configTransportes.agregarTransporte();
@@ -143,6 +159,7 @@ public class AgenciaViajes {
         }
         return salir;
     }
+
     public static boolean menuHotelesAdmin() {
         System.out.println("Menu de los hoteles");
         System.out.println("1. Mostrar");
@@ -153,6 +170,7 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
+
         switch (opcion) {
             case 1 -> configHoteles.mostrarHoteles();
             case 2 -> configHoteles.agregarHotel();
@@ -162,6 +180,7 @@ public class AgenciaViajes {
         }
         return salir;
     }
+
     public static boolean menuCuartosAdmin() {
         System.out.println("Menu de los cuartos");
         System.out.println("1. Mostrar ");
@@ -173,6 +192,7 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
+
         switch (opcion) {
             case 1 -> {
                 configHoteles.mostrarHoteles();
@@ -189,6 +209,7 @@ public class AgenciaViajes {
         }
         return salir;
     }
+
     public static boolean menuAdminsAdmin() {
         System.out.println("Menu de los administradores");
         System.out.println("1. Mostrar ");
@@ -198,6 +219,7 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
+
         switch (opcion) {
             case 1 -> configAdmins.mostrarAdmins();
             case 2 -> configAdmins.registrarAdmin();
@@ -206,6 +228,7 @@ public class AgenciaViajes {
         }
         return salir;
     }
+
     public static boolean menuClientesAdmin() {
         System.out.println("Menu de los clientes");
         System.out.println("1. Mostrar");
@@ -216,6 +239,7 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
+
         switch (opcion) {
             case 1 -> configClientes.mostrarClientes();
             case 2 -> configClientes.registrarCliente();
@@ -225,6 +249,7 @@ public class AgenciaViajes {
         }
         return salir;
     }
+
     public static boolean menuOpcionesCliente(String UUID) {
         System.out.println("1. Realizar reserva de transporte");
         System.out.println("2. Cancelar reserva de transporte");
@@ -238,6 +263,7 @@ public class AgenciaViajes {
         Scanner scan = new Scanner(System.in);
         int opcion = scan.nextInt();
         boolean salir = false;
+
         switch (opcion) {
             case 1 -> configTransportes.reservarTransporte(UUID);
             case 2 -> configReservaTransporte.eliminarReservaTransporteCliente(UUID);
@@ -257,6 +283,8 @@ public class AgenciaViajes {
                     System.out.println("Cancela la reserva o espere hasta después de la compleción de la reserva");
                 }
             }
+
+
             case 7 -> {
                 System.out.println("TICKET DEL CLIENTE : " + UUID + "\n");
                 System.out.println("Reserva en el HOTEL: ");
@@ -267,6 +295,7 @@ public class AgenciaViajes {
                 scan.nextLine();
                 scan.nextLine();
             }
+            
             case 8 ->{
                 String saldito = configClientes.mostrarSaldoCliente(UUID);
                 int saldoA = Integer.parseInt(saldito);
@@ -281,6 +310,7 @@ public class AgenciaViajes {
                 System.out.println("Saldo restante: "+ nuevoSaldoA);
                 configClientes.modificarSaldoAutomatico(UUID,nuevoSaldoA);
             }
+
             default -> salir = true;
         }
         return salir;
